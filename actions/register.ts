@@ -26,12 +26,24 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   if (existingUser) {
     return { error: "Email already in use!" };
   }
+  const existingDepartement = await db.departement.findFirst({
+    where: { nom: name },
+  });
 
-  await db.user.create({
+  if (existingDepartement) {
+    return { error: "Departement already exists!" };
+  }
+
+  const departement = await db.departement.create({
     data: {
-      name,
+      nom: name as string,
+    },
+  });
+  await db.admin.create({
+    data: {
       email,
       password: hashedPassword,
+      departementId: departement.id,
     },
   });
 

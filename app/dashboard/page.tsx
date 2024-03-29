@@ -1,10 +1,11 @@
-import { auth, signOut } from "@/auth";
+import { currentUser } from "@/lib/current-user";
 
 const DashboardPage = async () => {
-  const session = await auth();
+  // const session = await auth();
+  const user = await currentUser();
   return (
-    <div>
-      {JSON.stringify(session)}
+    <main className="flex h-screen overflow-hidden flex-col items-center bg-[#F5F6FA]">
+      {/* {JSON.stringify(session)}
       <form
         action={async () => {
           "use server";
@@ -12,8 +13,14 @@ const DashboardPage = async () => {
         }}
       >
         <button type="submit">signOut</button>
-      </form>
-    </div>
+      </form> */}
+      {user?.email}
+      {user?.id}
+      {user?.image}
+      {user?.name}
+      <br />
+      {user?.departementId}
+    </main>
   );
 };
 

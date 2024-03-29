@@ -23,7 +23,7 @@ export const newVerification = async (token: string) => {
     return { error: "Email does not exist!" };
   }
 
-  await db.user.update({
+  await db.admin.update({
     where: { id: existingUser.id },
     data: {
       emailVerified: new Date(),

@@ -12,7 +12,10 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
-export const Login = async (values: z.infer<typeof LoginSchema>) => {
+export const Login = async (
+  values: z.infer<typeof LoginSchema>,
+  callbackUrl?: string | null
+) => {
   const validatedFields = LoginSchema.safeParse(values);
   if (!validatedFields.success) {
     return { error: "Champs invalides" };
@@ -41,11 +44,11 @@ export const Login = async (values: z.infer<typeof LoginSchema>) => {
     await signIn("credentials", {
       email,
       password,
-      redirectToredirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
     return { success: "" };
   } catch (error) {
-    console.log(`this is aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ${error}`);
+    console.log(` ${error}`);
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":

@@ -18,7 +18,7 @@ export const {
   },
   events: {
     async linkAccount({ user }) {
-      await db.user.update({
+      await db.admin.update({
         where: { id: user.id },
         data: { emailVerified: new Date() },
       });
@@ -50,6 +50,14 @@ export const {
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.image = token.picture;
+        session.user.email = token.email as string;
+      }
+      if (session.user) {
+        session.user.departementId = token.departementId as string;
+      }
 
       return session;
     },
@@ -60,13 +68,10 @@ export const {
 
       if (!existingUser) return token;
 
-      // const existingAccount = await getAccountByUserId(
-      //   existingUser.id
-      // );
-
       // token.isOAuth = !!existingAccount;
-      // token.name = existingUser.name;
-      // token.email = existingUser.email;
+      token.name = existingUser.name;
+      token.email = existingUser.email;
+      token.departementId = existingUser.departementId;
       // token.role = existingUser.role;
       // token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 

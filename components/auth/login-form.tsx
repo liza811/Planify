@@ -5,7 +5,7 @@ import Image from "next/image";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
@@ -23,8 +23,11 @@ import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { Login } from "@/actions/login";
+import { useSearchParams } from "next/navigation";
 
 export function LoginForm() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccesss] = useState<string | undefined>("");
@@ -41,7 +44,7 @@ export function LoginForm() {
     setError("");
     setSuccesss("");
     startTransition(() => {
-      Login(values).then((data) => {
+      Login(values, callbackUrl).then((data) => {
         setError(data?.error);
         setSuccesss(data?.success);
       });
@@ -96,6 +99,7 @@ export function LoginForm() {
                       />
                     </FormControl>
                     <Button
+                      name="password"
                       size="sm"
                       variant="link"
                       asChild
@@ -111,6 +115,7 @@ export function LoginForm() {
             <FormError message={error} />
             <FormSuccess message={success} />
             <Button
+              name="login"
               type="submit"
               className="w-full"
               variant={"primary"}

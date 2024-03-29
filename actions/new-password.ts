@@ -44,7 +44,7 @@ export const newPassword = async (
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await db.user.update({
+  await db.admin.update({
     where: { id: existingUser.id },
     data: { password: hashedPassword },
   });
