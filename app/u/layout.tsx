@@ -1,8 +1,8 @@
 import { SessionProvider } from "next-auth/react";
 import { Navbar } from "./_components/navbar";
 import { Sidebar } from "./_components/sidebar";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
+
+
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
