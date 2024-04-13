@@ -85,16 +85,10 @@ export const Login = async (
   //   }
   // }
   try {
-    await signIn("credentials", {
+ await signIn("credentials", {
       email,
       password,
-      redirectTo:
-        callbackUrl ||
-        ` ${
-          existingUser.isEnseignant
-            ? `/u/${existingUser.prenom}`
-            : `/u/etudiant/${existingUser.prenom}/themes`
-        }`,
+      redirectTo: `/u/${existingUser.prenom}`,
     });
     return { success: "" };
   } catch (error) {
