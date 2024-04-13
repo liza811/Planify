@@ -1,40 +1,46 @@
+import state from "pusher-js/types/src/core/http/state";
 import { create } from "zustand";
 
-interface DataState {
-  fileDataEns: DataItem[] | null;
-  fileDataEtud: DataItem[] | null;
-  error: string | null;
-  errorEtud: string | null;
-  savedEns: boolean;
-  savedEtud: boolean;
-  setfileDataEns: (data: DataItem[]) => void;
-  setfileDataEtud: (data: DataItem[]) => void;
-  setError: (message: string) => void;
-  setErrorEtud: (message: string) => void;
-  setsavedEns: (message: boolean) => void;
-  setsavedEtud: (message: boolean) => void;
-}
-export interface DataItem {
-  Nom: string;
-  Prenom: string;
-  Email: string;
-  Matricule: string;
-  Spécialité: string;
-  Grade?: string;
+interface Notification {
+  id: string;
+  content: string;
+  date: Date;
+  seen: boolean;
+  toId: string;
+  type: string;
 }
 
-const useStore = create<DataState>((set) => ({
-  fileDataEns: null,
-  fileDataEtud: null,
-  savedEns: false,
-  savedEtud: false,
-  setfileDataEns: (data: DataItem[]) => set({ fileDataEns: data }),
-  setfileDataEtud: (data: DataItem[]) => set({ fileDataEtud: data }),
-  error: null,
-  errorEtud: null,
-  setError: (message: string | null) => set({ error: message }),
-  setErrorEtud: (message: string | null) => set({ errorEtud: message }),
-  setsavedEns: (message: boolean) => set({ savedEns: message }),
-  setsavedEtud: (message: boolean) => set({ savedEtud: message }),
+interface NotificationState {
+  neww: boolean;
+  setNew: (message: boolean) => void;
+
+  notifications: Notification[];
+  addNotification: (notification: Notification) => void;
+  markAllSeen: () => void;
+  markSeen: (notificationId: string) => void;
+}
+
+const useNotificationStore = create<NotificationState>((set) => ({
+  neww: false,
+  setNew: (message: boolean) => set({ neww: message }),
+  notifications: [],
+  addNotification: (notification) =>
+    set((state) => ({ notifications: [...state.notifications, notification] })),
+  markAllSeen: () =>
+    set((state) => ({
+      notifications: state.notifications.map((notification) => ({
+        ...notification,
+        seen: true,
+      })),
+    })),
+  markSeen: (notificationId) =>
+    set((state) => ({
+      notifications: state.notifications.map((notification) =>
+        notification.id === notificationId
+          ? { ...notification, seen: true }
+          : notification
+      ),
+    })),
 }));
-export default useStore;
+
+export default useNotificationStore;

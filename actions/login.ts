@@ -3,14 +3,15 @@
 import * as z from "zod";
 import { AuthError } from "next-auth";
 
-import { db } from "@/lib/db";
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "@/lib/user";
 
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { generateVerificationToken } from "@/lib/tokens";
-import { sendVerificationEmail } from "@/lib/mail";
+import { generateTwoFactorToken } from "@/lib/tokens";
+import { sendTwoFactorTokenEmail } from "@/lib/mail";
+import { getTwoFactorTokenByEmail } from "@/lib/two-factor-auth";
+import { getTwoFactorConfirmationByUserId } from "@/lib/two-factor-confirmation";
+import { db } from "@/lib/db";
 
 export const Login = async (
   values: z.infer<typeof LoginSchema>,
@@ -27,24 +28,73 @@ export const Login = async (
   if (!existingUser || !existingUser.email) {
     return { error: "Email does not exist!" };
   }
-
-  if (!existingUser.emailVerified) {
-    const verificationToken = await generateVerificationToken(
-      existingUser.email
-    );
-
-    await sendVerificationEmail(
-      verificationToken.email,
-      verificationToken.token
-    );
-
-    return { success: "Confirmation email sent!" };
+  if (existingUser.matricule !== password) {
+    return { error: "Champs invalides" };
   }
+
+  // if (existingUser.email) {
+  //   if (code) {
+  //     const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
+
+  //     if (!twoFactorToken) {
+  //       return { error: "Invalid code!" };
+  //     }
+
+  //     if (twoFactorToken.token !== code) {
+  //       return { error: "Invalid code!" };
+  //     }
+
+  //     const hasExpired = new Date(twoFactorToken.expires) < new Date();
+
+  //     if (hasExpired) {
+  //       return { error: "Code expired!" };
+  //     }
+
+  //     await db.twoFactorToken.delete({
+  //       where: { id: twoFactorToken.id },
+  //     });
+
+  //     const existingConfirmation = await getTwoFactorConfirmationByUserId(
+  //       existingUser.id as string
+  //     );
+
+  //     if (existingConfirmation) {
+  //       await db.twoFactorConfirmation.delete({
+  //         where: { id: existingConfirmation.id },
+  //       });
+  //     }
+
+  //     if (existingUser.isEnseignant) {
+  //       await db.twoFactorConfirmation.create({
+  //         data: {
+  //           ensId: existingUser.id,
+  //         },
+  //       });
+  //     } else {
+  //       await db.twoFactorConfirmation.create({
+  //         data: {
+  //           etudId: existingUser.id,
+  //         },
+  //       });
+  //     }
+  //   } else {
+  //     const twoFactorToken = await generateTwoFactorToken(existingUser.email);
+  //     await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
+
+  //     return { twoFactor: true };
+  //   }
+  // }
   try {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      redirectTo:
+        callbackUrl ||
+        ` ${
+          existingUser.isEnseignant
+            ? `/u/${existingUser.prenom}`
+            : `/u/etudiant/${existingUser.prenom}/themes`
+        }`,
     });
     return { success: "" };
   } catch (error) {

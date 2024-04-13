@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-import { DialogTrigger, Dialog } from "../ui/dialog";
+import { Dialog } from "../ui/dialog";
 
-import { EditProfile } from "./edit-profile";
 import { logout } from "@/actions/logout";
+import { stringToColor } from "@/lib/utils";
 
 export const UserButton = () => {
   const user = useCurrentUser();
@@ -25,26 +25,37 @@ export const UserButton = () => {
   return (
     <Dialog>
       <DropdownMenu>
-        <DropdownMenuTrigger className=" outline-none">
-          <Avatar>
-            <AvatarImage src={user?.image || ""} />
-            <AvatarFallback className="bg-[#5454dd]">
-              <User className="text-white h-6 w-6 " />
-            </AvatarFallback>
-          </Avatar>
-        </DropdownMenuTrigger>
+        <div className="flex items-center flex-row-reverse gap-x-2 hover:bg-neutral-100 p-1.5 px-3 rounded-md">
+          <DropdownMenuTrigger className=" outline-none">
+            <Avatar className="w-10 h-10">
+              <AvatarImage src={user?.image || ""} />
+              <AvatarFallback
+                className="bg-primary_purpule"
+                // style={{
+                //   backgroundColor: user?.emails
+                //     ? stringToColor(user?.email![0] || "")
+                //     : `#5454dd`,
+                // }}
+              >
+                <span className="flex items-center justify-center font-bold text-white text-[20px]">
+                  {user?.email ? (
+                    `${user.email[0]}`
+                  ) : (
+                    <User className="text-white h-5 w-5 " />
+                  )}
+                </span>
+              </AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <p>
+            {user?.nom} {user?.prenom}
+          </p>
+        </div>
         <DropdownMenuContent className="w-56 mr-2 ">
           <DropdownMenuLabel className="flex items-center text-[16px]">
             <Settings className="h-4 w-4 mr-2" /> Settings
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-
-          <DialogTrigger asChild>
-            <DropdownMenuItem className="text-[15px] flex items-center cursor-pointer">
-              <User className="h-4 w-4 mr-2" />
-              Profile
-            </DropdownMenuItem>
-          </DialogTrigger>
 
           <DropdownMenuItem
             className="text-[15px] flex items-center cursor-pointer"
@@ -55,7 +66,6 @@ export const UserButton = () => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <EditProfile />
     </Dialog>
   );
 };

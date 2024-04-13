@@ -55,6 +55,8 @@ const config = {
         main: "#FBFBFB",
         sec: "#F0F1F5",
         bluesec: "#4059b3",
+        primary_purpule: "#3e008c",
+        primary_blue: "#022c6b",
       },
       borderRadius: {
         lg: "var(--radius)",

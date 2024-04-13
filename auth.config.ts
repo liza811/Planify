@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
@@ -17,9 +16,7 @@ export default {
           const user = await getUserByEmail(email);
           if (!user) return null;
 
-          const passwordsMatch = await bcrypt.compare(password, user.password);
-
-          if (passwordsMatch) return user;
+          if (password === user.matricule) return user;
         }
 
         return null;

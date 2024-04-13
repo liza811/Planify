@@ -1,3 +1,4 @@
+import { currentUser } from "./current-user";
 import { db } from "./db";
 
 export const getEnseignants = async (departementId: string | undefined) => {
@@ -31,6 +32,7 @@ export const getEtudiants = async (departementId: string | undefined) => {
       prenom: true,
       email: true,
       matricule: true,
+
       specialite: {
         select: { nom: true },
       },
@@ -38,4 +40,39 @@ export const getEtudiants = async (departementId: string | undefined) => {
   });
 
   return etudiants;
+};
+export const getBinomeId = async (
+  userId: string
+): Promise<string | undefined> => {
+  const etudiant = await db.etudiant.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      idBinome: true,
+    },
+  });
+
+  return etudiant?.idBinome ?? undefined;
+};
+
+export const specialiteBinome = async () => {
+  const user = await currentUser();
+
+  if (!user) return null;
+  const binomeId = await getBinomeId(user.id!);
+  if (!binomeId) return null;
+
+  const specialite = await db.binome.findUnique({
+    where: { id: binomeId },
+    include: {
+      etudiants: {
+        include: {
+          specialite: { select: { nom: true } },
+        },
+      },
+    },
+  });
+
+  return specialite;
 };

@@ -29,22 +29,37 @@ enum Grade {
   MCA
 }
 
+enum NotificationType {
+  B_TO_B
+ 
+}
+
+enum Etat {
+  ATTENTE
+  REFUSE
+  VALIDE
+}
+
 model Departement {
   id  String @id @default(uuid())
-  nom String   @unique
+  nom String @unique
 
   // Relation un-à-plusieurs avec Spécialité
-  salles  Salle[]
-   specialite  Specialite[]
+  salles      Salle[]
+  specialite  Specialite[]
   enseignants Enseignant[]
   etudiants   Etudiant[]
   Admin       Admin[]
+
+  configuration Configuration? @relation()
 }
 
 model Admin {
-   id            String    @id @default(uuid())
+  id            String      @id @default(uuid())
   name          String?
-  email         String    @unique
+  prenom      String?
+
+  email         String      @unique
   password      String
   emailVerified DateTime?
   image         String?
@@ -53,26 +68,41 @@ model Admin {
 }
 
 model Specialite {
-  id            String @id @default(uuid())
+  id            String  @id @default(uuid())
   nom           String  @unique
   departementId String?
 
-  departement Departement?  @relation(fields: [departementId], references: [id], onDelete: Cascade)
+  departement Departement?      @relation(fields: [departementId], references: [id], onDelete: Cascade)
   enseignants Enseignant[]
   etudiants   Etudiant[]
+  Theme       ThemeSpecialite[]
 
   @@index([departementId])
 }
+
 model Salle {
-  id            String @id @default(uuid())
-  numero           Int
-  bloc              Int
+  id            String  @id @default(uuid())
+  numero        Int
+  bloc          Int
   departementId String?
 
-  departement Departement?  @relation(fields: [departementId], references: [id], onDelete: Cascade)
+  indisponibilite Json?
 
+  departement Departement? @relation(fields: [departementId], references: [id], onDelete: Cascade)
 
   @@index([departementId])
+}
+
+model Configuration {
+  id         String   @id @default(cuid())
+  dateDebut  DateTime
+  dateFin    DateTime
+  heureDebut String
+  heureFin   String
+  duree      String
+
+  departementId String       @unique
+  departement   Departement? @relation(fields: [departementId], references: [id])
 }
 
 model Enseignant {
@@ -86,12 +116,21 @@ model Enseignant {
   grade              String
   datesIndisponibles Json?
 
+  themes Theme[]
+
   specialiteId  String
   departementId String
 
-  specialite  Specialite  @relation(fields: [specialiteId], references: [id], onDelete: Cascade)
-  departement Departement @relation(fields: [departementId], references: [id], onDelete: Cascade)
-   @@index([email])
+  specialite            Specialite             @relation(fields: [specialiteId], references: [id], onDelete: Cascade)
+  departement           Departement            @relation(fields: [departementId], references: [id], onDelete: Cascade)
+  twoFactorConfirmation TwoFactorConfirmation?
+  Affectation           Affectation[]
+
+  Binome         Binome[]
+  Examinateurs   Examinateurs? @relation(fields: [examinateursId], references: [id])
+  examinateursId String?
+
+  @@index([email])
 }
 
 model Etudiant {
@@ -103,11 +142,78 @@ model Etudiant {
 
   image String?
 
+  binome        Binome? @relation(fields: [idBinome], references: [id])
+  idBinome      String?
   specialiteId  String
   departementId String
 
-  specialite  Specialite  @relation(fields: [specialiteId], references: [id], onDelete: Cascade)
-  departement Departement @relation(fields: [departementId], references: [id], onDelete: Cascade)
+  specialite            Specialite?            @relation(fields: [specialiteId], references: [id], onDelete: Cascade)
+  departement           Departement?           @relation(fields: [departementId], references: [id], onDelete: Cascade)
+  twoFactorConfirmation TwoFactorConfirmation?
+  Notification          Notification[]
+
+  @@index([email])
+}
+
+model Binome {
+  id           String         @id @default(uuid())
+  etudiants    Etudiant[]
+  ChoisirTheme ChoisirTheme[]
+  presidentId  String?
+
+  president Enseignant? @relation(fields: [presidentId], references: [id], onDelete: Cascade)
+
+  Affectation Affectation?
+  juryId      String?
+  Jury        Jury[]
+}
+
+model Theme {
+  id  String @id @default(uuid())
+  nom String @db.Text
+
+  themeSpecialites ThemeSpecialite[]
+  proposerId       String
+  proposePar       Enseignant?       @relation(fields: [proposerId], references: [id], onDelete: Cascade)
+  createdAt        DateTime          @default(now())
+  ChoisirTheme     ChoisirTheme[]
+  Affectation      Affectation?
+}
+
+model ChoisirTheme {
+  id       String @id @default(uuid())
+  etat     Etat
+  binomeId String
+  themeId  String
+
+  binome Binome @relation(fields: [binomeId], references: [id], onDelete: Cascade)
+  theme  Theme  @relation(fields: [themeId], references: [id], onDelete: Cascade)
+
+  @@index([binomeId])
+  @@index([themeId])
+}
+
+model Affectation {
+  id          Int    @id @default(autoincrement())
+  idBinome    String @unique
+  themeId     String @unique
+  encadrantId String
+
+  Binome    Binome      @relation(fields: [idBinome], references: [id], onDelete: Cascade)
+  Theme     Theme       @relation(fields: [themeId], references: [id], onDelete: Cascade)
+  encadrent Enseignant? @relation(fields: [encadrantId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model ThemeSpecialite {
+  themeId      String // Foreign key referencing Theme
+  specialiteId String // Foreign key referencing Specialite
+
+  theme      Theme      @relation(fields: [themeId], references: [id], onDelete: Cascade)
+  specialite Specialite @relation(fields: [specialiteId], references: [id], onDelete: Cascade)
+
+  @@id([themeId, specialiteId])
 }
 
 // verify email after registration
@@ -129,45 +235,51 @@ model PasswordResetToken {
   @@unique([email, token])
 }
 
-// model Account {
-//   id                String  @id @default(cuid())
-//   userId            String
-//   type              String
-//   provider          String
-//   providerAccountId String
-//   refresh_token     String? @db.Text
-//   access_token      String? @db.Text
-//   expires_at        Int?
-//   token_type        String?
-//   scope             String?
-//   id_token          String? @db.Text
-//   session_state     String?
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
 
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([email, token])
+}
 
-//   @@unique([provider, providerAccountId])
-// }
+model TwoFactorConfirmation {
+  id String @id @default(cuid())
 
-// model Indisponibilite {
-//   /// ...
+  ensId      String?     @unique
+  enseignant Enseignant? @relation(fields: [ensId], references: [id], onDelete: Cascade)
+  etudId     String?     @unique
+  etudiant   Etudiant?   @relation(fields: [etudId], references: [id], onDelete: Cascade)
+}
 
-//   /// Date de début
-//   debutDate Date
+model Jury {
+  id String @id @default(uuid())
 
-//   /// Date de fin (optionnel)
-//   finDate Date?
+  examinateurs Examinateurs @relation(fields: [examinateursId], references: [id])
 
-//   /// Heure de début (optionnel)
-//   debutHeure Time?
+  Binome   Binome? @relation(fields: [binomeId], references: [id])
+  binomeId String?
 
-//   /// Heure de fin (optionnel)
-//   finHeure Time?
+  examinateursId String
+}
 
-//   /// Répétition (optionnel)
-//   repetition String
+model Examinateurs {
+  id String @id @default(uuid())
 
-//   /// Enseignant concerné
-//   enseignant: Enseignant @relation(fields: [enseignantId], references: [Enseignant.id])
+  examinateurs Enseignant[]
 
-//   /// ...
-// }
+  juryId String?
+  Jury   Jury[]
+}
+
+model Notification {
+  id      String   @id @default(uuid())
+  content String   @db.Text
+  date    DateTime @default(now())
+  seen    Boolean  @default(false)
+
+  to   Etudiant @relation(fields: [toId], references: [id], onDelete: Cascade)
+  toId String
+  type NotificationType
+}
