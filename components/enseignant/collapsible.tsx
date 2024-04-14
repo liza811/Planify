@@ -82,19 +82,19 @@ export function Encadrant({
           ))}
 
         {!!validatedList && isValidated && (
-          <div className="flex flex-col   gap-y-2 font-mono text-sm border py-3 px-4 w-[350px]">
+          <div className="flex flex-col  gap-y-2 font-mono text-sm border py-3 px-4 sm:w-[500px] w-full">
             {validatedList.Binome.etudiants.map((e) => (
               <div
                 key={e.nom}
-                className="flex gap-x-5 items-center justify-between w-full "
+                className="flex gap-x-5 items-center justify-around w-full "
               >
-                <p className="w-[35%]">
+                <p className="w-[50%] text-sm font-medium">
                   {e.nom} {e.prenom}
                 </p>
-                <p className="w-[60%]">{e.email}</p>
+                <p className="flex-grow w-full">{e.email}</p>
                 <p
                   className={cn(
-                    "text-sm font-semibold rounded-lg px-2 py-0 text-black  max-w-fit"
+                    "text-sm font-semibold rounded-lg px-2 py-0 text-black w-[8%] "
                   )}
                   style={{
                     color: `${stringToColor(e.specialite?.nom || "")}`,
