@@ -69,7 +69,7 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
                     key={notification.id}
                     className="flex w-full  gap-x-2 bg-white rounded-md b relative "
                   >
-                    <div className="bg-primary_purpule w-[4px] h-full  overflow-hidden rounded-md absolute left-0 top-0" />
+                    <div className="bg-primary_purpule w-[4px] h-full  overflow-hidden rounded-l-md absolute mr-2" />
                     <div className="bg-neutral-100    rounded-full flex justify-center items-center p-2 h-fit mt-4">
                       <Bell size={17} className="text-primary_blue " />
                     </div>
@@ -94,7 +94,7 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
                   key={notification.id}
                   className="flex w-full  gap-x-2 bg-white rounded-md border- relative"
                 >
-                  <div className="bg-blue-600 w-[4px] h-full  overflow-hidden rounded-l-md absolute mr-2" />
+                  <div className="bg-primary_purpule w-[4px] h-full  overflow-hidden rounded-l-md absolute mr-2" />
                   <div className="bg-neutral-100    rounded-full flex justify-center items-center p-2 h-fit mt-4 ml-4">
                     <Bell size={17} className="text-blue-600 " />
                   </div>
