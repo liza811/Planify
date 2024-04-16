@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 import { Poppins } from "next/font/google";
@@ -23,11 +24,15 @@ export const SidebarItem = ({ label, icon: Icon, href }: SidebarItemProps) => {
   //   (href === "/" && pathname === "/") ||
   //   href === pathname ||
   //   pathname?.startsWith(`${href}/`);
-  const isActive = href === pathname ;
+  const isActive = href === pathname || pathname?.startsWith(`${href}/`);
+  const onClick = () => {
+    router.push(href);
+  };
 
   return (
-    <Link
-      href={href}
+    <button
+      type="button"
+      onClick={onClick}
       className={cn(
         "flex items-center gap-x-2 text-slate-600 text-[1rem] font-[500] pl-6 pb-1 transition-all hover:text-slate-700 hover:bg-slate-300/20",
         font.className,
@@ -48,6 +53,6 @@ export const SidebarItem = ({ label, icon: Icon, href }: SidebarItemProps) => {
           isActive && "opacity-100"
         )}
       />
-    </Link>
+    </button>
   );
 };
