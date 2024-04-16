@@ -30,11 +30,10 @@ export const SidebarItem = ({ label, icon: Icon, href }: SidebarItemProps) => {
   };
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
+    <Link
+      href={href}
       className={cn(
-        "flex items-center gap-x-2 text-slate-600 text-[1rem] font-[500] pl-6 pb-1 transition-all hover:text-slate-700 hover:bg-slate-300/20",
+        "flex items-center gap-x-2 text-slate-600 text-[15px] font-[500] pl-6 pb-1 transition-all hover:text-slate-700 hover:bg-slate-300/20",
         font.className,
         isActive &&
           "text-slate-800 bg-[#F3F4F8]/70 hover:bg-slate-300/20 hover:text-slate-800/80"
@@ -49,10 +48,10 @@ export const SidebarItem = ({ label, icon: Icon, href }: SidebarItemProps) => {
       </div>
       <div
         className={cn(
-          "ml-auto opacity-0 border-[3px] border-[#5454dd] rounded-s h-full transition-all",
+          "ml-auto opacity-0 border-[2px] border-[#5454dd] rounded-s h-full transition-all",
           isActive && "opacity-100"
         )}
       />
-    </button>
+    </Link>
   );
 };
