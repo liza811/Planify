@@ -15,9 +15,6 @@ export interface ExtendedTheme extends Theme {
 }
 
 const Intermidiere = async () => {
-  const themes = await getThemesParSpecialite();
-  const mesChoix = await getChoix();
-  const encadrant = await getEncadrant();
   const user = await currentUser();
 
   if (!user || !user.prenom) {
@@ -33,13 +30,13 @@ const Intermidiere = async () => {
   if (user.role) {
     redirect(`/u/${user?.prenom}/themes`);
   }
-
+  const themes = await getThemesParSpecialite();
   if (!themes?.length) {
     return (
       <NothingFound header="Aucun thème trouvé" paragraph="" src="/note.svg" />
     );
   }
-
+  const encadrant = await getEncadrant();
   if (!!encadrant) {
     return (
       <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
@@ -49,7 +46,7 @@ const Intermidiere = async () => {
       </Suspense>
     );
   }
-
+  const mesChoix = await getChoix();
   if (!!themes && !!mesChoix) {
     const themesWithChoix: ExtendedTheme[] = [];
     const themesWithoutChoix: Theme[] = [];
