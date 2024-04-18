@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { Trash } from "lucide-react";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 
@@ -22,9 +22,11 @@ interface DeleteThemeProp {
 
 export function DeleteTheme({ themeId }: DeleteThemeProp) {
   const [isPending, startTransition] = useTransition();
+  const [close, setClose] = useState(false);
   const onClick = (themeId: string) => {
     startTransition(() => {
       deleteTheme(themeId).then((data) => {
+        setClose(true);
         if (data.success) {
           toast.success(data.success);
         }
@@ -35,7 +37,7 @@ export function DeleteTheme({ themeId }: DeleteThemeProp) {
     });
   };
   return (
-    <AlertDialog>
+    <AlertDialog onOpenChange={() => setClose(false)} defaultOpen={false}>
       <AlertDialogTrigger asChild>
         <Trash className=" w-5 h-5 cursor-pointer text-slate-600" />
       </AlertDialogTrigger>

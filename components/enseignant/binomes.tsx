@@ -26,7 +26,7 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
       <TabsContent value="ATTENTE" className="h-full">
         <Card>
           <CardHeader>
-            <CardTitle className="text-[20px]">Thèmes et binômes</CardTitle>
+            <CardTitle className="text-[18px]">Thèmes et binômes</CardTitle>
             <CardDescription>
               Découvrez les thèmes choisis et les binômes formés.
             </CardDescription>
@@ -52,7 +52,7 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
       <TabsContent value="VALIDE" className="h-full">
         <Card>
           <CardHeader>
-            <CardTitle className="text-[20px]">Binomes validés</CardTitle>
+            <CardTitle className="text-[18px]">Binomes validés</CardTitle>
             <CardDescription>
               Consultez les binômes approuvés par vous pour travailler ensemble.
             </CardDescription>
@@ -68,7 +68,7 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
                   className="border py-3 px-2"
                   style={{ border: `1px solid ${stringToColor(v.Theme.nom)}` }}
                 >
-                  <p>{v.Theme.nom}</p>
+                  <p className="text-[15px]">{v.Theme.nom}</p>
                   <Encadrant validatedList={v} isValidated />
                 </div>
               ))}

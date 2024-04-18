@@ -10,8 +10,8 @@ export const NothingFound = ({ header, paragraph, src }: NotFoundProps) => {
     <div className="w-full h-full flex flex-col justify-center items-center ">
       <Image
         src={src || "/search-magnifying.png"}
-        height={130}
-        width={130}
+        height={100}
+        width={100}
         alt="nothing-found"
       />
       <h1 className="text-xl md:text-xl text-foreground font-bold p-2">

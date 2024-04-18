@@ -4,7 +4,7 @@ import { currentUser } from "@/lib/current-user";
 import { getIndisponibilite } from "@/lib/indisponibilite";
 import { cn } from "@/lib/utils";
 import { Poppins } from "next/font/google";
-import { Calendar as CalendarIcon, Edit } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react";
 import { ResetButton } from "@/components/enseignant/reset-indisponibilite-button";
 import { ClipLoader } from "react-spinners";
 import { redirect } from "next/navigation";
@@ -87,15 +87,6 @@ const DashboardPage = async () => {
               <ResetButton />
             </div>
           )}
-        </section>
-        <section className="flex flex-col  h-full">
-          {user?.id}
-          <br />
-          {user?.name}
-          <br />
-          {user?.prenom}
-
-          {/* <DatePickerWithRange configuration={configuration?.dateDebut} /> */}
         </section>
       </div>
     </main>
