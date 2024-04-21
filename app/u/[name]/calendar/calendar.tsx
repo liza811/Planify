@@ -7,7 +7,7 @@ export const Results = ({
   resultat: (string | Soutenance)[];
 }) => {
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <div className="grid grid-cols-1 gap-4 w-fit">
       {resultat.map((item) => (
         <div
           key={item.toString() || "message"}
@@ -15,7 +15,7 @@ export const Results = ({
             typeof item === "string"
               ? "bg-gray-200"
               : item.salle && item.date
-              ? "bg-green-200"
+              ? "bg-[#FFFDE7]"
               : "bg-red-200"
           }`}
         >
@@ -23,7 +23,9 @@ export const Results = ({
             <p className="text-red-500">{item}</p>
           ) : (
             <>
-              <h3 className="font-bold">{item.nomBinome}</h3>
+              <h3 className="font-bold text-primary_blue">
+                Binome: {item.nomBinome}
+              </h3>
               <p>Encadrant: {item.encadrant}</p>
               <p>President: {item.president}</p>
               <p>Examinateurs: {item.examinateurs?.join(",")}</p>
