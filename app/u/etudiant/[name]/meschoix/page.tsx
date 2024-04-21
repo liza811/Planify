@@ -2,6 +2,7 @@ import { Theme } from "@/components/etudiant";
 
 import Intermidiere from "./intermidiere";
 import { $Enums } from "@prisma/client";
+
 import { Suspense } from "react";
 
 import { Loader } from "@/app/u/_components/loader";

@@ -85,7 +85,7 @@ export const Login = async (
   //   }
   // }
   try {
-    await signIn("credentials", {
+ await signIn("credentials", {
       email,
       password,
       redirectTo: `/u/${existingUser.prenom}`,
