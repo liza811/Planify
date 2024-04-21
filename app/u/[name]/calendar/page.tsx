@@ -127,7 +127,7 @@ const CalendarPage = async () => {
   );
 
   return (
-    <div>
+    <div className="p-6">
       {resultat ? (
         <Results resultat={resultat.resultats} />
       ) : (
