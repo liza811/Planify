@@ -1,4 +1,3 @@
-import { IndisponibiliteJury } from "@/app/u/[name]/calendar/page";
 import { currentUser } from "./current-user";
 import { db } from "./db";
 
