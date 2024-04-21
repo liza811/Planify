@@ -1,10 +1,44 @@
 import { getSalles } from "@/lib/salle";
 import { Results } from "./calendar";
-import { getJury } from "@/lib/jury";
+import { getEnsWithGrade, getJury } from "@/lib/jury";
 import { DatesIndisponibles } from "../page";
 import { getEnseignantsWithIndisponibilites } from "@/lib/indisponibilite";
 import { format, isValid, parse } from "date-fns";
+type DateStr = string;
+export type Soutenance = {
+  nomBinome: string;
+  encadrant: string;
+  salle?: string;
+  date?: DateStr;
+  heure?: string;
+  president?: String;
+  examinateurs?: String[];
+};
+export interface Salle {
+  nom: string;
+  indisponibilite?: DateStr[];
+}
+interface IndisponibiliteJury {
+  idJury: string;
+  datesIndisponibles: string[];
+}
 
+export type ResultatPlanification = {
+  resultats: (Soutenance | string)[];
+};
+
+type Binome = {
+  idBinome: string;
+  theme?: string[];
+
+  encadrant: string;
+};
+type Enseignant = {
+  nom: string;
+  grade: string;
+  specialite: string;
+  poids: number;
+};
 const CalendarPage = async () => {
   const enseignantsWithIndisponibilites: DatesIndisponibles | any =
     await getEnseignantsWithIndisponibilites();
@@ -40,24 +74,35 @@ const CalendarPage = async () => {
       }
     );
   const salless = await getSalles();
+  const ensWithGradeWithSpecialite = await getEnsWithGrade();
+  // const ensWithGradeWithSpecialite: {
+  //   specialite: {
+  //     nom: string;
+  //   };
+  //   id: string;
+  //   grade: string;
+  // }[] = [
+  //
+  // ];
+
+  const enseignants: Enseignant[] = ensWithGradeWithSpecialite.map((ens) => ({
+    nom: ens.id,
+    grade: ens.grade,
+    specialite: ens.specialite.nom,
+    poids: 0,
+  }));
+
   const binomesWithJury = await getJury();
   const binomess: Binome[] = binomesWithJury?.map((binome) => {
-    const jury = [];
+    const theme: string[] = [];
 
-    // President ID (if present)
-    if (binome.presidentId) {
-      jury.push(binome.presidentId);
-    }
-
-    // Examiner IDs
-    binome.Jury.map((j) =>
-      j.examinateurs.examinateurs.forEach((examiner) => {
-        jury.push(examiner.id);
-      })
-    );
+    binome.Affectation?.Theme.themeSpecialites.map((j) => {
+      theme.push(j.specialite.nom);
+    });
     return {
       idBinome: binome.id,
-      jury,
+      theme,
+      encadrant: binome.Affectation?.encadrent?.id!,
     };
   });
 
@@ -66,20 +111,21 @@ const CalendarPage = async () => {
     indisponibilite: [],
   }));
 
-  const dateDebut = "2024-04-11";
-  const dateFin = "2024-04-17";
+  const dateDebut = "2024-04-20";
+  const dateFin = "2024-04-30";
   const heureDebut = "08:00";
   const heureFin = "16:00";
   const duree = 2;
   const resultat = Plan(
     binomess,
+    enseignants,
     formattedSalles,
     indisponibilitess,
     dateDebut,
     dateFin,
     2
   );
-  console.log(resultat);
+
   return (
     <div>
       {resultat ? (
@@ -92,10 +138,8 @@ const CalendarPage = async () => {
 };
 
 export default CalendarPage;
-export interface IndisponibiliteJury {
-  idJury: string;
-  datesIndisponibles: string[]; // Liste de dates et heures au format ISO (ex. "2024-03-09T10:00:00")
-}
+
+//################# ALOGORITHME ##########################
 
 function getDatesEtHorairesDisponibles(
   jurys: IndisponibiliteJury[],
@@ -104,7 +148,6 @@ function getDatesEtHorairesDisponibles(
 ): string[] {
   const datesEtHorairesDisponibles: string[] = [];
 
-  // Convertir les dates de début et de fin en objets Date
   const startDate = new Date(dateDebut);
   const endDate = new Date(dateFin);
 
@@ -123,7 +166,7 @@ function getDatesEtHorairesDisponibles(
       currentDate.setDate(currentDate.getDate() + 1);
     } else {
       let isAvailablee: boolean = true;
-      const currentDateTime = currentDate.toISOString(); // Convertir en format ISO
+      const currentDateTime = currentDate.toISOString();
       const [date, heure] = currentDateTime.split("T");
       const horaireS = [
         `${date}T08:00:00`,
@@ -131,7 +174,7 @@ function getDatesEtHorairesDisponibles(
         `${date}T12:00:00`,
         `${date}T14:00:00`,
       ];
-      //const horaireS = heurePermis(heureDebut, heureFin, duree, date);
+      // const horaireS = heurePermis(date, heureDebut, heureFin, duree, "00:15");
       datesEtHorairesDisponibles.push(...horaireS);
       for (let i = 0; i < jurys.length; i++) {
         if (jurys[i].datesIndisponibles.includes(date)) {
@@ -169,57 +212,11 @@ function getDatesEtHorairesDisponibles(
   return datesEtHorairesDisponibles;
 }
 
-function heurePermis(
-  heureDebut: string,
-  heureFin: string,
-  duree: number,
-  date: string
-): string[] {
-  const horaire: string[] = [];
-
-  for (let i = heureDebut; i <= heureFin; i += duree) {
-    // Ajouter l'heure au tableau
-    horaire.push(`${date}T${i.toString().padStart(2, "0")}:00.000Z`);
-    console.log(`${date}T${i.toString().padStart(2, "0")}:00.000Z`);
-  }
-
-  return horaire;
-}
-
-// const datesEtHorairesDisponibles = getDatesEtHorairesDisponibles(
-//   indisponibilites,
-//   dateDebut,
-//   dateFin
-// );
 //console.log("Dates et horaires disponibles :", datesEtHorairesDisponibles);
 
-type ResultatPlanification = {
-  resultats: (Soutenance | string)[];
-};
-
-type Binome = {
-  idBinome: string;
-  jury: string[];
-};
-
-type Soutenance = {
-  nomBinome: string;
-  jury: string[];
-  salle?: string;
-  date?: DateStr;
-  heure?: string;
-};
-type DateStr = string;
-interface Salle {
-  nom: string;
-  indisponibilite?: DateStr[];
-}
-
-//const resultat = Plan(binomes, salles, indisponibilites, dateDebut, dateFin, 2);
-
-//console.log(resultat.resultats);
 function Plan(
   binomes: Binome[],
+  enseignantss: Enseignant[],
   salles: Salle[],
   indisponibilites: IndisponibiliteJury[],
   dateDebut: DateStr,
@@ -233,16 +230,58 @@ function Plan(
   let indisponibilitesSalles: Salle[] = salles;
 
   for (const binome of binomes) {
-    const juryBinome = indisponibilitesJury.filter((element) =>
-      binome.jury.includes(element.idJury)
+    const enseignants = shuffleTeachers(enseignantss);
+    // Affecter le président
+    const enseignantWithoutEncadrant = enseignants.filter(
+      (ens) => ens.nom !== binome.encadrant
     );
-    //console.log(indisponibilitesJury);
+    let president = affecterEnseignantAvecPoidsLePlusFaible(
+      filtrerEnseignants("PR", binome.theme!, enseignantWithoutEncadrant),
+      binome.theme!
+    );
+    if (!president) {
+      president = affecterEnseignantAvecPoidsLePlusFaible(
+        filtrerEnseignants("MCA", binome.theme!, enseignants),
+        binome.theme!
+      );
+    }
+    ///////////////////////////////////////////////////////////////////////
+    //affecter examinateurs
+    const examinateurs: string[] = [];
+    let enseignantWithoutEncadrantAndPresident = enseignants.filter(
+      (ens) => ens.nom !== binome.encadrant && ens.nom !== president?.nom
+    );
+    for (let i = 0; i < 2; i++) {
+      const examinateur = affecterEnseignantAvecPoidsLePlusFaible(
+        filtrerExaminateurs(
+          binome.theme!,
+          enseignantWithoutEncadrantAndPresident
+        ),
+        binome.theme!
+      );
+
+      if (examinateur) {
+        if (examinateur.nom !== binome.encadrant) {
+          examinateurs.push(examinateur.nom);
+          enseignantWithoutEncadrantAndPresident =
+            enseignantWithoutEncadrantAndPresident.filter(
+              (ens) => ens.nom !== examinateur.nom
+            );
+          examinateur.poids++;
+        }
+      }
+    }
+    const tousLesJurys = [binome.encadrant, president?.nom, ...examinateurs];
+
+    const juryBinome = indisponibilitesJury.filter((element) =>
+      tousLesJurys.includes(element.idJury)
+    );
     const plagesHorairesDisponibles = getDatesEtHorairesDisponibles(
       juryBinome,
       dateDebut,
       dateFin
     );
-    console.log(`iteration${binome} avec ${plagesHorairesDisponibles}`);
+    // console.log(`iteration${binome} avec ${plagesHorairesDisponibles}`);
     if (plagesHorairesDisponibles.length > 0) {
       salleChoisie = trouverSalleDisponible(
         indisponibilitesSalles,
@@ -251,13 +290,15 @@ function Plan(
       //  console.log(salleChoisie);
       if (salleChoisie?.length) {
         const dateObj = new Date(salleChoisie[1]);
-        const date = dateObj.toISOString().split("T")[0]; // Extraction de la partie date
-        const heures = dateObj.getHours().toString().padStart(2, "0"); // Ajouter des zéros à gauche si nécessaire
-        const minutes = dateObj.getMinutes().toString().padStart(2, "0"); // Ajouter des zéros à gauche si nécessaire
-        const heurePart = `${heures}:${minutes}`; // Construction de la partie heure
+        const date = dateObj.toISOString().split("T")[0];
+        const heures = dateObj.getHours().toString().padStart(2, "0");
+        const minutes = dateObj.getMinutes().toString().padStart(2, "0");
+        const heurePart = `${heures}:${minutes}`;
         resultats.push({
           nomBinome: binome.idBinome,
-          jury: binome.jury,
+          encadrant: binome.encadrant,
+          president: president?.nom,
+          examinateurs: examinateurs,
           salle: salleChoisie[0],
           date: date,
           heure: heurePart,
@@ -265,7 +306,8 @@ function Plan(
         //update
         indisponibilitesJury = mettreAjourDispoJury(
           indisponibilitesJury,
-          binome.jury,
+          //@ts-ignore
+          tousLesJurys,
           salleChoisie[1]
         );
         indisponibilitesSalles = metterAJourSalle(
@@ -275,14 +317,38 @@ function Plan(
         );
         //console.log(indisponibilitesJury);
       } else {
-        resultats.push(
-          `${binome.idBinome} :Session rattrapage, aucune salle disponnible`
+        const dateObj = new Date(plagesHorairesDisponibles[0]);
+        const date = dateObj.toISOString().split("T")[0];
+        const heures = dateObj.getHours().toString().padStart(2, "0");
+        const minutes = dateObj.getMinutes().toString().padStart(2, "0");
+        const heurePart = `${heures}:${minutes}`;
+        resultats.push(`${binome.idBinome} : aucune salle disponible`);
+        resultats.push({
+          nomBinome: binome.idBinome,
+          encadrant: binome.encadrant,
+          president: president?.nom,
+          examinateurs: examinateurs,
+
+          date: date,
+        });
+        //update
+        indisponibilitesJury = mettreAjourDispoJury(
+          indisponibilitesJury,
+          //@ts-ignore
+          tousLesJurys,
+          plagesHorairesDisponibles[0]
         );
       }
     } else {
       resultats.push(
-        `${binome.idBinome} :Session rattrapage, aucune date commune disponnible pour les jury`
+        `${binome.idBinome} :Session rattrapage, aucune date commune disponible pour les encadrant`
       );
+      resultats.push({
+        nomBinome: binome.idBinome,
+        encadrant: binome.encadrant,
+        president: president?.nom,
+        examinateurs: examinateurs,
+      });
     }
 
     //console.log(plagesHorairesDisponibles);
@@ -334,33 +400,22 @@ function trouverSalleDisponible(
   return null;
 }
 
-// function mettreAjourDispoJury(
-//   indisponibilites: IndisponibiliteJury[],
-//   jurys: string[],
-//   date: string
-// ) {
-//   indisponibilites.forEach((jury) => {
-//     if (jurys.includes(jury.idJury)) {
-//       jury.datesIndisponibles.push(date);
-//     }
-//   });
-//   // console.log(indisponibilites);
-//   return indisponibilites; // Optionally return the updated list
-// }
-
 function mettreAjourDispoJury(
   indisponibilites: IndisponibiliteJury[],
   jurys: string[],
   date: string
 ): IndisponibiliteJury[] {
-  // Itérer sur chaque jury
-  jurys.forEach((jury) => {
-    // Trouver l'indice de l'indisponibilité du jury correspondant
+  if (!jurys) {
+    return indisponibilites;
+  }
+  // Itérer sur chaque membre
+  jurys?.forEach((encadrant) => {
+    // Trouver l'indice de l'indisponibilité de l encadrant correspondant
     const index = indisponibilites.findIndex(
-      (indisponibilite) => indisponibilite.idJury === jury
+      (indisponibilite) => indisponibilite.idJury === encadrant
     );
 
-    // Si l'indisponibilité du jury est trouvée
+    // Si l'indisponibilité de l encadrant est trouvée
     if (index !== -1) {
       // Vérifier si la date existe déjà
       const dateExisteDeja = indisponibilites[index].datesIndisponibles.some(
@@ -395,3 +450,95 @@ function metterAJourSalle(salles: Salle[], nomSalle: string, date: string) {
 
   return salles;
 }
+
+function filtrerExaminateurs(
+  specialites: string[],
+  enseignants: Enseignant[]
+): Enseignant[] {
+  return enseignants.filter((enseignant) =>
+    specialites.some((specialite) => enseignant.specialite.includes(specialite))
+  );
+}
+function filtrerEnseignants(
+  grade: string,
+  specialites: string[],
+  enseignants: Enseignant[]
+): Enseignant[] {
+  return enseignants.filter(
+    (enseignant) =>
+      enseignant.grade === grade &&
+      specialites.some((specialite) =>
+        enseignant.specialite.includes(specialite)
+      )
+  );
+}
+function affecterEnseignantAvecPoidsLePlusFaible(
+  enseignants: Enseignant[],
+  specialites: string[]
+): Enseignant | undefined {
+  if (enseignants.length === 0) {
+    return undefined;
+  }
+
+  const sortedEnseignants = enseignants.sort((a, b) => a.poids - b.poids);
+  return sortedEnseignants[0];
+}
+
+function shuffleTeachers(enseignants: Enseignant[]) {
+  const shuffledEnseignants = [...enseignants];
+
+  for (let i = shuffledEnseignants.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    [shuffledEnseignants[i], shuffledEnseignants[randomIndex]] = [
+      shuffledEnseignants[randomIndex],
+      shuffledEnseignants[i],
+    ];
+  }
+
+  return shuffledEnseignants;
+}
+
+// function heurePermis(
+//   date,
+//   startTime,
+//   endTime,
+//   duration: string,
+//   pose
+// ): string[] {
+//   const timeSlots: string[] = [];
+//   const startDateObj = new Date(date);
+
+//   // Convert duration and pose to minutes (handling various formats)
+//   const durationParts = duration.split(":");
+//   const durationInMinutes =
+//     durationParts.length === 2
+//       ? parseInt(durationParts[0]) * 60 + parseInt(durationParts[1])
+//       : typeof duration === "number"
+//       ? duration * 60
+//       : parseInt(duration) * 60;
+
+//   const poseParts = pose.split(":");
+//   const poseInMinutes =
+//     poseParts.length === 2
+//       ? parseInt(poseParts[0]) * 60 + parseInt(poseParts[1])
+//       : typeof pose === "number"
+//       ? pose * 60
+//       : parseInt(pose) * 60;
+
+//   while (date <= endTime) {
+//     const timeSlot =
+//       date +
+//       "T" +
+//       date.toLocaleTimeString("fr-FR", {
+//         hour: "2-digit",
+//         minute: "2-digit",
+//       }); // Format time slot
+//     timeSlots.push(timeSlot);
+//     console.log(timeSlot);
+
+//     // date.setMinutes(date.getMinutes() + durationInMinutes + poseInMinutes); // Add duration and pose (in minutes) to current time
+//   }
+
+//   console.log(timeSlots);
+//   return timeSlots;
+// }

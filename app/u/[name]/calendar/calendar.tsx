@@ -1,19 +1,14 @@
-type ResultatPlanification = {
-  resultats: (Soutenance | string)[];
-};
+import { Soutenance } from "./page";
 
-type Soutenance = {
-  nomBinome: string;
-  jury: string[];
-  salle?: string;
-  date?: DateStr;
-  heure?: string;
-};
 type DateStr = string;
-export const Results = ({ resultat }: { resultat: Soutenance[] | any }) => {
+export const Results = ({
+  resultat,
+}: {
+  resultat: (string | Soutenance)[];
+}) => {
   return (
     <div className="grid grid-cols-1 gap-4">
-      {resultat.map((item: any) => (
+      {resultat.map((item) => (
         <div
           key={item.toString() || "message"}
           className={`p-4 border rounded-md ${
@@ -29,13 +24,17 @@ export const Results = ({ resultat }: { resultat: Soutenance[] | any }) => {
           ) : (
             <>
               <h3 className="font-bold">{item.nomBinome}</h3>
-              <p>Jury: {item.jury.join(", ")}</p>
+              <p>Encadrant: {item.encadrant}</p>
+              <p>President: {item.president}</p>
+              <p>Examinateurs: {item.examinateurs?.join(",")}</p>
               <p>
                 {item.salle && item.date ? (
                   <>
-                    Salle: {item.salle} -
+                    Salle: {item.salle}
                     <br />
-                    Date: {item.date} Heure: {item.heure}
+                    Date: {item.date}
+                    <br />
+                    Heure: {item.heure}
                   </>
                 ) : (
                   <p>Salle ou date non disponible</p>

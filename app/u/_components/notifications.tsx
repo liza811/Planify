@@ -94,7 +94,7 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
                   key={notification.id}
                   className="flex w-full  gap-x-2 bg-white rounded-md border- relative"
                 >
-                  <div className="bg-blue-600 w-[4px] h-full  overflow-hidden rounded-l-md absolute mr-2" />
+                  <div className="bg-primary_purpule w-[4px] h-full  overflow-hidden rounded-l-md absolute mr-2" />
                   <div className="bg-neutral-100    rounded-full flex justify-center items-center p-2 h-fit mt-4 ml-4">
                     <Bell size={17} className="text-blue-600 " />
                   </div>
@@ -151,52 +151,4 @@ function hasUnseenNotification(
   }
 
   return mesNotifications.some((notification) => notification.seen === false);
-}
-
-{
-  /* <div className="h-full mr-3">
-<PopoverContent className="flex flex-col gap-y-4">
-  <div className="flex w-full justify-between items-center p-2">
-    <h4>Notifications</h4>
-    <span>
-      <X />
-    </span>
-  </div>
-  <ScrollArea className="flex flex-col gap-y-4 h-40 flex-1 p-2 ">
-    {notifications.length === 0 && !mesNotifications?.length && (
-      <div className="flex items-center justify-center capitalize gap-x-2 h-full pt-10">
-        <Search size={21} className="text-slate-700" />
-        aucune notifications.
-      </div>
-    )}
-    {!!mesNotifications &&
-      mesNotifications.map((notification) => (
-        <div
-          key={notification.id}
-          className="flex w-full  gap-x-2 bg-white rounded-md "
-        >
-          <div className="bg-blue-600 w-[4px] h-full  overflow-hidden rounded-lg" />
-          <div className="bg-neutral-100    rounded-full flex justify-center items-center p-2 h-fit mt-4">
-            <Bell size={17} className="text-blue-600 " />
-          </div>
-          <div className="flex flex-1 flex-col gap-y-2 py-3">
-            <h2 className="text-black font-semibold">
-              {notification.type === NotificationType.B_TO_B
-                ? "Modifications de choix"
-                : ""}
-            </h2>
-            <p className="text-sm pt-1">{notification.content}</p>
-          </div>
-        </div>
-      ))}
-    {notifications.length > 0 && (
-      <ul>
-        {notifications.map((notification, _index) => (
-          <li key={_index}>{notification}</li>
-        ))}
-      </ul>
-    )}
-  </ScrollArea>
-</PopoverContent>
-</div> */
 }
