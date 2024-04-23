@@ -3,7 +3,7 @@ import { MobileSidebar } from "./mobile-sidebar";
 
 
 export const Navbar = async () => {
-  const departement = await getDepartement();
+
   return (
     <div className="border-b p-4 bg-white shadow-sm flex items-center md:flex-row-reverse justify-between h-full w-full">
       <MobileSidebar />
