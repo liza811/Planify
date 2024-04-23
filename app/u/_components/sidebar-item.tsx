@@ -48,7 +48,7 @@ export const SidebarItem = ({ label, icon: Icon, href }: SidebarItemProps) => {
       </div>
       <div
         className={cn(
-          "ml-auto opacity-0 border-[2px] border-[#5454dd] rounded-s h-full transition-all",
+          "ml-auto opacity-0 border-[3px] border-[#5454dd] rounded-s h-full transition-all",
           isActive && "opacity-100"
         )}
       />
