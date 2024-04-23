@@ -88,11 +88,11 @@ export const SidebarRoutes = () => {
     return (
       <div className="flex flex-col space-y-5 w-full pt-2 p-3  mt-4">
         <div className="space-y-4">
-          <Skeleton className="h-14 w-full" />
-          <Skeleton className="h-14 w-full" />
-          <Skeleton className="h-14 w-full" />
-          <Skeleton className="h-14 w-full" />
-          <Skeleton className="h-14 w-full" />
+          <Skeleton className="h-14 w-full bg-slate-700" />
+          <Skeleton className="h-14 w-full bg-slate-700" />
+          <Skeleton className="h-14 w-full bg-slate-700" />
+          <Skeleton className="h-14 w-full bg-slate-700" />
+          <Skeleton className="h-14 w-full bg-slate-700" />
         </div>
       </div>
     );
