@@ -13,10 +13,10 @@ export const SignOut = () => {
       type="button"
       onClick={onClick}
       variant={"ghost"}
-      className="flex items-center justify-start text-slate-500 text-[1rem] font-[500] pl-6   transition-all hover:text-slate-600 hover:bg-slate-300/20 mb-auto cursor-pointer"
+      className="flex items-center justify-start text-slate-300 text-[1rem] font-[500] pl-6   transition-all hover:text-white hover:bg-slate-300/20 hover:mx-2 hover:rounded-md mb-auto cursor-pointer"
     >
       <div className="flex items-center gap-x-2 ">
-        <LogOutIcon size={25} className="text-slate-500" />
+        <LogOutIcon size={25} className="text-slate-300 hover:text-white" />
         {"signOut"}
       </div>
     </Button>
