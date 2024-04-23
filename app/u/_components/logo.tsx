@@ -24,7 +24,7 @@ export const Logo = async () => {
       />
       <span
         className={cn(
-          "font-bold dark:text-white  text-3xl first-letter:ml-2 text-primary_purpule",
+          "font-bold dark:text-white text-white  text-[25px] first-letter:ml-2 ",
           font.className
         )}
       >

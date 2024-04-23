@@ -6,7 +6,7 @@ import { getEnseignantsWithIndisponibilites } from "@/lib/indisponibilite";
 import { format, isValid, parse } from "date-fns";
 type DateStr = string;
 export type Soutenance = {
-  nomBinome: string;
+  idBinome: string;
   encadrant: string;
   salle?: string;
   date?: DateStr;
@@ -127,7 +127,7 @@ const CalendarPage = async () => {
   );
 
   return (
-    <div>
+    <div className="p-6">
       {resultat ? (
         <Results resultat={resultat.resultats} />
       ) : (
@@ -295,7 +295,7 @@ function Plan(
         const minutes = dateObj.getMinutes().toString().padStart(2, "0");
         const heurePart = `${heures}:${minutes}`;
         resultats.push({
-          nomBinome: binome.idBinome,
+          idBinome: binome.idBinome,
           encadrant: binome.encadrant,
           president: president?.nom,
           examinateurs: examinateurs,
@@ -324,7 +324,7 @@ function Plan(
         const heurePart = `${heures}:${minutes}`;
         resultats.push(`${binome.idBinome} : aucune salle disponible`);
         resultats.push({
-          nomBinome: binome.idBinome,
+          idBinome: binome.idBinome,
           encadrant: binome.encadrant,
           president: president?.nom,
           examinateurs: examinateurs,
@@ -344,7 +344,7 @@ function Plan(
         `${binome.idBinome} :Session rattrapage, aucune date commune disponible pour les encadrant`
       );
       resultats.push({
-        nomBinome: binome.idBinome,
+        idBinome: binome.idBinome,
         encadrant: binome.encadrant,
         president: president?.nom,
         examinateurs: examinateurs,

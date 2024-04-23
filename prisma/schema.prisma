@@ -13,16 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model User {
-//   id            String    @id @default(cuid())
-//   name          String?
-//   email         String    @unique
-//   password      String
-//   emailVerified DateTime?
-//   image         String?
-//   accounts      Account[]
-// }
-
 enum Grade {
   PROFESSEUR
   MCD
@@ -31,7 +21,6 @@ enum Grade {
 
 enum NotificationType {
   B_TO_B
- 
 }
 
 enum Etat {
@@ -45,19 +34,21 @@ model Departement {
   nom String @unique
 
   // Relation un-à-plusieurs avec Spécialité
-  salles      Salle[]
-  specialite  Specialite[]
+  salles     Salle[]
+  specialite Specialite[]
+
   enseignants Enseignant[]
   etudiants   Etudiant[]
   Admin       Admin[]
+  soutenance  Soutenance[]
 
   configuration Configuration? @relation()
 }
 
 model Admin {
-  id            String      @id @default(uuid())
-  name          String?
-  prenom      String?
+  id     String  @id @default(uuid())
+  name   String?
+  prenom String?
 
   email         String      @unique
   password      String
@@ -87,6 +78,7 @@ model Salle {
   departementId String?
 
   indisponibilite Json?
+  soutenances     Soutenance[]
 
   departement Departement? @relation(fields: [departementId], references: [id], onDelete: Cascade)
 
@@ -126,9 +118,10 @@ model Enseignant {
   twoFactorConfirmation TwoFactorConfirmation?
   Affectation           Affectation[]
 
-  Binome         Binome[]
-  Examinateurs   Examinateurs? @relation(fields: [examinateursId], references: [id])
-  examinateursId String?
+  Binome Binome[]
+
+  soutenancePresiden Soutenance[]   @relation("president")
+  Examinateurs       Examinateurs[]
 
   @@index([email])
 }
@@ -165,7 +158,11 @@ model Binome {
 
   Affectation Affectation?
   juryId      String?
-  Jury        Jury[]
+
+  soutenance   Soutenance? @relation(fields: [soutenanceId], references: [id])
+  soutenanceId Int?        @unique
+
+  @@index([presidentId])
 }
 
 model Theme {
@@ -253,24 +250,13 @@ model TwoFactorConfirmation {
   etudiant   Etudiant?   @relation(fields: [etudId], references: [id], onDelete: Cascade)
 }
 
-model Jury {
-  id String @id @default(uuid())
-
-  examinateurs Examinateurs @relation(fields: [examinateursId], references: [id])
-
-  Binome   Binome? @relation(fields: [binomeId], references: [id])
-  binomeId String?
-
-  examinateursId String
-}
-
 model Examinateurs {
-  id String @id @default(uuid())
+  id           Int        @id @default(autoincrement())
+  enseignnatId String
+  enseignant   Enseignant @relation(fields: [enseignnatId], references: [id], onDelete: Cascade)
 
-  examinateurs Enseignant[]
-
-  juryId String?
-  Jury   Jury[]
+  soutenanceId Int?
+  soutenance   Soutenance?@relation(fields: [soutenanceId], references: [id], onDelete: Cascade)
 }
 
 model Notification {
@@ -279,7 +265,23 @@ model Notification {
   date    DateTime @default(now())
   seen    Boolean  @default(false)
 
-  to   Etudiant @relation(fields: [toId], references: [id], onDelete: Cascade)
+  to   Etudiant         @relation(fields: [toId], references: [id], onDelete: Cascade)
   toId String
   type NotificationType
+}
+
+model Soutenance {
+  id      Int     @id @default(autoincrement())
+  Binome  Binome?
+  salle   Salle?  @relation(fields: [salleId], references: [id], onDelete: Cascade)
+  salleId String?
+
+  date        String?
+  heure       String?
+  presidentId String?
+  president   Enseignant? @relation("president", fields: [presidentId], references: [id])
+
+  Departement   Departement?   @relation(fields: [departementId], references: [id])
+  departementId String?
+  examinateurs  Examinateurs[]
 }

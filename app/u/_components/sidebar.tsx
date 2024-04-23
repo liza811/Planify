@@ -7,7 +7,7 @@ import { SignOut } from "./sign-out";
 export const Sidebar = async () => {
   const session = await auth();
   return (
-    <div className="flex flex-col overflow-y-auto pb-4 h-full bg-white border-r">
+    <div className="flex flex-col overflow-y-auto pb-4 h-full bg-[#17203F]  border-r">
       <div className="p-4">
         <Logo />
       </div>

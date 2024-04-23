@@ -40,7 +40,7 @@ const Intermidiere = async () => {
   if (!!encadrant) {
     return (
       <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
-        <main className="h-[89vh] overflow-y-auto gap-y-5  p-6 bg-[#fcfcfd]">
+        <main className="h-[89vh] overflow-y-auto gap-y-5  p-6 bg-[#EFF3FF]">
           <InfoEncadrant encadrant={encadrant} />
         </main>
       </Suspense>
