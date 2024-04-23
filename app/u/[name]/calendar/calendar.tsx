@@ -24,9 +24,15 @@ export const Results = ({
           ) : (
             <>
               <h3 className="font-bold text-primary_blue">
+<<<<<<< HEAD
                 Binome: {item.idBinome}
               </h3>
               <p className="text-sm">Encadrant: {item.encadrant}</p>
+=======
+                Binome: {item.nomBinome}
+              </h3>
+              <p>Encadrant: {item.encadrant}</p>
+>>>>>>> 0143bdf3002d5f3b37e0557820ebd9cc8855507f
               <p>President: {item.president}</p>
               <p>Examinateurs: {item.examinateurs?.join(",")}</p>
               <p>
