@@ -36,7 +36,7 @@ export const validerChoix = async (themesId: string[]) => {
       },
     },
   });
-  const id = etudiantId?.etudiants[0].id;
+  const id = etudiantId?.etudiants[0]?.id;
   const content = `${user.nom} ${user.prenom} a validé ses choix`;
 
   try {
@@ -54,7 +54,7 @@ export const validerChoix = async (themesId: string[]) => {
         },
       });
     }
-    if (id) {
+    if (!!id) {
       const notifs = await db.notification.create({
         data: {
           content: content,
