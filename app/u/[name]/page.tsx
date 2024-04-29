@@ -99,7 +99,7 @@ const DashboardPage = async () => {
               transition: "0.25s",
             }}
             alt="Remy Sharp"
-            src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-graduated-student-standing-and-holding-diplomas-flat-illustration-png-image_6965347.png"
+           
           />
 
           <Avatar
@@ -114,7 +114,7 @@ const DashboardPage = async () => {
               transition: "0.25s",
             }}
             alt="Remy Sharp"
-            src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-graduated-student-standing-and-holding-diplomas-flat-illustration-png-image_6965347.png"
+           
           />
 
           <Avatar
@@ -129,7 +129,7 @@ const DashboardPage = async () => {
               transition: "0.25s",
             }}
             alt="Remy Sharp"
-            src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-happy-graduation-man-holding-diplomas-flat-illustration-free-vector-png-image_6964666.png"
+           
           />
         </Avatar>
 
@@ -175,7 +175,7 @@ const DashboardPage = async () => {
                   transition: "0.25s",
                 }}
                 alt="Remy Sharp"
-                src="https://img.freepik.com/free-vector/puzzled-student-making-choice-about-his-future-career-path_179970-636.jpg?size=338&ext=jpg"
+               
               />
             </Avatar>
             <Avatar
@@ -218,7 +218,7 @@ const DashboardPage = async () => {
                   transition: "0.25s",
                 }}
                 alt="Remy Sharp"
-                src="https://th.bing.com/th/id/OIP.dc_v4SMLBwmIu1seDz-AJwHaG6?w=900&h=840&rs=1&pid=ImgDetMain"
+     
               />
             </Avatar>
             <Avatar
