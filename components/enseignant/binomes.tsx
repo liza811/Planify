@@ -35,8 +35,15 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
           <CardContent className="space-y-2 h-full flex items-center justify-center">
             {!attenteListe.length && (
               <div className="flex flex-col items-center justify-center h-full">
-                <h1 className="font-semibold mt-3">Aucun binôme en attente</h1>
-                <Image src={"/task-searching.png"} fill alt="searching" />
+                <Image
+                  src={"/task-searching.png"}
+                  height={160}
+                  width={160}
+                  alt="searching"
+                />
+                <h1 className="font-semibold mt-3 text-xl">
+                  Aucun binôme en attente
+                </h1>
               </div>
             )}
             {!!attenteListe &&
@@ -64,8 +71,15 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
           <CardContent className="space-y-2 h-full flex items-center justify-center">
             {!validatedList.length && (
               <div className="flex flex-col items-center justify-center h-full">
-                <h1 className="font-semibold mt-3">Aucun binôme validé</h1>
-                <Image src={"/task-searching.png"} fill alt="searching" />
+                <Image
+                  src={"/task-searching.png"}
+                  height={160}
+                  width={160}
+                  alt="searching"
+                />
+                <h1 className="font-semibold mt-3 text-xl">
+                  Aucun binôme validé
+                </h1>
               </div>
             )}
             {!!validatedList &&
