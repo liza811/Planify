@@ -1,5 +1,5 @@
 import { Theme, affectations } from "@/app/u/[name]/binomes/page";
-
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -33,7 +33,10 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
           </CardHeader>
           <CardContent className="space-y-2 h-full">
             {!attenteListe.length && (
+            <div className="flex flex-col items-center justify-center h-full">
               <h1 className="font-semibold mt-3">Aucun binôme en attente</h1>
+              <Image src={"/task-searching.png"} fill alt="searching" />
+              </div>
             )}
             {!!attenteListe &&
               attenteListe.map((list) => (
@@ -59,7 +62,10 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
           </CardHeader>
           <CardContent className="space-y-2 h-full">
             {!validatedList.length && (
-              <h1 className="font-semibold mt-3">Aucun binôme validé</h1>
+              <div className="flex flex-col items-center justify-center h-full">
+                <h1 className="font-semibold mt-3">Aucun binôme validé</h1>
+                <Image src={"/task-searching.png"} fill alt="searching" />
+              </div>
             )}
             {!!validatedList &&
               validatedList.map((v) => (
