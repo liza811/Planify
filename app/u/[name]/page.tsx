@@ -117,21 +117,8 @@ const DashboardPage = async () => {
            
           />
 
-          <Avatar
-            sx={{
-              mx: "auto",
-              width: 120,
-              height: 120,
-              my: 0.5,
-              mt: 1.5,
-              mr: 0,
-              ml: 0,
-              transition: "0.25s",
-            }}
-            alt="Remy Sharp"
-           
-          />
-        </Avatar>
+         
+
 
         <Box display="flex">
           <Box display="flow">
