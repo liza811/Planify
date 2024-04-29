@@ -58,20 +58,7 @@ const DashboardPage = async () => {
           Check News !{" "}
         </Typography>
 
-        <Avatar
-          sx={{
-            borderRadius: 1,
-            bgcolor: deepPurple[200],
-            mx: "auto",
-            width: 900,
-            height: 105,
-            mt: 4,
-            mr: 0,
-            ml: 5,
-            transition: "0.25s",
-          }}
-          variant="square"
-        >
+        <div className="w-full rounded-md bg-purple-500 h-11">
           <Typography
             sx={{
               color: "#3D007B",
@@ -85,97 +72,57 @@ const DashboardPage = async () => {
           >
             Bienvenue sur la platforme de gestion des plannings des soutenances
           </Typography>
-
-          <Avatar
-            sx={{
-              backgroundColor: "#3D007B",
-              mx: "auto",
-              width: 140,
-              height: 140,
-              my: 0.5,
-              mt: 1.5,
-              ml: 30,
-              mr: -9,
-              transition: "0.25s",
-            }}
-            alt="Remy Sharp"
-            src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-graduated-student-standing-and-holding-diplomas-flat-illustration-png-image_6965347.png"
-          />
-
-          <Avatar
-            sx={{
-              mx: "auto",
-              width: 120,
-              height: 120,
-              my: 0.5,
-              mt: 1,
-              mr: -7,
-              ml: 0,
-              transition: "0.25s",
-            }}
-            alt="Remy Sharp"
-            src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-graduated-student-standing-and-holding-diplomas-flat-illustration-png-image_6965347.png"
-          />
-
-          <Avatar
-            sx={{
-              mx: "auto",
-              width: 120,
-              height: 120,
-              my: 0.5,
-              mt: 1.5,
-              mr: 0,
-              ml: 0,
-              transition: "0.25s",
-            }}
-            alt="Remy Sharp"
-            src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-happy-graduation-man-holding-diplomas-flat-illustration-free-vector-png-image_6964666.png"
-          />
-        </Avatar>
+        </div>
 
         <Box display="flex">
           <Box display="flow">
-            <Typography
-              sx={{
-                color: "#3D007B",
-                fontFamily: "monospace",
-                mt: 0,
-                fontSize: 19,
-                mr: 0,
-                marginLeft: 7,
-                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-              }}
-            >
-              Ajouter un nouveau thème
-            </Typography>
+            <div className="w-full rounded-md bg-blue-200 h-11">
+              <Typography
+                sx={{
+                  color: "#3D007B",
+                  fontFamily: "monospace",
+                  mt: 0,
+                  fontSize: 19,
+                  mr: 0,
+                  marginLeft: 7,
+                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+                }}
+              >
+                Ajouter un nouveau thème
+              </Typography>
+            </div>
 
-            <Typography
-              sx={{
-                color: "#3D007B",
-                fontFamily: "monospace",
-                mt: 0,
-                fontSize: 19,
-                mr: 0,
-                marginLeft: 7,
-                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-              }}
-            >
-              Déclarer mes jours d&apos;indisponibilités
-            </Typography>
+            <div className="w-full rounded-md bg-yellow-100 h-11">
+              <Typography
+                sx={{
+                  color: "#3D007B",
+                  fontFamily: "monospace",
+                  mt: 0,
+                  fontSize: 19,
+                  mr: 0,
+                  marginLeft: 7,
+                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+                }}
+              >
+                Déclarer mes jours d&apos;indisponibilités
+              </Typography>
+            </div>
 
-            <Typography
-              sx={{
-                color: "#3D007B",
-                fontFamily: "monospace",
-                mt: 0,
-                fontSize: 19,
-                mr: 0,
-                marginLeft: 7,
-                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-              }}
-            >
-              Voir mes binoms
-            </Typography>
+            <div className="w-full rounded-md bg-rose-200 h-11">
+              <Typography
+                sx={{
+                  color: "#3D007B",
+                  fontFamily: "monospace",
+                  mt: 0,
+                  fontSize: 19,
+                  mr: 0,
+                  marginLeft: 7,
+                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+                }}
+              >
+                Voir mes binoms
+              </Typography>
+            </div>
           </Box>
           <Avatar
             sx={{
@@ -269,4 +216,3 @@ export default DashboardPage;
       <br />
       {user?.departementId} */
 }
-
