@@ -58,7 +58,7 @@ const DashboardPage = async () => {
           Check News !{" "}
         </Typography>
 
-        <div className="w-full rounded-md bg-purple-500 h-11">
+        <div className="w-full rounded-md bg-purple-500 h-28">
           <Typography
             sx={{
               color: "#3D007B",
