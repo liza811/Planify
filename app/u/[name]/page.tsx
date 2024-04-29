@@ -99,7 +99,7 @@ const DashboardPage = async () => {
               transition: "0.25s",
             }}
             alt="Remy Sharp"
-           
+            src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-graduated-student-standing-and-holding-diplomas-flat-illustration-png-image_6965347.png"
           />
 
           <Avatar
@@ -114,143 +114,68 @@ const DashboardPage = async () => {
               transition: "0.25s",
             }}
             alt="Remy Sharp"
-           
+            src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-graduated-student-standing-and-holding-diplomas-flat-illustration-png-image_6965347.png"
           />
 
-         
-
+          <Avatar
+            sx={{
+              mx: "auto",
+              width: 120,
+              height: 120,
+              my: 0.5,
+              mt: 1.5,
+              mr: 0,
+              ml: 0,
+              transition: "0.25s",
+            }}
+            alt="Remy Sharp"
+            src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-happy-graduation-man-holding-diplomas-flat-illustration-free-vector-png-image_6964666.png"
+          />
+        </Avatar>
 
         <Box display="flex">
           <Box display="flow">
-            <Avatar
+            <Typography
               sx={{
-                borderRadius: 1,
-                bgcolor: "skyblue",
-                mx: "auto",
-                width: 570,
-                height: 89,
-                mt: 10,
+                color: "#3D007B",
+                fontFamily: "monospace",
+                mt: 0,
+                fontSize: 19,
                 mr: 0,
-                ml: 5,
-                transition: "0.25s",
+                marginLeft: 7,
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
               }}
-              variant="square"
             >
-              <Typography
-                sx={{
-                  color: "#3D007B",
-                  fontFamily: "monospace",
-                  mt: 0,
-                  fontSize: 19,
-                  mr: 0,
-                  marginLeft: 7,
-                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-                }}
-              >
-                Ajouter un nouveau thème
-              </Typography>
+              Ajouter un nouveau thème
+            </Typography>
 
-              <Avatar
-                sx={{
-                  backgroundColor: "#3D007B",
-                  mx: "auto",
-                  width: 120,
-                  height: 120,
-                  my: 0.5,
-                  mt: 2.5,
-                  mr: -3,
-                  transition: "0.25s",
-                }}
-                alt="Remy Sharp"
-               
-              />
-            </Avatar>
-            <Avatar
+            <Typography
               sx={{
-                borderRadius: 1,
-                bgcolor: deepOrange[50],
-                mx: "auto",
-                width: 570,
-                height: 89,
-                mt: 3,
+                color: "#3D007B",
+                fontFamily: "monospace",
+                mt: 0,
+                fontSize: 19,
                 mr: 0,
-                ml: 5,
-                transition: "0.25s",
+                marginLeft: 7,
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
               }}
-              variant="square"
             >
-              <Typography
-                sx={{
-                  color: "#3D007B",
-                  fontFamily: "monospace",
-                  mt: 0,
-                  fontSize: 19,
-                  mr: 0,
-                  marginLeft: 7,
-                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-                }}
-              >
-                Déclarer mes jours d&apos;indisponibilités
-              </Typography>
+              Déclarer mes jours d&apos;indisponibilités
+            </Typography>
 
-              <Avatar
-                sx={{
-                  backgroundColor: "#3D007B",
-                  mx: "auto",
-                  width: 110,
-                  height: 110,
-                  my: 0.5,
-                  mt: 0.5,
-                  mr: -2,
-                  transition: "0.25s",
-                }}
-                alt="Remy Sharp"
-     
-              />
-            </Avatar>
-            <Avatar
+            <Typography
               sx={{
-                borderRadius: 1,
-                bgcolor: deepOrange[100],
-                mx: "auto",
-                width: 570,
-                height: 89,
-                mt: 3,
+                color: "#3D007B",
+                fontFamily: "monospace",
+                mt: 0,
+                fontSize: 19,
                 mr: 0,
-                ml: 5,
-                transition: "0.25s",
+                marginLeft: 7,
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
               }}
-              variant="square"
             >
-              <Typography
-                sx={{
-                  color: "#3D007B",
-                  fontFamily: "monospace",
-                  mt: 0,
-                  fontSize: 19,
-                  mr: 0,
-                  marginLeft: 7,
-                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-                }}
-              >
-                Voir mes binoms
-              </Typography>
-
-              <Avatar
-                sx={{
-                  backgroundColor: "#3D007B",
-                  mx: "auto",
-                  width: 110,
-                  height: 110,
-                  my: 0.5,
-                  mt: 0.5,
-                  mr: -2,
-                  transition: "0.25s",
-                }}
-                alt="Remy Sharp"
-                src="https://png.pngtree.com/png-clipart/20210826/ourlarge/pngtree-2020-graduation-season-hand-drawn-illustration-elements-png-image_3459262.jpg"
-              />
-            </Avatar>
+              Voir mes binoms
+            </Typography>
           </Box>
           <Avatar
             sx={{
@@ -344,3 +269,4 @@ export default DashboardPage;
       <br />
       {user?.departementId} */
 }
+
