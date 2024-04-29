@@ -11,6 +11,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Encadrant } from "./collapsible";
 import { stringToColor } from "@/lib/utils";
+import Image from "next/image";
 interface BinomesInterface {
   validatedList: affectations[];
   attenteListe: Theme[];
@@ -31,9 +32,12 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
               Découvrez les thèmes choisis et les binômes formés.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2 h-full">
+          <CardContent className="space-y-2 h-full flex items-center justify-center">
             {!attenteListe.length && (
-              <h1 className="font-semibold mt-3">Aucun binôme en attente</h1>
+              <div className="flex flex-col items-center justify-center h-full">
+                <h1 className="font-semibold mt-3">Aucun binôme en attente</h1>
+                <Image src={"/task-searching.png"} fill alt="searching" />
+              </div>
             )}
             {!!attenteListe &&
               attenteListe.map((list) => (
@@ -57,9 +61,12 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
               Consultez les binômes approuvés par vous pour travailler ensemble.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2 h-full">
+          <CardContent className="space-y-2 h-full flex items-center justify-center">
             {!validatedList.length && (
-              <h1 className="font-semibold mt-3">Aucun binôme validé</h1>
+              <div className="flex flex-col items-center justify-center h-full">
+                <h1 className="font-semibold mt-3">Aucun binôme validé</h1>
+                <Image src={"/task-searching.png"} fill alt="searching" />
+              </div>
             )}
             {!!validatedList &&
               validatedList.map((v) => (

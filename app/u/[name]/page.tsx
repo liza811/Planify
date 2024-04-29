@@ -85,27 +85,24 @@ const DashboardPage = async () => {
           >
             Bienvenue sur la platforme de gestion des plannings des soutenances
           </Typography>
-          <Link href={"/"} className="cursor-pointer">
-            <Avatar
-              Avatar
-              sx={{
-                backgroundColor: "#3D007B",
-                mx: "auto",
-                width: 140,
-                height: 140,
-                my: 0.5,
-                mt: 1.5,
-                ml: 30,
-                mr: -9,
-                transition: "0.25s",
-              }}
-              alt="Remy Sharp"
-              src="https://png.pngtree.com/png-vector/20211209/ourlarge/pngtree-graduation-people-flat-illustration-with-cap-and-diploma-png-image_4053463.png"
-            ></Avatar>
-          </Link>
 
           <Avatar
-            Avatar
+            sx={{
+              backgroundColor: "#3D007B",
+              mx: "auto",
+              width: 140,
+              height: 140,
+              my: 0.5,
+              mt: 1.5,
+              ml: 30,
+              mr: -9,
+              transition: "0.25s",
+            }}
+            alt="Remy Sharp"
+            src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-graduated-student-standing-and-holding-diplomas-flat-illustration-png-image_6965347.png"
+          />
+
+          <Avatar
             sx={{
               mx: "auto",
               width: 120,
@@ -119,8 +116,8 @@ const DashboardPage = async () => {
             alt="Remy Sharp"
             src="https://png.pngtree.com/png-clipart/20211219/original/pngtree-graduated-student-standing-and-holding-diplomas-flat-illustration-png-image_6965347.png"
           />
+
           <Avatar
-            Avatar
             sx={{
               mx: "auto",
               width: 120,
@@ -167,7 +164,6 @@ const DashboardPage = async () => {
               </Typography>
 
               <Avatar
-                Avatar
                 sx={{
                   backgroundColor: "#3D007B",
                   mx: "auto",
@@ -207,11 +203,10 @@ const DashboardPage = async () => {
                   textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
                 }}
               >
-                Déclarer mes jours d'indisponibilités
+                Déclarer mes jours d&apos;indisponibilités
               </Typography>
 
               <Avatar
-                Avatar
                 sx={{
                   backgroundColor: "#3D007B",
                   mx: "auto",
@@ -255,7 +250,6 @@ const DashboardPage = async () => {
               </Typography>
 
               <Avatar
-                Avatar
                 sx={{
                   backgroundColor: "#3D007B",
                   mx: "auto",
