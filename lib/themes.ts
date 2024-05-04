@@ -132,3 +132,67 @@ export const getThemesParSpecialite = async () => {
 
   return themes;
 };
+
+export const getThemesParSpecialiteNonChoisi = async () => {
+  const user = await currentUser();
+
+  if (!user) return;
+
+  const specialites = await specialiteBinome();
+  if (!specialites) return null;
+  const validThemeIds = await db.affectation.findMany({
+    where: {
+      Binome: {
+        etudiants: {
+          some: {
+            departementId: user.departementId,
+          },
+        },
+      },
+    },
+    select: { themeId: true },
+  });
+
+  const validThemeIdArray = validThemeIds.map((theme) => theme.themeId);
+
+  const themes = await db.theme.findMany({
+    where: {
+      AND: [
+        {
+          themeSpecialites: {
+            some: {
+              specialite: {
+                departementId: user.departementId,
+                nom: {
+                  in: specialites.etudiants.map(
+                    (e) => e.specialite?.nom as string
+                  ),
+                },
+              },
+            },
+          },
+        },
+        {
+          id: {
+            notIn: validThemeIdArray,
+          },
+        },
+      ],
+    },
+    include: {
+      themeSpecialites: {
+        include: { specialite: { select: { nom: true } } },
+      },
+
+      proposePar: {
+        select: {
+          nom: true,
+          prenom: true,
+          email: true,
+        },
+      },
+    },
+  });
+
+  return themes;
+};

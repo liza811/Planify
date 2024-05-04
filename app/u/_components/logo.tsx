@@ -1,21 +1,18 @@
-import { font } from "@/components/auth/login-form";
 import { currentUser } from "@/lib/current-user";
-import { cn } from "@/lib/utils";
+
 import Image from "next/image";
 import Link from "next/link";
 
+import { cn } from "@/lib/utils";
+import { PT_Serif } from "next/font/google";
+export const font = PT_Serif({
+  subsets: ["latin"],
+  weight: ["700"],
+});
 export const Logo = async () => {
   const user = await currentUser();
-
   return (
-    <Link
-      href={`/u/${user?.prenom}`}
-      className="
-    w-full
-    flex
-    justify-left
-    items-center"
-    >
+    <Link className="flex  items-center " href={`/u/${user?.prenom}`}>
       <Image
         src={"/cypresslogo.svg"}
         alt="cypress Logo"
@@ -24,7 +21,7 @@ export const Logo = async () => {
       />
       <span
         className={cn(
-          "font-bold dark:text-white text-white  text-[25px] first-letter:ml-2 ",
+          "font-bold dark:text-white  text-3xl first-letter:ml-2 text-white",
           font.className
         )}
       >

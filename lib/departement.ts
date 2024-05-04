@@ -3,9 +3,12 @@ import { db } from "./db";
 
 export const getDepartement = async () => {
   const user = await currentUser();
+  if (!user || !user.departementId) {
+    return null;
+  }
   const departement = await db.departement.findUnique({
     where: {
-      id: user?.departementId,
+      id: user.departementId,
     },
     select: {
       nom: true,

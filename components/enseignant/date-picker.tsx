@@ -52,7 +52,7 @@ export function DatePickerWithRange({
     });
   };
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className={cn("grid gap-2 w-full", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -85,11 +85,11 @@ export function DatePickerWithRange({
             defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}
-            numberOfMonths={2}
+            numberOfMonths={1}
           />
         </PopoverContent>
       </Popover>
-      <Button type="submit" onClick={onClick} className="mt-2">
+      <Button type="submit" onClick={onClick} className="mt-2 mx-5">
         {isPending ? <ClipLoader color="white" size={15} /> : "Enregistrer"}
       </Button>
     </div>

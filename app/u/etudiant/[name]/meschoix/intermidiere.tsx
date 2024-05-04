@@ -1,10 +1,10 @@
 import { Main, Theme } from "@/components/etudiant";
 import { InfoEncadrant } from "@/components/etudiant/encadrant";
 import { NothingFound } from "@/components/nothing-found";
-import { getChoix, getEncadrant } from "@/lib/choix";
+import { getChoixEnAttente, getEncadrant } from "@/lib/choix";
 import { currentUser } from "@/lib/current-user";
 
-import { getThemesParSpecialite } from "@/lib/themes";
+import { getThemesParSpecialiteNonChoisi } from "@/lib/themes";
 import { $Enums } from "@prisma/client";
 import { redirect } from "next/navigation";
 
@@ -30,12 +30,6 @@ const Intermidiere = async () => {
   if (user.role) {
     redirect(`/u/${user?.prenom}/themes`);
   }
-  const themes = await getThemesParSpecialite();
-  if (!themes?.length) {
-    return (
-      <NothingFound header="Aucun thème trouvé" paragraph="" src="/note.svg" />
-    );
-  }
   const encadrant = await getEncadrant();
   if (!!encadrant) {
     return (
@@ -46,7 +40,19 @@ const Intermidiere = async () => {
       </Suspense>
     );
   }
-  const mesChoix = await getChoix();
+  const themes = await getThemesParSpecialiteNonChoisi();
+  if (!themes?.length) {
+    return (
+      <NothingFound
+        header="Aucun thème trouvé"
+        paragraph=""
+        src="/task-searching.png"
+        size={150}
+      />
+    );
+  }
+
+  const mesChoix = await getChoixEnAttente();
   if (!!themes && !!mesChoix) {
     const themesWithChoix: ExtendedTheme[] = [];
     const themesWithoutChoix: Theme[] = [];

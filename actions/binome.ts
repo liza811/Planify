@@ -11,7 +11,17 @@ export const validerBinome = async (binomeId: string, themeId: string) => {
     return { error: "Unauthorized" };
   }
 
-  const affectation = await db.affectation.create({
+  const existingAffectation = await db.affectation.findFirst({
+    where: {
+      idBinome: binomeId,
+    },
+  });
+  if (existingAffectation) {
+    revalidatePath(`/u/${user.name}/binomes`);
+    return { success: "Binome déjà affecté à un autre thème!" };
+  }
+
+  await db.affectation.create({
     data: {
       idBinome: binomeId,
       themeId: themeId,

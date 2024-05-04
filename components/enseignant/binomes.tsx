@@ -32,9 +32,9 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
               Découvrez les thèmes choisis et les binômes formés.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2 h-full flex items-center justify-center">
+          <CardContent className="space-y-2 h-full ">
             {!attenteListe.length && (
-              <div className="flex flex-col items-center justify-center h-full">
+              <div className="flex flex-col items-center justify-center h-full mt-5">
                 <Image
                   src={"/task-searching.png"}
                   height={160}
@@ -68,9 +68,9 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
               Consultez les binômes approuvés par vous pour travailler ensemble.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2 h-full flex items-center justify-center">
+          <CardContent className="space-y-2 h-full ">
             {!validatedList.length && (
-              <div className="flex flex-col items-center justify-center h-full">
+              <div className="flex flex-col items-center justify-center h-full mt-5">
                 <Image
                   src={"/task-searching.png"}
                   height={160}

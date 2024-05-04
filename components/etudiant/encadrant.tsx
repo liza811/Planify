@@ -34,7 +34,7 @@ export const InfoEncadrant = ({ encadrant }: { encadrant: EncadrantProps }) => {
       </section>
       <section
         className={cn(
-          "flex  w-full h-full gap-x-8 ustify-between  p-6 bg-white",
+          "flex  w-full h-full gap-x-8 justify-between  p-6 bg-white",
           !encadrant.Binome?.etudiants.length && "justify-end"
         )}
       >

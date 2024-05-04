@@ -55,7 +55,6 @@ export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
     setClose(!close);
   };
   const onSubmit = (values: z.infer<typeof themeSchema>) => {
-    console.log(valuesToSubmit);
     startTransition(() => {
       ajouterTheme(valuesToSubmit, values.theme)
         .then((data) => {

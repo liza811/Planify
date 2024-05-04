@@ -53,7 +53,7 @@ export const Historique = async () => {
   }
 
   return (
-    <main className=" w-full   h-full  p-6 bg-main">
+    <main className=" w-full   h-full  p-6 bg-main overflow-x-auto">
       <section className=" w-full h-full bg-white rounded-md p-4">
         <div className="flex items-center justify-between border-b bg-[#f0f3ff] py-4 px-6 w-full capitalize">
           <div className="w-3/4 text-slate-500 text-center">Thème</div>
