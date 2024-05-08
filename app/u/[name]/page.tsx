@@ -40,7 +40,7 @@ const DashboardPage = async () => {
       <Box>
         <Typography
           sx={{
-            color: "#9654B8",
+            color: "#17203F",
             fontFamily: "monospace",
             mt: 2,
             fontSize: 28,
@@ -50,10 +50,10 @@ const DashboardPage = async () => {
           Check News!{" "}
         </Typography>
         <div className="flex flex-col gap-y-5 md:gap-y-16 justify-between h-full mt-2">
-          <div className="w-full rounded-md bg-[#AF86FF] h-24 flex items-center ">
+          <div className="w-full rounded-md bg-[#17203F] h-24 flex items-center ">
             <Typography
               sx={{
-                color: "#3D007B",
+                color: "#FFFFFF",
                 fontFamily: "monospace",
                 mt: 0,
                 fontSize: 20,
@@ -91,7 +91,7 @@ const DashboardPage = async () => {
 
             <Link
               href={`/u/${user.prenom}/binomes`}
-              className=" rounded-md bg-rose-200 h-[80px] flex items-center justify-start w-[45%]"
+              className=" rounded-md bg-[#9b6bdb] h-[80px] flex items-center justify-start w-[45%]"
             >
               <Typography
                 sx={{
