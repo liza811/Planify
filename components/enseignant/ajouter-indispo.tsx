@@ -37,7 +37,7 @@ export const AjouterIndispo = async () => {
   return (
     <Dialog>
       <DialogTrigger className="flex gap-x-2 capitalize">
-        <div className=" rounded-md bg-yellow-100 h-[80px] flex items-center w-[45%]">
+        <div className=" rounded-md bg-[#6889FF] h-[80px] flex items-center w-[45%]">
           <Typography
             sx={{
               color: "#3D007B",
