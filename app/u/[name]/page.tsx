@@ -54,7 +54,6 @@ const DashboardPage = async () => {
             <Typography
               sx={{
                 color: "#FFFFFF",
-
                 mt: 0,
                 fontSize: 20,
                 mr: 0,
