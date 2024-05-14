@@ -23,6 +23,11 @@ enum NotificationType {
   B_TO_B
 }
 
+enum Visibility {
+  VISIBLE
+  NON_VISIBLE
+}
+
 enum Etat {
   ATTENTE
   REFUSE
@@ -40,7 +45,7 @@ model Departement {
   enseignants Enseignant[]
   etudiants   Etudiant[]
   Admin       Admin[]
-  soutenance  Soutenance[]
+  planning    Planning[]
 
   configuration Configuration? @relation()
 }
@@ -104,7 +109,6 @@ model Enseignant {
   email     String @unique
   matricule String
 
-  image              String?
   grade              String
   datesIndisponibles Json?
 
@@ -117,8 +121,6 @@ model Enseignant {
   departement           Departement            @relation(fields: [departementId], references: [id], onDelete: Cascade)
   twoFactorConfirmation TwoFactorConfirmation?
   Affectation           Affectation[]
-
-  Binome Binome[]
 
   soutenancePresiden Soutenance[]   @relation("president")
   Examinateurs       Examinateurs[]
@@ -154,13 +156,10 @@ model Binome {
   ChoisirTheme ChoisirTheme[]
   presidentId  String?
 
-  president Enseignant? @relation(fields: [presidentId], references: [id], onDelete: Cascade)
-
   Affectation Affectation?
-  juryId      String?
 
-  soutenance   Soutenance? @relation(fields: [soutenanceId], references: [id])
-  soutenanceId Int?        @unique
+  soutenance   Soutenance[]
+  soutenanceId Int?         @unique
 
   @@index([presidentId])
 }
@@ -256,7 +255,7 @@ model Examinateurs {
   enseignant   Enseignant @relation(fields: [enseignnatId], references: [id], onDelete: Cascade)
 
   soutenanceId Int?
-  soutenance   Soutenance?@relation(fields: [soutenanceId], references: [id], onDelete: Cascade)
+  soutenance   Soutenance? @relation(fields: [soutenanceId], references: [id], onDelete: Cascade)
 }
 
 model Notification {
@@ -271,9 +270,9 @@ model Notification {
 }
 
 model Soutenance {
-  id      Int     @id @default(autoincrement())
-  Binome  Binome?
-  salle   Salle?  @relation(fields: [salleId], references: [id], onDelete: Cascade)
+  id Int @id @default(autoincrement())
+
+  salle   Salle?  @relation(fields: [salleId], references: [id])
   salleId String?
 
   date        String?
@@ -281,7 +280,20 @@ model Soutenance {
   presidentId String?
   president   Enseignant? @relation("president", fields: [presidentId], references: [id])
 
-  Departement   Departement?   @relation(fields: [departementId], references: [id])
+  examinateurs Examinateurs[]
+  Planning     Planning?      @relation(fields: [planningId], references: [id], onDelete: Cascade)
+  planningId   Int?
+  Binome       Binome?        @relation(fields: [binomeId], references: [id])
+  binomeId     String?
+}
+
+model Planning {
+  id Int @id @default(autoincrement())
+
+  soutenances   Soutenance[]
+  version       String
+  createdAt     DateTime     @default(now())
+  etat          Visibility
+  Departement   Departement? @relation(fields: [departementId], references: [id])
   departementId String?
-  examinateurs  Examinateurs[]
 }

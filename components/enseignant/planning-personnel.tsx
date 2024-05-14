@@ -1,0 +1,290 @@
+"use client";
+import { CircleHelp } from "lucide-react";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Configuration } from "@prisma/client";
+import { planningWithDate } from "@/app/u/[name]/planning-personnel/page";
+import { planning } from "@/types";
+import { useEffect, useState } from "react";
+import { ScrollArea } from "../ui/scroll-area";
+import { addMinutes, format, isBefore, parse } from "date-fns";
+
+export function hexToRgba(hex: string, opacity: number): string {
+  hex = hex.replace("#", "");
+
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+interface planningProps {
+  planning: planning[] | null;
+  config: Configuration | null;
+}
+
+export const Planning = ({ config, planning }: planningProps) => {
+  const [mounted, setMounted] = useState(false);
+
+  const planningWithDateAndTime: planningWithDate[] = [];
+  const planningWithoutDateAndTime: planning[] = [];
+
+  planning?.forEach((itemPlanning) => {
+    if (itemPlanning.date && itemPlanning.heure) {
+      planningWithDateAndTime.push(itemPlanning as planningWithDate);
+    } else {
+      planningWithoutDateAndTime.push(itemPlanning);
+    }
+  });
+  //////////////////////////////////////////////////////////////////////////////////
+  const groupedByDate: { [date: string]: planningWithDate[] } = {};
+
+  planningWithDateAndTime.forEach((item) => {
+    if (item.date) {
+      if (!groupedByDate[item.date]) {
+        groupedByDate[item.date] = [];
+      }
+      groupedByDate[item.date].push(item);
+    }
+  });
+
+  // Get unique dates and unique time slots
+  const dates = Object.keys(groupedByDate).sort();
+  // const timeSlots = Array.from(
+  //   new Set(planningWithDateAndTime.map((item) => item.heure))
+  // ).sort();
+  const timeSlots = generateTimeSlots(
+    config?.heureDebut,
+    config?.heureFin,
+    config?.duree
+  );
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return null;
+  return (
+    <ScrollArea className="overflow-x-auto  bg-white rounded-md p-4 h-full">
+      <table className="min-w-fit table-fixed border-collapse border border-gray-100 overflow-x-auto ">
+        <thead>
+          <tr>
+            <th className="border border-gray-100 p-2 text-center w-28 text-sm bg-[#cfb5ff]/30 "></th>
+            {timeSlots.map((time) => (
+              <th
+                key={time}
+                className="border border-gray-100 p-2 text-center text-slate-500 text-sm font-medium  w-[230px] bg-[#cfb5ff]/30"
+              >
+                {time}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {dates.map((date) => (
+            <tr key={date} className="text-slate-700 text-sm font-medium">
+              <td className="border border-gray-100 p-2 w-fit bg-[#cfb5ff]/10">
+                {date}
+              </td>
+              {timeSlots.map((time) => {
+                const matchingItems = groupedByDate[date]?.filter(
+                  (item) => item.heure === time
+                );
+                const hexColors = [
+                  "#E5DE99",
+                  "#DCB8C6",
+                  "#82B798",
+                  "#749EAC",
+                  "#8089A8",
+                  "#5AE31B",
+                  "#251e3e",
+                  "#c99789",
+                  "#ffa700",
+
+                  "#67203C ",
+                  "#6A006A ",
+                  "#FF8A00 ",
+                  "#F06292 ",
+                  "#000080 ",
+                  "#004B3A ",
+                  "#793420 ",
+                ];
+                const randomColor = getRandomColor(hexColors);
+                return (
+                  <td key={time} className="border border-gray-100 p-2 h-full">
+                    {matchingItems && matchingItems.length > 0 ? (
+                      <ul className="min-h-full">
+                        {matchingItems.map((item) => (
+                          <li
+                            key={item.id}
+                            className="flex flex-col gap-y-3 rounded-md p-2 relative group w-[230px] min-h-full rounded-r-xl"
+                            style={{
+                              backgroundColor: hexToRgba(randomColor, 0.2),
+                            }}
+                          >
+                            <div
+                              className="left-0 top-0 rounded-s-3xl absolute w-1 h-full "
+                              style={{
+                                backgroundColor: randomColor || "#719FAE",
+                              }}
+                            />
+                            <div className="flex flex-col gap-y-2 ml-2">
+                              <div className="flex justify-between">
+                                <span className="text-slate-600 text-sm">
+                                  Binome:
+                                </span>
+                                <div className=" text-slate-700  flex opacity-0 group-hover:opacity-100 transition-all gap-x-2">
+                                  <Pop
+                                    theme={item.Binome?.Affectation?.Theme.nom}
+                                  />
+                                </div>
+                              </div>
+                              <p>
+                                {item.Binome?.etudiants.map((s) => (
+                                  <div
+                                    className="flex  w-full justify-between   "
+                                    key={s.nom}
+                                  >
+                                    <p className="  2xl:text-sm text-[13px]  text-black w-fit ">
+                                      {s.nom} {s.prenom}
+                                    </p>
+                                  </div>
+                                ))}
+                              </p>
+
+                              <div className="flex gap-x-2">
+                                <span className="text-slate-600 text-sm text-wrap overflow-hidden">
+                                  Encadrant:
+                                </span>
+                                <p className="flex gap-x-2  text-sm  text-black w-fit ">
+                                  {item.Binome?.Affectation?.encadrent?.nom}{" "}
+                                  {item.Binome?.Affectation?.encadrent?.prenom}{" "}
+                                </p>
+                              </div>
+
+                              <div className="flex gap-x-2">
+                                <span className="text-slate-700 text-[14px]">
+                                  Président:
+                                </span>
+                                <p className="flex gap-x-2  2xl:text-sm text-[13px]  text-black w-fit overflow-hidden">
+                                  {item.president ? (
+                                    <>
+                                      {" "}
+                                      {item.president?.nom}{" "}
+                                      {item.president?.prenom}
+                                    </>
+                                  ) : (
+                                    <span className="size-fit px-2 py-1 bg-[#FF00001A] text-[#FF0000]  2xl:text-sm text-[13px]">
+                                      Aucune Président associé
+                                    </span>
+                                  )}
+                                </p>
+                              </div>
+                              <div className="flex gap-x-2">
+                                <span className="text-slate-600 text-sm">
+                                  Examinateurs:
+                                </span>
+                                <p>
+                                  {!!item.examinateurs.length ? (
+                                    item.examinateurs?.map((s) => (
+                                      <div
+                                        className="flex  w-full justify-between overflow-hidden  "
+                                        key={s.enseignant?.nom}
+                                      >
+                                        <p className="   2xl:text-sm text-[13px]  text-black w-fit ">
+                                          {s.enseignant?.nom}{" "}
+                                          {s.enseignant?.prenom}
+                                        </p>
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <span className="size-fit px-2 py-1 bg-[#FF00001A] text-[#FF0000]  2xl:text-sm text-[13px]">
+                                      Aucune examinateur associé
+                                    </span>
+                                  )}
+                                </p>
+                              </div>
+                              <div className="flex gap-x-4 items-center text-wrap">
+                                <span className="text-slate-600 text-[14px]">
+                                  Salle:
+                                </span>
+                                <p className="flex gap-x-2   2xl:text-sm text-[13px] my-0 py-0 text-black w-fit ">
+                                  {item.salle ? (
+                                    `Bloc: ${item.salle.bloc} N°: ${item.salle.numero} `
+                                  ) : (
+                                    <span className="size-fit px-2 py-1 bg-[#FF00001A] text-[#FF0000] ">
+                                      Aucune salle associé
+                                    </span>
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      ""
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </ScrollArea>
+  );
+};
+const Pop = ({ theme }: { theme: string | undefined }) => {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <CircleHelp className="text-slate-600 h-5 w-5 cursor-pointer" />
+        </TooltipTrigger>
+        <TooltipContent className="w-56 z-40 bg-white text-sm" side="bottom">
+          <p>{theme}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+};
+
+function getRandomColor(colors: string[]) {
+  if (!Array.isArray(colors) || colors.length === 0) {
+    throw new Error("Colors array is empty or not an array");
+  }
+
+  const randomIndex = Math.floor(Math.random() * colors.length);
+
+  return colors[randomIndex];
+}
+
+function generateTimeSlots(
+  startTime: string | undefined,
+  endTime: string | undefined,
+  duration: string | undefined
+): string[] {
+  if (!startTime || !endTime || !duration) return [];
+
+  const start = parse(startTime, "HH:mm", new Date());
+  const end = parse(endTime, "HH:mm", new Date());
+  const durationMinutes =
+    parse(duration, "HH:mm", new Date()).getHours() * 60 +
+    parse(duration, "HH:mm", new Date()).getMinutes();
+
+  const slots: string[] = [];
+  let current = start;
+
+  while (isBefore(current, end)) {
+    slots.push(format(current, "HH:mm"));
+    current = addMinutes(current, durationMinutes);
+  }
+
+  return slots;
+}

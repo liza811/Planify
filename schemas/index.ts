@@ -7,7 +7,7 @@ const itemSchema = z.object({
 });
 export const themeSchema = z.object({
   theme: z.string().min(1, {
-    message: "Le nom est obligatoire.",
+    message: "Le thème est obligatoire.",
   }),
   items: z.array(itemSchema),
 });
@@ -109,4 +109,14 @@ export const LoginSchema = z.object({
     message: "mot de passe obligatoire",
   }),
   code: z.optional(z.string()),
+});
+
+export const binomeSchema = z.object({
+  email: z.string().min(1, {
+    message: "L' email est obligatoire.",
+  }),
+  theme: z.string().min(1, {
+    message: "Le thème est obligatoire.",
+  }),
+  items: z.array(itemSchema),
 });

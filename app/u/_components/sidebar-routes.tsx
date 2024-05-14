@@ -40,7 +40,7 @@ export const SidebarRoutes = () => {
       icon: DoorOpen,
 
       label: "Planning personnelle",
-      href: "/dashboard/salles",
+      href: `/u/${user?.prenom}/planning-personnel`,
     },
     {
       icon: CalendarCheck,

@@ -12,7 +12,7 @@ import {
 import MultiSelect from "react-multiple-select-dropdown-lite";
 import "react-multiple-select-dropdown-lite/dist/index.css";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { themeSchema } from "@/schemas";
+import { binomeSchema } from "@/schemas";
 import {
   Form,
   FormControl,
@@ -29,9 +29,10 @@ import { toast } from "sonner";
 import { AjouterModelProps } from "@/app/u/[name]/themes/page";
 import { Textarea } from "../ui/textarea";
 import { PlusCircleIcon } from "lucide-react";
-import { ajouterTheme } from "@/actions/theme";
+import { ajouterBinome } from "@/actions/binome";
+import { Input } from "../ui/input";
 
-export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
+export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
   const [isPending, startTransition] = useTransition();
   const [isMounted, setIsMounted] = useState(false);
   const [close, setClose] = useState(false);
@@ -43,9 +44,10 @@ export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
     value: item.nom,
   }));
 
-  const form = useForm<z.infer<typeof themeSchema>>({
-    resolver: zodResolver(themeSchema),
+  const form = useForm<z.infer<typeof binomeSchema>>({
+    resolver: zodResolver(binomeSchema),
     defaultValues: {
+      email: "",
       theme: "",
       items: [],
     },
@@ -54,9 +56,9 @@ export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
   const onClose = () => {
     setClose(!close);
   };
-  const onSubmit = (values: z.infer<typeof themeSchema>) => {
+  const onSubmit = (values: z.infer<typeof binomeSchema>) => {
     startTransition(() => {
-      ajouterTheme(valuesToSubmit, values.theme)
+      ajouterBinome(values)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
@@ -73,7 +75,6 @@ export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
     form.reset();
   };
   useEffect(() => {
-    // Update the values to submit whenever selectedValues changes
     setValuesToSubmit(selectedValues);
   }, [selectedValues]);
 
@@ -98,18 +99,35 @@ export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
       <DialogTrigger className="flex gap-x-2 capitalize">
         <Button>
           <PlusCircleIcon className="h-5 w-5 mr-2 " />
-          Ajouter un thème
+          Ajouter un binome
         </Button>
       </DialogTrigger>
 
       <DialogContent className=" md:w-[450px] w-[350px] p-5  max-h-[95vh]">
         <DialogHeader>
           <DialogTitle className="text-center mb-3">
-            {"Ajouter un Theme"}
+            {"Ajouter un binome"}
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="L'email de l'etudiant"
+                      className="resize-none focus-visible:none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="theme"

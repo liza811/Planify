@@ -12,12 +12,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Encadrant } from "./collapsible";
 import { stringToColor } from "@/lib/utils";
 import Image from "next/image";
+import { AjouterBinome } from "./ajouter-binome";
+import { getSpecialites } from "@/lib/specialite";
 interface BinomesInterface {
   validatedList: affectations[];
   attenteListe: Theme[];
 }
 
-export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
+export async function Binomes({
+  validatedList,
+  attenteListe,
+}: BinomesInterface) {
+  const specilaites = await getSpecialites();
   return (
     <Tabs defaultValue="ATTENTE" className="w-full h-full">
       <TabsList className="grid w-full grid-cols-2">
@@ -63,7 +69,11 @@ export function Binomes({ validatedList, attenteListe }: BinomesInterface) {
       <TabsContent value="VALIDE" className="h-full">
         <Card>
           <CardHeader>
-            <CardTitle className="text-[18px]">Binomes validés</CardTitle>
+            <div className="flex justify-between items-center">
+              {" "}
+              <CardTitle className="text-[18px]">Binomes validés</CardTitle>
+              <AjouterBinome specialites={specilaites} />
+            </div>
             <CardDescription>
               Consultez les binômes approuvés par vous pour travailler ensemble.
             </CardDescription>
