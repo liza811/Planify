@@ -4,6 +4,8 @@ import { Themes } from "./themes";
 
 export interface AjouterModelProps {
   specialites: { nom: string }[] | null;
+  nbTheme?: number | null | undefined;
+  nbPropose?: number;
 }
 const ThemesPage = () => {
   return (

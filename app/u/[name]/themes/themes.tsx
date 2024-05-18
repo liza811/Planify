@@ -1,8 +1,17 @@
 import { AjouterThemes } from "@/components/enseignant/ajouter-themes";
 import { ListThemes } from "@/components/enseignant/list-themes";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { getConfiguration } from "@/lib/configuration";
 import { currentUser } from "@/lib/current-user";
 import { getSpecialites } from "@/lib/specialite";
 import { getThemes } from "@/lib/themes";
+import { cn } from "@/lib/utils";
+import { Circle, CircleHelp } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -12,6 +21,7 @@ interface AjouterModelProps {
 export const Themes = async () => {
   const specilaites = await getSpecialites();
   const themes = await getThemes();
+  const configuration = await getConfiguration();
   const user = await currentUser();
   if (!user) return null;
   if (!user.role) {
@@ -31,15 +41,53 @@ export const Themes = async () => {
       </main>
     );
   return (
-    <main className="flex flex-col gap-y-4 w-full h-full p-6 bg-[#F9FAFC]">
-      <section className="flex w-full   justify-end">
-        <AjouterThemes specialites={specilaites} />
+    <main
+      className={cn(
+        "flex flex-col gap-y-4 w-full h-full p-6 bg-[#F9FAFC]",
+        !configuration?.nbTheme && "justify-end"
+      )}
+    >
+      <section className="flex w-full   justify-between">
+        {!!configuration && !!configuration.nbTheme && (
+          <div className="flex gap-x-2 items-center">
+            <PopHelp nbTheme={configuration.nbTheme} />
+            <p className="text-sm font-semibold">
+              Vous avez proposé {themes.length}{" "}
+              {themes.length == 1 ? `thème` : `thèmes`}{" "}
+            </p>
+          </div>
+        )}
+
+        {(!configuration ||
+          !configuration.nbTheme ||
+          themes.length < configuration.nbTheme) && (
+          <AjouterThemes
+            specialites={specilaites}
+            nbTheme={configuration?.nbTheme}
+            nbPropose={themes.length}
+          />
+        )}
       </section>
       {!!themes && (
-        <section className="flex flex-col w-full  rounded-sm  h-full p-4  px-1">
+        <section className="flex flex-col w-full  rounded-sm  h-full p-4  px-0">
           <ListThemes themes={themes} />
         </section>
       )}
     </main>
+  );
+};
+
+const PopHelp = ({ nbTheme }: { nbTheme?: number }) => {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger>
+          <CircleHelp className="text-slate-600 w-4 h-4" />
+        </TooltipTrigger>
+        <TooltipContent side="right">
+          <p>Vous avez le droit de proposer jusqu&apos;à {nbTheme} thèmes.</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };

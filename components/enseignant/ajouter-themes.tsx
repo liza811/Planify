@@ -31,10 +31,16 @@ import { Textarea } from "../ui/textarea";
 import { PlusCircleIcon } from "lucide-react";
 import { ajouterTheme } from "@/actions/theme";
 
-export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
+export const AjouterThemes = ({
+  specialites,
+  nbTheme,
+  nbPropose,
+}: AjouterModelProps) => {
+  const disable =
+    !!nbPropose && !!nbTheme && nbPropose >= nbTheme ? true : false;
   const [isPending, startTransition] = useTransition();
   const [isMounted, setIsMounted] = useState(false);
-  const [close, setClose] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [valuesToSubmit, setValuesToSubmit] = useState<string[]>([]);
@@ -51,9 +57,6 @@ export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
     },
   });
 
-  const onClose = () => {
-    setClose(!close);
-  };
   const onSubmit = (values: z.infer<typeof themeSchema>) => {
     startTransition(() => {
       ajouterTheme(valuesToSubmit, values.theme)
@@ -68,6 +71,7 @@ export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
           }
         })
         .catch(() => toast.error("Something went wrong!"));
+      setOpen((open) => !open);
     });
 
     form.reset();
@@ -94,9 +98,9 @@ export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
   }, []);
   if (!isMounted) return null;
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="flex gap-x-2 capitalize">
-        <Button>
+        <Button disabled={disable}>
           <PlusCircleIcon className="h-5 w-5 mr-2 " />
           Ajouter un thème
         </Button>
@@ -157,7 +161,6 @@ export const AjouterThemes = ({ specialites }: AjouterModelProps) => {
                 type="reset"
                 variant={"secondary"}
                 name="saves"
-                onClick={onClose}
               >
                 Annuler
               </Button>

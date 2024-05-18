@@ -15,6 +15,7 @@ import { Trash } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
+import { ClipLoader } from "react-spinners";
 
 interface DeleteThemeProp {
   themeId: string;
@@ -22,47 +23,50 @@ interface DeleteThemeProp {
 
 export function DeleteTheme({ themeId }: DeleteThemeProp) {
   const [isPending, startTransition] = useTransition();
-  const [close, setClose] = useState(false);
+  const [open, setOpen] = useState(false);
   const onClick = (themeId: string) => {
     startTransition(() => {
       deleteTheme(themeId).then((data) => {
-        setClose(true);
         if (data.success) {
           toast.success(data.success);
         }
         if (data.error) {
           toast.success(data.error);
         }
+        setOpen((open) => !open);
       });
     });
   };
   return (
-    <AlertDialog onOpenChange={() => setClose(false)} defaultOpen={false}>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Trash className=" w-5 h-5 cursor-pointer text-slate-600" />
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
+          <AlertDialogTitle className="text-[15px]">
             {" "}
             Voulez-vous vraiment supprimer ce thème ?
           </AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogDescription className="text-sm">
             Cette action supprimera définitivement votre thème.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="uppercase">
-          <AlertDialogCancel disabled={isPending} className="cursor-pointer">
+        <AlertDialogFooter className="uppercase mt-3 text-sm">
+          <AlertDialogCancel
+            disabled={isPending}
+            className="cursor-pointer focus-visible:ring-0 focus:ring-0"
+          >
             Annuler
           </AlertDialogCancel>
           <Button
-            className="cursor-pointer"
+            className="cursor-pointer w-[100px] bg-primary_blue hover:bg-primary_blue/95"
             name="delete"
             title="delete"
             onClick={() => onClick(themeId)}
             disabled={isPending}
           >
-            supprimer
+            {isPending ? <ClipLoader color="white" size={15} /> : "supprimer"}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
