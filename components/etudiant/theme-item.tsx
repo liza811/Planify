@@ -30,22 +30,22 @@ export const ThemeItem = ({
     <div className=" flex flex-col bg-white shadow-md rounded-sm justify-between group hover:opacity-90 scale-103 transition duration-200 ease-in-out">
       <div>
         <div className="w-full h-1 rounded-t-sm" style={{ background: bg }} />
-        <div className="flex justify-between w-full p-2 gap-x-2 gap-y-3">
-          <div className="w-full flex gap-x-2 flex-wrap gap-y-1 flex-1">
+        <div className="flex justify-between w-full p-2 gap-x-1 gap-y-3">
+          <div className=" flex gap-x-1 flex-wrap gap-y-1 flex-1 flex-grow">
             {specialite?.map((s) => (
               <p
-                className="text-sm font-semibold rounded-lg px-4 py-1 text-black bg-slate-200"
+                className="text-xs font-semibold rounded-md px-3 py-1.5 flex items-center h-6 text-black bg-slate-200 "
                 key={s.specialite.nom}
               >
                 {s.specialite.nom}
               </p>
             ))}
           </div>
-          <p className=" text-slate-800 text-sm  flex justify-end">
+          <p className=" text-slate-800 text-xs  flex justify-end  ">
             {proposePar}
           </p>
         </div>
-        <div className="w-full p-4 pt-2 rounded-sm text-[14px] font-medium text-wrap capitalize">
+        <div className="w-full p-4 pt-2 rounded-sm text-[13px] font-medium text-wrap capitalize">
           {nom}
         </div>
       </div>
