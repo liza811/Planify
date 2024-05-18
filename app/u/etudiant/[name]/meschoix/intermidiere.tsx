@@ -7,6 +7,7 @@ import { currentUser } from "@/lib/current-user";
 
 import { getThemesParSpecialiteNonChoisi } from "@/lib/themes";
 import { $Enums } from "@prisma/client";
+import { isBefore, parseISO } from "date-fns";
 import { redirect } from "next/navigation";
 
 import { Suspense } from "react";
@@ -16,7 +17,9 @@ export interface ExtendedTheme extends Theme {
 }
 
 const Intermidiere = async () => {
+  let hasDatePassed = false;
   const user = await currentUser();
+  const configuration = await getConfiguration();
 
   if (!user || !user.prenom) {
     return (
@@ -39,6 +42,26 @@ const Intermidiere = async () => {
           <InfoEncadrant encadrant={encadrant} />
         </main>
       </Suspense>
+    );
+  }
+
+  if (configuration && configuration.dateFinChoix) {
+    const currentDate = new Date();
+
+    hasDatePassed = isBefore(
+      parseISO(configuration?.dateFinChoix?.toISOString()),
+      currentDate
+    );
+  }
+
+  if (hasDatePassed) {
+    return (
+      <NothingFound
+        header="Date limite des choix est terminée."
+        paragraph="Vous serez affecté automatiquement à un enseignant."
+        src="/alarm-clock.png"
+        size={150}
+      />
     );
   }
   const themes = await getThemesParSpecialiteNonChoisi();
@@ -70,7 +93,7 @@ const Intermidiere = async () => {
         themesWithoutChoix.push(theme);
       }
     }
-    const configuration = await getConfiguration();
+
     return (
       <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
         <main className=" w-full h-full   ">
@@ -84,7 +107,7 @@ const Intermidiere = async () => {
       </Suspense>
     );
   }
-  const configuration = await getConfiguration();
+
   return (
     <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
       <main className=" w-full h-full  ">
