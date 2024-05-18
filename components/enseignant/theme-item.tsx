@@ -44,7 +44,7 @@ export const ThemeItem = ({
             <DeleteTheme themeId={id} />
           </div>
         </div>
-        <div className="w-full p-3 rounded-sm text-[13px] font-medium text-wrap capitalize">
+        <div className="w-full p-3 rounded-sm text-xs font-medium text-wrap capitalize">
           {nom}
         </div>
       </div>

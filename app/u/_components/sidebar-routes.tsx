@@ -98,7 +98,7 @@ export const SidebarRoutes = () => {
     );
 
   return (
-    <nav className="flex flex-col w-full pt-2 ">
+    <nav className="flex flex-col w-full pt-5 ">
       {user?.role &&
         EnsRoutes.map((route) => (
           <SidebarItem

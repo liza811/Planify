@@ -45,7 +45,7 @@ export const ThemeItem = ({
             {proposePar}
           </p>
         </div>
-        <div className="w-full p-4 pb-0 pt-2 rounded-sm text-[13px] font-medium text-wrap capitalize">
+        <div className="w-full p-4 pb-0 pt-2 rounded-sm text-xs font-medium text-wrap capitalize">
           {nom}
         </div>
       </div>

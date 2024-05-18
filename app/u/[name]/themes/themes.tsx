@@ -36,7 +36,7 @@ export const Themes = async () => {
         <AjouterThemes specialites={specilaites} />
       </section>
       {!!themes && (
-        <section className="flex flex-col w-full  rounded-sm  h-full p-4 ">
+        <section className="flex flex-col w-full  rounded-sm  h-full p-4  px-1">
           <ListThemes themes={themes} />
         </section>
       )}
