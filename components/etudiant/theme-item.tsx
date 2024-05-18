@@ -41,15 +41,15 @@ export const ThemeItem = ({
               </p>
             ))}
           </div>
-          <p className=" text-slate-800 text-xs  flex justify-end  ">
+          <p className=" text-slate-800 text-xs  flex justify-end w-fit text-left ml-auto ">
             {proposePar}
           </p>
         </div>
-        <div className="w-full p-4 pt-2 rounded-sm text-[13px] font-medium text-wrap capitalize">
+        <div className="w-full p-4 pb-0 pt-2 rounded-sm text-[13px] font-medium text-wrap capitalize">
           {nom}
         </div>
       </div>
-      <div className="p-2 py-3">
+      <div className="p-2 py-">
         <div className="w-full h-[1px]  bg-slate-300 rounded-lg" />
         <p className="flex gap-x-2 text-slate-700 text-xs capitalize mt-3">
           <Calendar className="h-4 w-4" />
