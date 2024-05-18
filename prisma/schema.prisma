@@ -98,6 +98,14 @@ model Configuration {
   heureFin   String
   duree      String
 
+dateFinChoix  DateTime?
+nbTheme Int?
+nbChoix Int?
+nbEncadrement Int?
+nbDateIndispo Int?
+
+
+
   departementId String       @unique
   departement   Departement? @relation(fields: [departementId], references: [id])
 }

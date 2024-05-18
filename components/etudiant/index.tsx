@@ -10,8 +10,9 @@ import { CheckCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { ExtendedTheme } from "@/app/u/etudiant/[name]/meschoix/page";
-import { Etat } from "@prisma/client";
+
 import { ScrollArea } from "../ui/scroll-area";
+import { Configuration } from "@prisma/client";
 
 export type Theme = {
   id: string;
@@ -39,9 +40,11 @@ type Enseignant = {
 export const Main = ({
   themes,
   mesChoix,
+  configuration,
 }: {
   themes: Theme[];
   mesChoix?: ExtendedTheme[];
+  configuration: Configuration | null;
 }) => {
   const [choix, setChoix] = useState<ExtendedTheme[]>(mesChoix || []);
   const [allThemes, setAllThemes] = useState<Theme[]>(themes);
@@ -51,7 +54,12 @@ export const Main = ({
   const onDragEnd = (result: DropResult) => {
     const { destination, source } = result;
 
-    if (!destination) {
+    if (
+      !destination ||
+      (configuration?.nbChoix &&
+        choix.length >= configuration?.nbChoix &&
+        source.droppableId !== "CHOIX")
+    ) {
       return;
     }
 
@@ -61,7 +69,9 @@ export const Main = ({
     ) {
       return;
     }
-
+    // if (configuration?.nbChoix && choix.length >= configuration?.nbChoix) {
+    //   return;
+    // }
     let add;
     let active = allThemes;
     let complete = choix;
@@ -124,6 +134,8 @@ export const Main = ({
                         ""
                       }
                       email={theme.proposePar?.email}
+                      nbchoix={choix.length}
+                      configurationChoix={configuration?.nbChoix}
                     />
                   ))}
                 </div>
@@ -143,9 +155,12 @@ export const Main = ({
                 >
                   <h2 className="font-semibold bg-white border-b p-3 flex justify-between items-center w-full">
                     {"Mes choix"}
-                    <span className="ml-auto rounded-lg bg-slate-200  text-[15px] font-medium  px-3  text-black  flex items-center justify-center">
+                    <span className="ml-auto rounded-lg bg-slate-100 text-[15px] font-medium  px-3 py-1 text-black  flex items-center justify-center">
                       {" "}
                       {choix.length}
+                      {configuration?.nbChoix
+                        ? `/${configuration.nbChoix}`
+                        : ""}
                     </span>
                   </h2>
                   <div
@@ -190,15 +205,7 @@ export const Main = ({
               )}
             </Droppable>
             <div className="mt-auto w-[200px] flex justify-center items-center">
-              <AlertDialog>
-                <AlertDialogTrigger asChild className=" w-full ">
-                  <Button className={cn("flex gap-x-2")} disabled={disabled}>
-                    <CheckCircle className=" w-4 h-4 cursor-pointer text-white" />
-                    {"Valider"}
-                  </Button>
-                </AlertDialogTrigger>
-                <ValiderChoix choix={themesIds} />
-              </AlertDialog>
+              <ValiderChoix choix={themesIds} disabled={disabled} />
             </div>
           </div>
         </section>

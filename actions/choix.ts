@@ -63,7 +63,6 @@ export const validerChoix = async (themesId: string[]) => {
         },
       });
       await pusherServer.trigger(id, "choix", notifs);
-      console.log(notifs);
     }
 
     //revalidatePath(`/u/etudiant/${user.name}/meschoix`);

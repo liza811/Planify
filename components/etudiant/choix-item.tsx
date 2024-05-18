@@ -27,6 +27,8 @@ interface ThemeItemProps {
   specialite?: ThemeSpecialites;
   proposePar: string;
   email?: string;
+  nbchoix?: number;
+  configurationChoix?: number | null;
 }
 export const ChoixItem = ({
   nom,
@@ -36,6 +38,8 @@ export const ChoixItem = ({
   index,
   etat,
   email,
+  nbchoix,
+  configurationChoix,
 }: ThemeItemProps) => {
   const etatColor = {
     [Etat.ATTENTE]: "bg-[#ff8F001A] text-[#ff8F00]",
@@ -56,7 +60,14 @@ export const ChoixItem = ({
         <div
           className={cn(
             "flex flex-col bg-white shadow-md rounded-sm justify-between group cursor-grab scale-103",
-            snapshot.isDragging && ` border rounded-sm border-blue-700`
+            snapshot.isDragging && ` border rounded-sm border-primary_purpule`,
+            configurationChoix && nbchoix
+              ? `${
+                  nbchoix >= configurationChoix
+                    ? `border-red-600`
+                    : `border-primary_purpule`
+                }`
+              : `border-primary_purpule`
           )}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -67,7 +78,7 @@ export const ChoixItem = ({
               {specialite?.map((s) => (
                 <p
                   className={cn(
-                    "text-sm font-semibold rounded-lg px-4 py-1 text-black "
+                    "text-xs font-semibold rounded-lg px-3 py-1 text-black "
                   )}
                   style={{
                     color: `${stringToColor(s.specialite.nom)}`,
@@ -88,7 +99,7 @@ export const ChoixItem = ({
               onClick={onClick}
             />
           </div>
-          <div className="w-full px-3 pt-2 rounded-sm text-[14px] font-medium text-wrap capitalize ">
+          <div className="w-full px-3 pt-2 rounded-sm text-[13px] font-medium text-wrap capitalize ">
             {nom}
           </div>
           {/* <div className="w-full h-[1px]  bg-slate-300 rounded-lg" /> */}

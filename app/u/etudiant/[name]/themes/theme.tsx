@@ -10,12 +10,9 @@ import { ClipLoader } from "react-spinners";
 export const EtudiantThemes = async () => {
   const themes = await getThemesParSpecialite();
   const user = await currentUser();
-  if (!user || !user.prenom) {
-    return (
-      <main className="w-full h-full flex items-center justify-center">
-        <ClipLoader size={30} className="text-slate-800" />
-      </main>
-    );
+
+  if (!user?.prenom) {
+    redirect("/login");
   }
   if (user.role) {
     redirect(`/u/${user?.prenom}/themes`);
@@ -30,7 +27,7 @@ export const EtudiantThemes = async () => {
     <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
       <main className="flex flex-col gap-y-4 w-full h-full p-6 bg-[#F9FAFC]">
         {!!themes && (
-          <section className="flex flex-col w-full  rounded-sm  h-full p-4 ">
+          <section className="flex flex-col w-full  rounded-sm  h-full p-4 mb-3">
             <ListThemes themes={themes} />
           </section>
         )}

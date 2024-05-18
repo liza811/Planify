@@ -26,7 +26,7 @@ export const Login = async (
   const existingUser = await getUserByEmail(email);
 
   if (!existingUser || !existingUser.email) {
-    return { error: "Email does not exist!" };
+    return { error: "Champs invalides!" };
   }
   if (existingUser.matricule !== password) {
     return { error: "Champs invalides" };
@@ -85,7 +85,7 @@ export const Login = async (
   //   }
   // }
   try {
- await signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
       redirectTo: `/u/${existingUser.prenom}`,

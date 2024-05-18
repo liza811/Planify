@@ -2,6 +2,7 @@ import { Main, Theme } from "@/components/etudiant";
 import { InfoEncadrant } from "@/components/etudiant/encadrant";
 import { NothingFound } from "@/components/nothing-found";
 import { getChoixEnAttente, getEncadrant } from "@/lib/choix";
+import { getConfiguration } from "@/lib/configuration";
 import { currentUser } from "@/lib/current-user";
 
 import { getThemesParSpecialiteNonChoisi } from "@/lib/themes";
@@ -34,7 +35,7 @@ const Intermidiere = async () => {
   if (!!encadrant) {
     return (
       <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
-        <main className="h-[89vh] overflow-y-auto gap-y-5  p-6 bg-[#EFF3FF]">
+        <main className="h-[89vh]  gap-y-5  p-6 bg-[#EFF3FF]">
           <InfoEncadrant encadrant={encadrant} />
         </main>
       </Suspense>
@@ -69,20 +70,25 @@ const Intermidiere = async () => {
         themesWithoutChoix.push(theme);
       }
     }
-
+    const configuration = await getConfiguration();
     return (
       <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
         <main className=" w-full h-full   ">
-          <Main themes={themesWithoutChoix} mesChoix={themesWithChoix} />;
+          <Main
+            themes={themesWithoutChoix}
+            mesChoix={themesWithChoix}
+            configuration={configuration}
+          />
+          ;
         </main>
       </Suspense>
     );
   }
-
+  const configuration = await getConfiguration();
   return (
     <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
       <main className=" w-full h-full  ">
-        {!!themes && <Main themes={themes} />}
+        {!!themes && <Main themes={themes} configuration={configuration} />}
       </main>
     </Suspense>
   );
