@@ -50,7 +50,7 @@ const DashboardPage = async () => {
         >
           Check News!{" "}
         </Typography>
-        <div className="w-full rounded-md bg-[#17203F] h-24 flex items-center mt-3">
+        <div className="w-full rounded-md bg-[#17203F] h-24 flex items-center mt-3 pl-4">
           <Typography
             sx={{
               color: "#FFFFFF",
