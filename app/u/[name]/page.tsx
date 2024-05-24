@@ -10,6 +10,7 @@ import { Box, Typography } from "@mui/material";
 
 import Link from "next/link";
 import { AjouterIndispo } from "@/components/enseignant/ajouter-indispo";
+import Image from "next/image";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -42,34 +43,32 @@ const DashboardPage = async () => {
           sx={{
             color: "#17203F",
             fontFamily: "monospace",
-            mt: 2,
+            mt: 1,
             fontSize: 28,
             textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
           }}
         >
           Check News!{" "}
         </Typography>
-        <div className="flex flex-col gap-y-5 md:gap-y-16 justify-between h-full mt-2">
-          <div className="w-full rounded-md bg-[#17203F] h-24 flex items-center ">
-            <Typography
-              sx={{
-                color: "#FFFFFF",
-                mt: 0,
-                fontSize: 20,
-                mr: 0,
-                marginLeft: 1,
-                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-              }}
-            >
-              Bienvenue sur la platforme de gestion des plannings des
-              soutenances
-            </Typography>
-          </div>
-
-          <div className="flex flex-col gap-y-4 justify-end">
+        <div className="w-full rounded-md bg-[#17203F] h-24 flex items-center mt-3">
+          <Typography
+            sx={{
+              color: "#FFFFFF",
+              mt: 0,
+              fontSize: 20,
+              mr: 0,
+              marginLeft: 1,
+              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+            }}
+          >
+            Bienvenue sur la platforme de gestion des plannings des soutenances
+          </Typography>
+        </div>
+        <div className="flex  w-full  space-y-5 justify-between h-full  md:mt-14">
+          <div className="flex flex-col gap-y-4  w-[50%]">
             <Link
               href={`/u/${user.prenom}/themes`}
-              className="w-[45%] rounded-md bg-[#ADD4FF] h-[80px] flex items-center"
+              className="w-full rounded-md  h-[80px] flex items-center border border-[#93b7dd] shadow-lg hover:shadow-2xl hover:transition-all hover:border-2"
             >
               <Typography
                 sx={{
@@ -90,7 +89,7 @@ const DashboardPage = async () => {
 
             <Link
               href={`/u/${user.prenom}/binomes`}
-              className=" rounded-md bg-[#9b6bdb] h-[80px] flex items-center justify-start w-[45%]"
+              className=" rounded-md  h-[80px] flex items-center justify-start w-full  border border-[#9b6bdb] shadow-lg hover:shadow-2xl hover:transition-all hover:border-2"
             >
               <Typography
                 sx={{
@@ -103,25 +102,17 @@ const DashboardPage = async () => {
                   textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
                 }}
               >
-                Voir mes binoms
+                Voir les binoms
               </Typography>
             </Link>
-
-            {/* <Avatar
-              sx={{
-                mx: "auto",
-                width: 384,
-                height: 380,
-                my: 0.5,
-                mt: 7,
-                mr: 0,
-                ml: 17,
-                transition: "0.25s",
-              }}
-              alt="Remy Sharp"
-              src="https://netcombcc.com/wp-content/uploads/2021/01/Icono-65-1.png"
-              variant="square"
-            ></Avatar> */}
+          </div>
+          <div className="w-[50%] flex justify-center items-center">
+            <Image
+              src={"/schedule.png"}
+              width={450}
+              height={450}
+              alt="calendar"
+            />
           </div>
         </div>
       </Box>

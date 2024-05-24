@@ -16,8 +16,8 @@ export const NothingFound = ({
     <div className="w-full h-full flex flex-col justify-center items-center ">
       <Image
         src={src || "/search-magnifying.png"}
-        height={size || 100}
-        width={size || 100}
+        height={size || 150}
+        width={size || 150}
         alt="nothing-found"
       />
       <h1 className="text-xl md:text-xl text-foreground font-bold p-2">

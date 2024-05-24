@@ -7,7 +7,7 @@ import { getaffectationIds } from "./affectation";
 export const getThemes = async () => {
   const user = await currentUser();
 
-  if (!user) return;
+  if (!user) return null;
   const themes = await db.theme.findMany({
     where: {
       proposerId: user.id,

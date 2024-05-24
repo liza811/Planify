@@ -8,6 +8,7 @@ import { currentUser } from "@/lib/current-user";
 import { getThemesParSpecialiteNonChoisi } from "@/lib/themes";
 import { $Enums } from "@prisma/client";
 import { isBefore, parseISO } from "date-fns";
+import { CircleHelp } from "lucide-react";
 import { redirect } from "next/navigation";
 
 import { Suspense } from "react";
@@ -95,16 +96,22 @@ const Intermidiere = async () => {
     }
 
     return (
-      <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
-        <main className=" w-full h-full   ">
-          <Main
-            themes={themesWithoutChoix}
-            mesChoix={themesWithChoix}
-            configuration={configuration}
-          />
-          ;
-        </main>
-      </Suspense>
+      <main className=" w-full h-full  bg-neutral-100/90  p-6 pt-3 ">
+        {!!configuration && !!configuration.nbChoix && (
+          <div className="flex gap-x-2 items-center w-full justify-end  underline pb-3 pr-[15%]">
+            <CircleHelp className="text-slate-600 w-4 h-4" />
+            <p className="text-sm font-medium">
+              Vous pouvez choisir jusqu&apos;à {configuration.nbChoix} Thèmes.
+            </p>
+          </div>
+        )}
+        <Main
+          themes={themesWithoutChoix}
+          mesChoix={themesWithChoix}
+          configuration={configuration}
+        />
+        ;
+      </main>
     );
   }
 

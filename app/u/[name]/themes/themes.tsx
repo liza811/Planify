@@ -11,7 +11,7 @@ import { currentUser } from "@/lib/current-user";
 import { getSpecialites } from "@/lib/specialite";
 import { getThemes } from "@/lib/themes";
 import { cn } from "@/lib/utils";
-import { Circle, CircleHelp } from "lucide-react";
+import { CircleHelp } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -23,7 +23,7 @@ export const Themes = async () => {
   const themes = await getThemes();
   const configuration = await getConfiguration();
   const user = await currentUser();
-  if (!user) return null;
+  if (!user || !user.prenom) redirect("/login");
   if (!user.role) {
     redirect(`/u/etudiant/${user?.prenom}/themes`);
   }
@@ -70,7 +70,7 @@ export const Themes = async () => {
       </section>
       {!!themes && (
         <section className="flex flex-col w-full  rounded-sm  h-full p-4  px-0">
-          <ListThemes themes={themes} />
+          <ListThemes themes={themes} specialites={specilaites} />
         </section>
       )}
     </main>

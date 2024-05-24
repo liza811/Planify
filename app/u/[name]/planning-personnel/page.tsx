@@ -1,8 +1,8 @@
-import { Planning } from "@/components/enseignant/planning-personnel";
-import { getConfiguration } from "@/lib/configuration";
-import { getPlanning } from "@/lib/planning";
-import { Binomee, Examinateur, President, Sallee, planning } from "@/types";
-import { Configuration } from "@prisma/client";
+import { Binomee, Examinateur, President, Sallee } from "@/types";
+
+import { Suspense } from "react";
+import { Loader } from "../../_components/loader";
+import { PlanningPersonnel } from "./planning-personnel";
 
 export type planningWithDate = {
   salle: Sallee | null;
@@ -13,14 +13,11 @@ export type planningWithDate = {
   id: number;
   president: President | null;
 };
-const PlanningPersonnelPage = async () => {
-  const planning: planning[] | null = await getPlanning();
-  const config: Configuration | null = await getConfiguration();
-
+const PlanningPersonnelPage = () => {
   return (
-    <main className="p-4 w-full h-[88vh] bg-[#F5F4F9] overflow-x-scroll">
-      <Planning planning={planning} config={config} />
-    </main>
+    <Suspense fallback={<Loader />}>
+      <PlanningPersonnel />;
+    </Suspense>
   );
 };
 

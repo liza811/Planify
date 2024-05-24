@@ -105,7 +105,7 @@ export const Main = ({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <main className="flex justify-center  w-full h-full bg-neutral-100/90 gap-x-20 p-6   pb-4  ">
+      <main className="flex justify-center  w-full h-full   pb-4  ">
         <section className="w-full h-full flex justify-center ">
           <Droppable droppableId="THEMES">
             {(provided, snapshot) => (

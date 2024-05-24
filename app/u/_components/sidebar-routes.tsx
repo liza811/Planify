@@ -33,13 +33,13 @@ export const SidebarRoutes = () => {
     {
       icon: Palette,
 
-      label: "Themes",
+      label: "Thèmes",
       href: `/u/${user?.prenom}/themes`,
     },
     {
       icon: DoorOpen,
 
-      label: "Planning personnelle",
+      label: "Planning personnel",
       href: `/u/${user?.prenom}/planning-personnel`,
     },
     {
@@ -53,7 +53,7 @@ export const SidebarRoutes = () => {
     {
       icon: Palette,
 
-      label: "Themes",
+      label: "Thèmes",
       href: `/u/etudiant/${user?.prenom}/themes`,
     },
 
@@ -80,7 +80,7 @@ export const SidebarRoutes = () => {
       icon: CalendarCheck,
 
       label: "Calendrier",
-      href: "/dashboard/Calendrier",
+      href: `/u/${user?.prenom}/calendar`,
     },
   ];
 

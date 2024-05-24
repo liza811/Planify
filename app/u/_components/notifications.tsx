@@ -11,38 +11,73 @@ import useNotificationStore from "@/hooks/useStore";
 import { Notification, NotificationType } from "@prisma/client";
 
 import { Bell, Search, X } from "lucide-react";
+import { pusherClient } from "@/lib/pusher";
 
 interface notificationsProps {
   mesNotifications: Notification[] | null;
 }
 
 export const Notifications = ({ mesNotifications }: notificationsProps) => {
-  const { notifications, neww, setNew } = useNotificationStore();
+  const { notifications, neww, setNew, addNotification } =
+    useNotificationStore();
+
+  const user = useCurrentUser();
   let seen = hasUnseenNotification(mesNotifications);
   const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
 
+  const binomeId: string = user?.id!;
   useEffect(() => {
     setMounted(true);
-  }, []);
+    const handleMessage = (data: Notification) => {
+      addNotification(data);
+      setNew(true);
+    };
+
+    if (user?.id) {
+      pusherClient.subscribe(user.id);
+      pusherClient.bind("valider", handleMessage);
+    }
+
+    if (binomeId) {
+      pusherClient.subscribe(binomeId);
+      pusherClient.bind("choix", handleMessage);
+    }
+
+    // Cleanup
+    return () => {
+      if (user?.id) {
+        pusherClient.unbind("valider", handleMessage);
+        pusherClient.unsubscribe(user.id);
+      }
+      if (binomeId) {
+        pusherClient.unbind("choix", handleMessage);
+        pusherClient.unsubscribe(binomeId);
+      }
+    };
+  }, [addNotification, binomeId, setNew, user?.id]);
+
   const onClick = () => {
     setNew(false);
-    seen === false;
+    seen = true;
 
     markAllSeen().then((data) => {
       if (data.success) {
         setNew(false);
-        seen = false;
+        seen = true;
       }
     });
   };
   if (!mounted) return null;
-
+  const onClose = () => {
+    setOpen((open) => !open);
+  };
   return (
-    <Popover>
-      <PopoverTrigger onClick={onClick}>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger>
         <div className="relative flex flex-row-reverse">
-          <Bell size={27} className="text-primary_purpule " />
-          {neww && (
+          <Bell size={27} className="text-primary_purpule " onClick={onClick} />
+          {(neww === true || seen === false) && (
             <span className="rounded-full  bg-red-500 size-3 z-50 absolute border-[3px] border-white -top-1 " />
           )}
         </div>
@@ -51,7 +86,10 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
         <h2 className="font-bold  border-b p-2 py-4  flex justify-between items-center w-full">
           {"Notifications"}
           <span className="">
-            <X className="font-extrabold cursor-pointer size-4" />
+            <X
+              className="font-extrabold cursor-pointer size-4"
+              onClick={onClose}
+            />
           </span>
         </h2>
         <ScrollArea className=" gap-y-1 w-full h-[60vh]   ">
@@ -74,12 +112,15 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
                       <Bell size={17} className="text-primary_purpule " />
                     </div>
                     <div className="flex flex-1 flex-col gap-y-2 py-3">
-                      <h2 className="text-black font-semibold ">
+                      <h2 className="text-black font-semibold text-sm ">
                         {notification.type === NotificationType.B_TO_B
                           ? "Modifications de choix"
                           : ""}
+                        {notification.type === NotificationType.E_TO_B
+                          ? "Validation de choix"
+                          : ""}
                       </h2>
-                      <p className="text-sm ">{notification.content}</p>
+                      <p className="text-xs ">{notification.content}</p>
                       <span className="text-muted-foreground w-fit text-xs">
                         {getTimeSinceNotification(notification.date)}
                       </span>
@@ -99,12 +140,15 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
                     <Bell size={17} className="text-primary_purpule " />
                   </div>
                   <div className="flex flex-1 flex-col gap-y-2 py-3">
-                    <h2 className="text-black font-semibold ">
+                    <h2 className="text-black font-semibold text-sm ">
                       {notification.type === NotificationType.B_TO_B
                         ? "Modifications de choix"
                         : ""}
+                      {notification.type === NotificationType.E_TO_B
+                        ? "Validation de choix"
+                        : ""}
                     </h2>
-                    <p className="text-sm ">{notification.content}</p>
+                    <p className="text-xs ">{notification.content}</p>
                     <span className="text-muted-foreground w-fit text-xs">
                       {getTimeSinceNotification(notification.date)}
                     </span>
@@ -120,6 +164,7 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
 
 import { differenceInMinutes, differenceInHours, format } from "date-fns";
 import { markAllSeen } from "@/actions/notifications";
+import { useCurrentUser } from "@/hooks/use-current-user";
 export function getTimeSinceNotification(notificationDate: Date): string {
   const now = new Date();
   const minutesDiff = differenceInMinutes(now, notificationDate);
@@ -150,5 +195,9 @@ function hasUnseenNotification(
     return true;
   }
 
-  return mesNotifications.some((notification) => notification.seen === false);
+  if (mesNotifications.some((notification) => notification.seen === false)) {
+    return false;
+  }
+
+  return true;
 }

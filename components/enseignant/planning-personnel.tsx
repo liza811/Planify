@@ -26,7 +26,7 @@ export function hexToRgba(hex: string, opacity: number): string {
 }
 
 interface planningProps {
-  planning: planning[] | null;
+  planning: planning[];
   config: Configuration | null;
 }
 

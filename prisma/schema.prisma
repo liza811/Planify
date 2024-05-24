@@ -21,6 +21,7 @@ enum Grade {
 
 enum NotificationType {
   B_TO_B
+  E_TO_B
 }
 
 enum Visibility {
@@ -133,6 +134,7 @@ model Enseignant {
   soutenancePresiden Soutenance[]   @relation("president")
   Examinateurs       Examinateurs[]
 
+@@unique([departementId,email])
   @@index([email])
 }
 
@@ -143,7 +145,7 @@ model Etudiant {
   email     String @unique
   matricule String
 
-  image String?
+
 
   binome        Binome? @relation(fields: [idBinome], references: [id])
   idBinome      String?
@@ -154,7 +156,8 @@ model Etudiant {
   departement           Departement?           @relation(fields: [departementId], references: [id], onDelete: Cascade)
   twoFactorConfirmation TwoFactorConfirmation?
   Notification          Notification[]
-
+@@unique([departementId,email])
+@@unique([departementId,matricule])
   @@index([email])
 }
 
@@ -290,7 +293,7 @@ model Soutenance {
 
   examinateurs Examinateurs[]
   Planning     Planning?      @relation(fields: [planningId], references: [id], onDelete: Cascade)
-  planningId   Int?
+  planningId   Int
   Binome       Binome?        @relation(fields: [binomeId], references: [id])
   binomeId     String?
 }
@@ -304,4 +307,5 @@ model Planning {
   etat          Visibility
   Departement   Departement? @relation(fields: [departementId], references: [id])
   departementId String?
+  @@unique([departementId,version])
 }

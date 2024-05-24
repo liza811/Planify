@@ -15,7 +15,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Dialog } from "../ui/dialog";
 
 import { logout } from "@/actions/logout";
-import { stringToColor } from "@/lib/utils";
 
 export const UserButton = () => {
   const user = useCurrentUser();
@@ -47,16 +46,11 @@ export const UserButton = () => {
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <p>
-            {user?.nom} {user?.prenom}
+          <p className="capitalize">
+            {user?.nom?.toLowerCase()} {user?.prenom?.toLowerCase()}
           </p>
         </div>
         <DropdownMenuContent className="w-56 mr-2 ">
-          <DropdownMenuLabel className="flex items-center text-[16px]">
-            <Settings className="h-4 w-4 mr-2" /> Settings
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-
           <DropdownMenuItem
             className="text-[15px] flex items-center cursor-pointer"
             onClick={onClick}

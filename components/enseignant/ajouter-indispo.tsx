@@ -2,7 +2,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -10,7 +9,7 @@ import {
 
 import "react-multiple-select-dropdown-lite/dist/index.css";
 
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, CircleHelp } from "lucide-react";
 
 import { Typography } from "@mui/material";
 import { getIndisponibilite } from "@/lib/indisponibilite";
@@ -32,12 +31,10 @@ export const AjouterIndispo = async () => {
 
   const configuration = await getConfiguration();
 
-  // onOpenChange={setClose} open={!close}
-
   return (
     <Dialog>
-      <DialogTrigger className="flex gap-x-2 capitalize">
-        <div className=" rounded-md bg-[#6889FF] h-[80px] flex items-center w-[45%]">
+      <DialogTrigger className="flex gap-x-2 ">
+        <div className=" rounded-md  h-[80px] flex items-center w-full border border-[#6889FF] shadow-lg hover:shadow-2xl hover:border-2 hover:transition-all ">
           <Typography
             sx={{
               color: "#3D007B",
@@ -57,13 +54,14 @@ export const AjouterIndispo = async () => {
       <DialogContent className=" md:w-[450px] w-[350px] p-5  max-h-[95vh]">
         <DialogHeader>
           <DialogTitle className="text-center mb-3">
-            {"Ajouter vos jours d&apos;indisponibilités"}
+            Ajouter vos jours d &apos; indisponibilités
           </DialogTitle>
           <DialogDescription className="w-full">
             {" "}
             <DatePickerWithRange
               dateDebut={configuration?.dateDebut}
               dateFin={configuration?.dateFin}
+              nbDateIndispo={configuration?.nbDateIndispo}
             />
           </DialogDescription>
         </DialogHeader>
@@ -95,6 +93,12 @@ export const AjouterIndispo = async () => {
 
             <ResetButton />
           </div>
+        )}
+        {!!configuration && configuration.nbDateIndispo && (
+          <span className="flex gap-x-2 text-slate-700  text-sm">
+            <CircleHelp className="size-5" />
+            {` Vous ne pouvez pas déclarer plus de ${configuration.nbDateIndispo} jours d'indisponibilitées.`}
+          </span>
         )}
       </DialogContent>
     </Dialog>

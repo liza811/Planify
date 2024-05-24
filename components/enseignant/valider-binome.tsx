@@ -11,7 +11,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { ClipLoader } from "react-spinners";
@@ -24,6 +24,7 @@ interface DeleteThemeProp {
 
 export function ValiderBinome({ binomeId, themeId }: DeleteThemeProp) {
   const [isPending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
   const onClick = (themeId: string, binomeId: string) => {
     startTransition(() => {
       validerBinome(binomeId, themeId).then((data) => {
@@ -33,14 +34,15 @@ export function ValiderBinome({ binomeId, themeId }: DeleteThemeProp) {
         if (data.error) {
           toast.success(data.error);
         }
+        setOpen((open) => !open);
       });
     });
   };
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button
-          className="text-sm bg-[#33D69F1A] text-[#33D69F] hover:bg-[#33D69FBB] hover:text-white "
+          className="text-sm bg-primary_blue/80 text-white hover:bg-primary_blue hover:text-white "
           size={"sm"}
         >
           valider

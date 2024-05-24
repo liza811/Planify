@@ -27,7 +27,7 @@ export const ThemeItem = ({
   const bg = stringToColor(nom);
   // const bgSpecialite = stringToColor(specialite || "");
   return (
-    <div className=" flex flex-col bg-white shadow-md rounded-sm justify-between group hover:opacity-90 scale-103 transition duration-200 ease-in-out">
+    <div className=" flex flex-col bg-white shadow-md rounded-sm justify-between group  scale-103 transition duration-200 ease-in-out">
       <div>
         <div className="w-full h-1 rounded-t-sm" style={{ background: bg }} />
         <div className="flex justify-between w-full p-2 gap-x-1 gap-y-3">

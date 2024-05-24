@@ -1,9 +1,8 @@
 import * as z from "zod";
 
 const itemSchema = z.object({
-  label: z.string(), // Assuming item id is a string
-  value: z.string(), // Assuming item name is a string
-  // Add more properties as needed
+  label: z.string(),
+  value: z.string(),
 });
 export const themeSchema = z.object({
   theme: z.string().min(1, {

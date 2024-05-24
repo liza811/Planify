@@ -18,12 +18,14 @@ interface EncadrantProps {
   attenteListe?: Theme;
   validatedList?: affectations;
   isValidated?: boolean;
+  nbEncadrement?: number | null;
 }
 
 export function Encadrant({
   attenteListe,
   isValidated,
   validatedList,
+  nbEncadrement,
 }: EncadrantProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -55,13 +57,16 @@ export function Encadrant({
             >
               <div className="flex flex-col   gap-y-2">
                 {b.binome.etudiants.map((e) => (
-                  <div key={e.nom} className="flex gap-x-4 items-center ">
+                  <div
+                    key={e.nom}
+                    className="flex gap-x-4 items-center  lowercase"
+                  >
                     <p>
                       {e.nom} {e.prenom}
                     </p>
                     <p
                       className={cn(
-                        "text-sm font-semibold rounded-lg px-2 py-0 text-black "
+                        "text-sm font-semibold rounded-md px-2 py-0 text-black "
                       )}
                       style={{
                         color: `${stringToColor(e.specialite?.nom || "")}`,
@@ -76,8 +81,16 @@ export function Encadrant({
                   </div>
                 ))}
               </div>
-
-              <ValiderBinome binomeId={b.binomeId} themeId={attenteListe.id} />
+              {!!validatedList &&
+              !!nbEncadrement &&
+              validatedList.Binome.etudiants.length < nbEncadrement ? (
+                ""
+              ) : (
+                <ValiderBinome
+                  binomeId={b.binomeId}
+                  themeId={attenteListe.id}
+                />
+              )}
             </div>
           ))}
 

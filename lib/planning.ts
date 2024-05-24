@@ -1,20 +1,29 @@
+import { Visibility } from "@prisma/client";
 import { currentUser } from "./current-user";
 import { db } from "./db";
 
-export const getPlanning = async () => {
+export const getPlanningPersonnel = async () => {
   const user = await currentUser();
   if (!user) {
     return null;
   }
   const mostRecentPlanning = await db.planning.findFirst({
-    where: { departementId: user?.departementId },
+    where: {
+      AND: [
+        { departementId: user?.departementId },
+        { etat: Visibility.VISIBLE },
+      ],
+    },
     orderBy: {
       createdAt: "desc",
     },
   });
+  if (!mostRecentPlanning) {
+    return null;
+  }
   const planning = await db.soutenance.findMany({
     where: {
-      planningId: mostRecentPlanning?.id,
+      planningId: mostRecentPlanning.id,
       OR: [
         {
           presidentId: user?.id,
@@ -34,6 +43,88 @@ export const getPlanning = async () => {
           },
         },
       ],
+    },
+    select: {
+      id: true,
+      date: true,
+      heure: true,
+      Binome: {
+        select: {
+          etudiants: {
+            select: {
+              nom: true,
+              prenom: true,
+            },
+          },
+          Affectation: {
+            select: {
+              Theme: {
+                select: {
+                  nom: true,
+                },
+              },
+              encadrent: {
+                select: {
+                  nom: true,
+                  prenom: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      salle: {
+        select: {
+          bloc: true,
+          numero: true,
+        },
+      },
+      president: {
+        select: {
+          nom: true,
+          prenom: true,
+        },
+      },
+      examinateurs: {
+        select: {
+          enseignant: {
+            select: {
+              nom: true,
+              prenom: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      date: "asc",
+    },
+  });
+  return planning;
+};
+
+export const getPlanning = async () => {
+  const user = await currentUser();
+  if (!user) {
+    return null;
+  }
+  const mostRecentPlanning = await db.planning.findFirst({
+    where: {
+      AND: [
+        { departementId: user?.departementId },
+        { etat: Visibility.VISIBLE },
+      ],
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  if (!mostRecentPlanning) {
+    return null;
+  }
+  const planning = await db.soutenance.findMany({
+    where: {
+      planningId: mostRecentPlanning.id,
     },
     select: {
       id: true,

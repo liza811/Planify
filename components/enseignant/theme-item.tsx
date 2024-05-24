@@ -2,25 +2,28 @@ import { stringToColor } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { Calendar, Edit } from "lucide-react";
 import { DeleteTheme } from "./delete-theme";
+import { EditTheme } from "./edit-theme";
 
-interface Speciality {
+export interface Speciality {
   specialite: {
     nom: string;
   };
 }
 
-type ThemeSpecialites = Speciality[];
+export type ThemeSpecialites = Speciality[];
 interface ThemeItemProps {
   nom: string;
   id: string;
   createdAt: Date;
   specialite: ThemeSpecialites;
+  allSpecialites: { nom: string }[] | null;
 }
 export const ThemeItem = ({
   nom,
   createdAt,
   specialite,
   id,
+  allSpecialites,
 }: ThemeItemProps) => {
   const bg = stringToColor(nom);
   // const bgSpecialite = stringToColor(specialite || "");
@@ -40,7 +43,12 @@ export const ThemeItem = ({
             ))}
           </div>
           <div className=" text-slate-700 flex opacity-0 group-hover:opacity-100 transition-all gap-x-2">
-            <Edit className=" w-5 h-5 cursor-pointer" />
+            <EditTheme
+              specialites={specialite}
+              nom={nom}
+              allSpecialites={allSpecialites}
+              themeId={id}
+            />
             <DeleteTheme themeId={id} />
           </div>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { format } from "date-fns";
+import { differenceInDays, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
 
@@ -21,12 +21,14 @@ export interface configurationInterface {
   className?: React.HTMLAttributes<HTMLDivElement>;
   dateDebut: Date | undefined;
   dateFin: Date | undefined;
+  nbDateIndispo: number | undefined | null;
 }
 
 export function DatePickerWithRange({
   className,
   dateDebut,
   dateFin,
+  nbDateIndispo,
 }: configurationInterface) {
   const [date, setDate] = useState<DateRange | undefined>({
     // from: new Date(2022, 0, 20),
@@ -37,19 +39,30 @@ export function DatePickerWithRange({
   const [isPending, startTransition] = useTransition();
 
   const onClick = () => {
-    startTransition(() => {
-      AddIndisponibilite(
-        date?.from?.toLocaleDateString(),
-        date?.to?.toLocaleDateString() || date?.from?.toLocaleDateString()
-      ).then((data) => {
-        if (data?.success) {
-          toast.success(data.success);
-        }
-        if (data?.error) {
-          toast.error(data.error);
-        }
-      });
-    });
+    if (date?.to && date?.from) {
+      const daysDifference = differenceInDays(date.to, date.from);
+      if (nbDateIndispo && daysDifference + 1 > nbDateIndispo) {
+        toast.error(
+          ` Vous ne pouvez pas déclarer plus de ${nbDateIndispo} jours d'indisponibilitées`
+        );
+      } else {
+        startTransition(() => {
+          AddIndisponibilite(
+            date?.from?.toLocaleDateString(),
+            date?.to?.toLocaleDateString() || date?.from?.toLocaleDateString()
+          ).then((data) => {
+            if (data?.success) {
+              toast.success(data.success);
+            }
+            if (data?.error) {
+              toast.error(data.error);
+            }
+          });
+        });
+      }
+    } else {
+      toast.error(` Vous devez choisir une période d'abord`);
+    }
   };
   return (
     <div className={cn("grid gap-2 w-full", className)}>
@@ -85,6 +98,12 @@ export function DatePickerWithRange({
             defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}
+            disabled={
+              dateDebut && dateFin
+                ? (date) =>
+                    date < new Date(dateDebut) || date > new Date(dateFin)
+                : () => false
+            }
             numberOfMonths={1}
           />
         </PopoverContent>

@@ -51,6 +51,57 @@ export const ajouterTheme = async (specialites: string[], theme: string) => {
   return { success: "Thème inséré!" };
 };
 
+export const updateTheme = async (
+  specialites: string[] | undefined,
+  theme: string,
+  themeId: string
+) => {
+  const user = await currentUser();
+  if (!user) {
+    return { error: "Unauthorized" };
+  }
+  if (!specialites || specialites.length === 0) {
+    return {
+      error: "Vous devez choisir au moins une spécialité pour le thème.",
+    };
+  }
+
+  // retourner les specialitees
+  const specialities = await db.specialite.findMany({
+    where: {
+      nom: {
+        in: specialites,
+      },
+    },
+  });
+
+  if (!specialities) {
+    return { error: "Domaine est obligatoire" };
+  }
+  await db.themeSpecialite.deleteMany({
+    where: {
+      themeId: themeId,
+    },
+  });
+  await db.theme.update({
+    where: {
+      id: themeId,
+    },
+    data: {
+      nom: theme,
+
+      themeSpecialites: {
+        create: specialities.map((spe) => ({
+          specialiteId: spe.id,
+        })),
+      },
+    },
+  });
+
+  revalidatePath(`/u/${user.name}/themes`);
+  return { success: "Modifications insérées!" };
+};
+
 export const getSpecialite = async (specialite: string) => {
   const user = await currentUser();
 

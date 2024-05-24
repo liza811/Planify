@@ -35,7 +35,8 @@ import { Input } from "../ui/input";
 export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
   const [isPending, startTransition] = useTransition();
   const [isMounted, setIsMounted] = useState(false);
-  const [close, setClose] = useState(false);
+
+  const [open, setOpen] = useState(false);
 
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [valuesToSubmit, setValuesToSubmit] = useState<string[]>([]);
@@ -54,11 +55,11 @@ export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
   });
 
   const onClose = () => {
-    setClose(!close);
+    setOpen((open) => !open);
   };
   const onSubmit = (values: z.infer<typeof binomeSchema>) => {
     startTransition(() => {
-      ajouterBinome(values)
+      ajouterBinome(values, valuesToSubmit)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
@@ -70,6 +71,7 @@ export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
           }
         })
         .catch(() => toast.error("Something went wrong!"));
+      setOpen((open) => !open);
     });
 
     form.reset();
@@ -95,7 +97,7 @@ export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
   }, []);
   if (!isMounted) return null;
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="flex gap-x-2 capitalize">
         <Button>
           <PlusCircleIcon className="h-5 w-5 mr-2 " />
@@ -184,7 +186,7 @@ export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
                 type="submit"
                 variant={"primary"}
                 name="saves"
-                className="bg-bluesec"
+                className="bg-primary_blue"
               >
                 Enregistrer
               </Button>

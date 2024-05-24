@@ -1,6 +1,8 @@
+import { spec } from "node:test/reporters";
 import { ThemeItem } from "./theme-item";
 
 interface ThemeWithSpecialities {
+  specialites: { nom: string }[] | null;
   themes: {
     id: string;
     nom: string;
@@ -13,7 +15,7 @@ interface ThemeWithSpecialities {
   }[];
 }
 
-export const ListThemes = ({ themes }: ThemeWithSpecialities) => {
+export const ListThemes = ({ themes, specialites }: ThemeWithSpecialities) => {
   return (
     <div>
       {!!themes && (
@@ -25,6 +27,7 @@ export const ListThemes = ({ themes }: ThemeWithSpecialities) => {
               id={theme.id}
               createdAt={theme.createdAt}
               specialite={theme.themeSpecialites}
+              allSpecialites={specialites}
             />
           ))}
         </div>

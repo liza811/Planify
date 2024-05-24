@@ -2,9 +2,10 @@
 import { currentUser } from "@/lib/current-user";
 import { db } from "@/lib/db";
 import { binomeSchema } from "@/schemas";
-import { Etat } from "@prisma/client";
+import { Etat, NotificationType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { pusherServer } from "@/lib/pusher";
 
 export const validerBinome = async (binomeId: string, themeId: string) => {
   const user = await currentUser();
@@ -23,11 +24,22 @@ export const validerBinome = async (binomeId: string, themeId: string) => {
     return { success: "Binome déjà affecté à un autre thème!" };
   }
 
-  await db.affectation.create({
+  const aff = await db.affectation.create({
     data: {
       idBinome: binomeId,
       themeId: themeId,
       encadrantId: user.id,
+    },
+    select: {
+      Binome: {
+        select: {
+          etudiants: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
     },
   });
   await db.choisirTheme.updateMany({
@@ -47,11 +59,45 @@ export const validerBinome = async (binomeId: string, themeId: string) => {
       etat: Etat.VALIDE,
     },
   });
+  if (aff && binomeId) {
+    const content = `${user.nom} ${user.prenom} a validé votre choix`;
+    if (aff.Binome.etudiants[0]?.id) {
+      const notifs = await db.notification.create({
+        data: {
+          content: content,
+          to: { connect: { id: aff.Binome.etudiants[0]?.id } },
+          type: NotificationType.E_TO_B,
+        },
+      });
+      await pusherServer.trigger(
+        aff.Binome.etudiants[0]?.id,
+        "valider",
+        notifs
+      );
+    }
+    if (aff.Binome.etudiants[1]?.id) {
+      const notifs = await db.notification.create({
+        data: {
+          content: content,
+          to: { connect: { id: aff.Binome.etudiants[1]?.id } },
+          type: NotificationType.E_TO_B,
+        },
+      });
+      await pusherServer.trigger(
+        aff.Binome.etudiants[1]?.id,
+        "valider",
+        notifs
+      );
+    }
+  }
   revalidatePath(`/u/${user.name}/binomes`);
   return { success: "Modifications enregistrées!" };
 };
 
-export const ajouterBinome = async (values: z.infer<typeof binomeSchema>) => {
+export const ajouterBinome = async (
+  values: z.infer<typeof binomeSchema>,
+  specialites: string[]
+) => {
   const user = await currentUser();
   if (!user) {
     return { error: "Unauthorized" };
@@ -60,13 +106,13 @@ export const ajouterBinome = async (values: z.infer<typeof binomeSchema>) => {
   if (!validatedFields.success) {
     return { error: "Champs invalides" };
   }
-  const { email, items, theme } = validatedFields.data;
+  const { email, theme } = validatedFields.data;
 
   const binomeId = await db.binome.findFirst({
     where: {
       etudiants: {
         some: {
-          email,
+          email: email.trim(),
         },
       },
     },
@@ -90,7 +136,7 @@ export const ajouterBinome = async (values: z.infer<typeof binomeSchema>) => {
   const specialities = await db.specialite.findMany({
     where: {
       nom: {
-        in: items.map((spe) => spe.label),
+        in: specialites,
       },
     },
   });
@@ -122,5 +168,5 @@ export const ajouterBinome = async (values: z.infer<typeof binomeSchema>) => {
     },
   });
   revalidatePath(`/u/${user.name}/binomes`);
-  return { success: "Thème inséré!" };
+  return { success: "Affectation inséré!" };
 };

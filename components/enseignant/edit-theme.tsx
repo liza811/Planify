@@ -12,7 +12,7 @@ import {
 import MultiSelect from "react-multiple-select-dropdown-lite";
 import "react-multiple-select-dropdown-lite/dist/index.css";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { themeSchema } from "@/schemas";
+
 import {
   Form,
   FormControl,
@@ -26,33 +26,55 @@ import { Button } from "../ui/button";
 import { useEffect, useState, useTransition } from "react";
 
 import { toast } from "sonner";
-import { AjouterModelProps } from "@/app/u/[name]/themes/page";
-import { Textarea } from "../ui/textarea";
-import { PlusCircleIcon } from "lucide-react";
-import { ajouterTheme } from "@/actions/theme";
 
-export const AjouterThemes = ({
+import { Textarea } from "../ui/textarea";
+import { Edit, X } from "lucide-react";
+import { updateTheme } from "@/actions/theme";
+import { ThemeSpecialites } from "./theme-item";
+import { themeSchema } from "@/schemas";
+
+interface EditThemeProps {
+  themeId: string;
+  specialites: ThemeSpecialites;
+  nom: string;
+  allSpecialites: { nom: string }[] | null;
+}
+interface Option {
+  label: string;
+  value: string; // Assuming filteredList contains strings
+}
+export const EditTheme = ({
   specialites,
-  nbTheme,
-  nbPropose,
-}: AjouterModelProps) => {
-  const disable =
-    !!nbPropose && !!nbTheme && nbPropose >= nbTheme ? true : false;
+  nom,
+  allSpecialites,
+  themeId,
+}: EditThemeProps) => {
   const [isPending, startTransition] = useTransition();
   const [isMounted, setIsMounted] = useState(false);
   const [open, setOpen] = useState(false);
 
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
-  const [valuesToSubmit, setValuesToSubmit] = useState<string[]>([]);
-  const options = specialites?.map((item) => ({
-    label: item.nom,
-    value: item.nom,
-  }));
+  const [options, setOptions] = useState<Option[]>([]);
 
+  const allSpecialitesNames: string[] =
+    allSpecialites?.map((item) => item?.nom) || [];
+  const themeSpecialitesNames: string[] = specialites.map(
+    (s) => s.specialite.nom
+  );
+  const [autre, setAutre] = useState<string[]>(themeSpecialitesNames);
+  const filteredList = allSpecialitesNames.filter(
+    (element) => !themeSpecialitesNames.includes(element)
+  );
+
+  //   const options = filteredList?.map((item) => ({
+  //     label: item,
+  //     value: item,
+  //   }));
+  const [valuesToSubmit, setValuesToSubmit] = useState<string[]>();
   const form = useForm<z.infer<typeof themeSchema>>({
     resolver: zodResolver(themeSchema),
     defaultValues: {
-      theme: "",
+      theme: nom || "",
       items: [],
     },
   });
@@ -60,8 +82,10 @@ export const AjouterThemes = ({
     setOpen((open) => !open);
   };
   const onSubmit = (values: z.infer<typeof themeSchema>) => {
+    const allValues = selectedValues.concat(autre);
+    setValuesToSubmit(allValues);
     startTransition(() => {
-      ajouterTheme(valuesToSubmit, values.theme)
+      updateTheme(valuesToSubmit, values.theme, themeId)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
@@ -79,8 +103,21 @@ export const AjouterThemes = ({
     form.reset();
   };
   useEffect(() => {
-    // Update the values to submit whenever selectedValues changes
-    setValuesToSubmit(selectedValues);
+    setIsMounted(true);
+
+    if (filteredList) {
+      const newOptions = filteredList.map((item) => ({
+        label: item,
+        value: item,
+      }));
+      setOptions(newOptions);
+    } else {
+      setOptions([]);
+    }
+    const allValues = selectedValues.concat(autre);
+    setValuesToSubmit(allValues);
+
+    // setValuesToSubmit(selectedValues);
   }, [selectedValues]);
 
   const handleOnChange = (selectedListString: string) => {
@@ -94,18 +131,23 @@ export const AjouterThemes = ({
     setSelectedValues(newSelectedValues);
   };
 
-  // onOpenChange={setClose} open={!close}
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const handleSpecialiteClick = (specialite: string) => {
+    setAutre((prevAutre) => prevAutre.filter((item) => item !== specialite));
+    const existingOption = options.find(
+      (option) => option.label === specialite
+    );
+
+    if (!existingOption) {
+      const newOption = { label: specialite, value: specialite };
+      setOptions((prevOptions) => [...prevOptions, newOption]);
+    }
+  };
+
   if (!isMounted) return null;
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="flex gap-x-2 capitalize">
-        <Button disabled={disable}>
-          <PlusCircleIcon className="h-5 w-5 mr-2 " />
-          Ajouter un thème
-        </Button>
+        <Edit className=" w-5 h-5 cursor-pointer" />
       </DialogTrigger>
 
       <DialogContent className=" md:w-[450px] w-[350px] p-5  max-h-[95vh]">
@@ -127,15 +169,29 @@ export const AjouterThemes = ({
                       placeholder="Description du thème"
                       className="resize-none focus-visible:none"
                       {...field}
+                      defaultValue={nom || ""}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
+            <div className="flex gap-x-1.5">
+              {autre?.map((i) => (
+                <p
+                  className="font-medium text-sm rounded-md py-1 px-1.5 bg-slate-100 flex justify-between items-center gap-x-3"
+                  key={i}
+                >
+                  {i}
+                  <X
+                    className=" size-4  rounded-full  bg-slate-200 text-slate-600 font-extralight cursor-pointer"
+                    onClick={() => handleSpecialiteClick(i)}
+                  />
+                </p>
+              ))}
+            </div>
             <div className=" w-full">
-              {!!specialites && (
+              {!!allSpecialites && (
                 <FormField
                   control={form.control}
                   name="items"

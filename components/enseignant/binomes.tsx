@@ -14,6 +14,8 @@ import { stringToColor } from "@/lib/utils";
 import Image from "next/image";
 import { AjouterBinome } from "./ajouter-binome";
 import { getSpecialites } from "@/lib/specialite";
+import { getConfiguration } from "@/lib/configuration";
+import { CircleHelp } from "lucide-react";
 interface BinomesInterface {
   validatedList: affectations[];
   attenteListe: Theme[];
@@ -24,6 +26,7 @@ export async function Binomes({
   attenteListe,
 }: BinomesInterface) {
   const specilaites = await getSpecialites();
+  const configuration = await getConfiguration();
   return (
     <Tabs defaultValue="ATTENTE" className="w-full h-full">
       <TabsList className="grid w-full grid-cols-2">
@@ -60,7 +63,10 @@ export async function Binomes({
                   style={{ border: `1px solid ${stringToColor(list.nom)}` }}
                 >
                   <p>{list.nom}</p>
-                  <Encadrant attenteListe={list} />
+                  <Encadrant
+                    attenteListe={list}
+                    nbEncadrement={configuration?.nbEncadrement}
+                  />
                 </div>
               ))}
           </CardContent>
@@ -72,10 +78,21 @@ export async function Binomes({
             <div className="flex justify-between items-center">
               {" "}
               <CardTitle className="text-[18px]">Binomes validés</CardTitle>
-              <AjouterBinome specialites={specilaites} />
+              {!!validatedList &&
+                !!configuration?.nbEncadrement &&
+                validatedList.length < configuration.nbEncadrement && (
+                  <AjouterBinome specialites={specilaites} />
+                )}
             </div>
             <CardDescription>
               Consultez les binômes approuvés par vous pour travailler ensemble.
+              <br />
+              {!!configuration && configuration.nbEncadrement && (
+                <span className="flex gap-x-2 text-slate-700 pt-2 items-center">
+                  <CircleHelp className="size-4" />
+                  {`Vous pouvez avoir jusqu'à ${configuration.nbEncadrement} Encadrement.`}
+                </span>
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 h-full ">
