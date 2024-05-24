@@ -42,7 +42,7 @@ const DashboardPage = async () => {
         <Typography
           sx={{
             color: "#17203F",
-            fontFamily: "monospace",
+        
             mt: 1,
             fontSize: 28,
             textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
