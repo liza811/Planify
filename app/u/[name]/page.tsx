@@ -50,7 +50,7 @@ const DashboardPage = async () => {
         >
           Check News!{" "}
         </Typography>
-        <div className="w-full rounded-md bg-[#17203F] h-24 flex items-center mt-3">
+        <div className="w-full rounded-md bg-[#17203F] h-24 flex items-center mt-3 pl-3 justify-between overflow-hidden">
           <Typography
             sx={{
               color: "#FFFFFF",
@@ -63,9 +63,32 @@ const DashboardPage = async () => {
           >
             Bienvenue sur la platforme de gestion des plannings des soutenances
           </Typography>
+          <div className="flex">
+            <Image
+              src={"/avatar1.jpg"}
+              width={110}
+              height={110}
+              alt="avatar"
+              className="rounded-full"
+            />
+            <Image
+              src={"/avatar2.png"}
+              width={100}
+              height={100}
+              alt="avatar"
+              className="rounded-full -ml-14"
+            />
+            <Image
+              src={"/avatar3.png"}
+              width={100}
+              height={100}
+              alt="avatar"
+              className="rounded-full -ml-14"
+            />
+          </div>
         </div>
         <div className="flex  w-full  space-y-5 justify-between h-full  md:mt-14">
-          <div className="flex flex-col gap-y-4  w-[50%]">
+          <div className="flex flex-col gap-y-4  w-[55%] justify-center">
             <Link
               href={`/u/${user.prenom}/themes`}
               className="w-full rounded-md  h-[80px] flex items-center border border-[#93b7dd] shadow-lg hover:shadow-2xl hover:transition-all hover:border-2"
@@ -109,8 +132,8 @@ const DashboardPage = async () => {
           <div className="w-[50%] flex justify-center items-center">
             <Image
               src={"/schedule.png"}
-              width={450}
-              height={450}
+              width={470}
+              height={470}
               alt="calendar"
             />
           </div>
