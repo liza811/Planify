@@ -14,7 +14,7 @@ export interface ExtendedTheme extends Theme {
 const ChoixPage = () => {
   return (
     <Suspense fallback={<Loader />}>
-      <Intermidiere />;
+      <Intermidiere />
     </Suspense>
   );
 };

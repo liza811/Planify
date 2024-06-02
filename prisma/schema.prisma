@@ -22,6 +22,7 @@ enum Grade {
 enum NotificationType {
   B_TO_B
   E_TO_B
+  ADMIN_TO_USERS
 }
 
 enum Visibility {
@@ -49,6 +50,7 @@ model Departement {
   planning    Planning[]
 
   configuration Configuration? @relation()
+  Notification  Notification[]
 }
 
 model Admin {
@@ -99,13 +101,11 @@ model Configuration {
   heureFin   String
   duree      String
 
-dateFinChoix  DateTime?
-nbTheme Int?
-nbChoix Int?
-nbEncadrement Int?
-nbDateIndispo Int?
-
-
+  dateFinChoix  DateTime?
+  nbTheme       Int?
+  nbChoix       Int?
+  nbEncadrement Int?
+  nbDateIndispo Int?
 
   departementId String       @unique
   departement   Departement? @relation(fields: [departementId], references: [id])
@@ -134,7 +134,7 @@ model Enseignant {
   soutenancePresiden Soutenance[]   @relation("president")
   Examinateurs       Examinateurs[]
 
-@@unique([departementId,email])
+  @@unique([departementId, email])
   @@index([email])
 }
 
@@ -145,8 +145,6 @@ model Etudiant {
   email     String @unique
   matricule String
 
-
-
   binome        Binome? @relation(fields: [idBinome], references: [id])
   idBinome      String?
   specialiteId  String
@@ -156,8 +154,9 @@ model Etudiant {
   departement           Departement?           @relation(fields: [departementId], references: [id], onDelete: Cascade)
   twoFactorConfirmation TwoFactorConfirmation?
   Notification          Notification[]
-@@unique([departementId,email])
-@@unique([departementId,matricule])
+
+  @@unique([departementId, email])
+  // @@unique([departementId, matricule])
   @@index([email])
 }
 
@@ -275,9 +274,11 @@ model Notification {
   date    DateTime @default(now())
   seen    Boolean  @default(false)
 
-  to   Etudiant         @relation(fields: [toId], references: [id], onDelete: Cascade)
-  toId String
-  type NotificationType
+  to     Etudiant?        @relation(fields: [toId], references: [id], onDelete: Cascade)
+  toId   String?
+  from   Departement?     @relation(fields: [fromId], references: [id], onDelete: Cascade)
+  fromId String?
+  type   NotificationType
 }
 
 model Soutenance {
@@ -307,5 +308,6 @@ model Planning {
   etat          Visibility
   Departement   Departement? @relation(fields: [departementId], references: [id])
   departementId String?
-  @@unique([departementId,version])
+
+  @@unique([departementId, version])
 }

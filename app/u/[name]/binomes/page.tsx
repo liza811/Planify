@@ -45,7 +45,7 @@ export interface affectations {
 const BinomePage = () => {
   return (
     <Suspense fallback={<Loader />}>
-      <Binome />;
+      <Binome />
     </Suspense>
   );
 };

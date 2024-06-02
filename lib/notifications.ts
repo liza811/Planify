@@ -7,7 +7,7 @@ export const getNotificationsByUser = async () => {
 
   const notifications = await db.notification.findMany({
     where: {
-      toId: user.id,
+      OR: [{ toId: user.id }, { fromId: user.departementId }],
     },
     orderBy: {
       date: "desc",

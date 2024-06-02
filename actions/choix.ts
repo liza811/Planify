@@ -68,7 +68,6 @@ export const validerChoix = async (themesId: string[]) => {
     //revalidatePath(`/u/etudiant/${user.name}/meschoix`);
     return { success: "Vos Choix sont enregistrés!" };
   } catch (e) {
-    console.error(e);
     return { error: "Veuillez réessayer" };
   }
 };

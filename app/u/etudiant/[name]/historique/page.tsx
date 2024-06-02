@@ -13,7 +13,7 @@ export interface ExtendedTheme extends Theme {
 const HitoriquePage = () => {
   return (
     <Suspense fallback={<Loader />}>
-      <Historique />;
+      <Historique />
     </Suspense>
   );
 };

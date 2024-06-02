@@ -16,7 +16,7 @@ export type planningWithDate = {
 const PlanningPersonnelPage = () => {
   return (
     <Suspense fallback={<Loader />}>
-      <PlanningPersonnel />;
+      <PlanningPersonnel />
     </Suspense>
   );
 };

@@ -43,7 +43,10 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
       pusherClient.subscribe(binomeId);
       pusherClient.bind("choix", handleMessage);
     }
-
+    if (user?.departementId) {
+      pusherClient.subscribe(user?.departementId);
+      pusherClient.bind("planning", handleMessage);
+    }
     // Cleanup
     return () => {
       if (user?.id) {
@@ -54,8 +57,12 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
         pusherClient.unbind("choix", handleMessage);
         pusherClient.unsubscribe(binomeId);
       }
+      if (user?.departementId) {
+        pusherClient.unbind("planning", handleMessage);
+        pusherClient.unsubscribe(user?.departementId);
+      }
     };
-  }, [addNotification, binomeId, setNew, user?.id]);
+  }, [addNotification, binomeId, setNew, user?.departementId, user?.id]);
 
   const onClick = () => {
     setNew(false);
@@ -108,7 +115,7 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
                     className="flex w-full  gap-x-2 bg-white rounded-md b relative "
                   >
                     <div className="bg-primary_purpule w-[4px] h-full  overflow-hidden rounded-md absolute left-0 top-0" />
-                    <div className="bg-neutral-100    rounded-full flex justify-center items-center p-2 h-fit mt-4">
+                    <div className="bg-neutral-100    rounded-full flex justify-center items-center p-2 h-fit mt-4  ml-4">
                       <Bell size={17} className="text-primary_purpule " />
                     </div>
                     <div className="flex flex-1 flex-col gap-y-2 py-3">
@@ -118,6 +125,9 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
                           : ""}
                         {notification.type === NotificationType.E_TO_B
                           ? "Validation de choix"
+                          : ""}
+                        {notification.type === NotificationType.ADMIN_TO_USERS
+                          ? "Planning des soutenances"
                           : ""}
                       </h2>
                       <p className="text-xs ">{notification.content}</p>
@@ -146,6 +156,9 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
                         : ""}
                       {notification.type === NotificationType.E_TO_B
                         ? "Validation de choix"
+                        : ""}
+                      {notification.type === NotificationType.ADMIN_TO_USERS
+                        ? "Planning des soutenances"
                         : ""}
                     </h2>
                     <p className="text-xs ">{notification.content}</p>

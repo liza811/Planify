@@ -1,14 +1,15 @@
+import { Notification } from "@prisma/client";
 import state from "pusher-js/types/src/core/http/state";
 import { create } from "zustand";
 
-interface Notification {
-  id: string;
-  content: string;
-  date: Date;
-  seen: boolean;
-  toId: string;
-  type: string;
-}
+// interface Notification {
+//   id: string;
+//   content: string;
+//   date: Date;
+//   seen: boolean;
+//   toId: string;
+//   type: string;
+// }
 
 interface NotificationState {
   neww: boolean;

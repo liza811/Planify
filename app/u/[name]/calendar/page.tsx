@@ -6,7 +6,7 @@ import { Calendar } from "./calendar";
 const ThemesPage = () => {
   return (
     <Suspense fallback={<Loader />}>
-      <Calendar />;
+      <Calendar />
     </Suspense>
   );
 };

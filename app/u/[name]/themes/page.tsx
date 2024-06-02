@@ -10,7 +10,7 @@ export interface AjouterModelProps {
 const ThemesPage = () => {
   return (
     <Suspense fallback={<Loader />}>
-      <Themes />;
+      <Themes />
     </Suspense>
   );
 };

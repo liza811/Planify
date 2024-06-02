@@ -16,7 +16,7 @@ export interface MemberIdPageProps {
 const MessageriePage = async ({ searchParams, params }: MemberIdPageProps) => {
   return (
     <Suspense fallback={<Loader />}>
-      <Messagerie searchParams={searchParams} params={params} />;
+      <Messagerie searchParams={searchParams} params={params} />
     </Suspense>
   );
 };

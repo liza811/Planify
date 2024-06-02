@@ -12,21 +12,21 @@ export const font = PT_Serif({
 export const Logo = async () => {
   const user = await currentUser();
   return (
-    <Link className="flex  items-center " href={`/u/${user?.prenom}`}>
+    <Link className="flex justify-start -ml-12  -mt-8 " href={"/dashboard"}>
       <Image
-        src={"/cypresslogo.svg"}
+        src={"/1000139820-re.png"}
         alt="cypress Logo"
-        width={35}
-        height={35}
+        width={210}
+        height={210}
       />
-      <span
+      {/* <span
         className={cn(
           "font-bold dark:text-white  text-3xl first-letter:ml-2 text-white",
           font.className
         )}
       >
         Plan
-      </span>
+      </span> */}
     </Link>
   );
 };
