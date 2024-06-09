@@ -206,7 +206,7 @@ export const Planning = ({ config, planning }: planningProps) => {
                                   <div className=" text-slate-700  flex opacity-0 group-hover:opacity-100 transition-all gap-x-2">
                                     <Pop
                                       theme={
-                                        item.Binome?.Affectation?.Theme.nom
+                                        item.Binome?.Affectation?.Theme?.nom
                                       }
                                     />
                                   </div>

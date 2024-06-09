@@ -11,16 +11,15 @@ export const Navbar = async () => {
   return (
     <div className="border-b p-4 bg-white shadow-sm flex items-center md:flex-row-reverse justify-between h-full w-full">
       <MobileSidebar />
-      <div className="flex gap-x-6 items-center">
-        <Notifications mesNotifications={notificaions} />
-
+      <div className="flex flex-row-reverse gap-x-2  justify-between items-center w-full">
         <UserButton />
+        <Notifications mesNotifications={notificaions} />
+        {!!departement && (
+          <h1 className="text-[17px] font-bold text-primary_blue mx-4  md:text-[20px] md:mr-auto">
+            Département {departement.nom}
+          </h1>
+        )}
       </div>
-      {!!departement && (
-        <h1 className="text-lg font-bold text-primary_blue mx-4 md:text-[20px]">
-          Département {departement.nom}
-        </h1>
-      )}
     </div>
   );
 };

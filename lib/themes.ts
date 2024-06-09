@@ -154,6 +154,7 @@ export const getThemesParSpecialiteNonChoisi = async () => {
   });
 
   const validThemeIdArray = validThemeIds.map((theme) => theme.themeId);
+  const filteredArray = validThemeIdArray.filter((item) => item !== null);
 
   const themes = await db.theme.findMany({
     where: {
@@ -174,7 +175,8 @@ export const getThemesParSpecialiteNonChoisi = async () => {
         },
         {
           id: {
-            notIn: validThemeIdArray,
+            //@ts-ignore
+            notIn: filteredArray,
           },
         },
       ],

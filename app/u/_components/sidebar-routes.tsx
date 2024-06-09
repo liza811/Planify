@@ -51,6 +51,11 @@ export const SidebarRoutes = () => {
   ];
   const EtudRoutes = [
     {
+      icon: HomeIcon,
+      label: "Home",
+      href: `/u/etudiant/${user?.prenom}`,
+    },
+    {
       icon: Palette,
 
       label: "Thèmes",

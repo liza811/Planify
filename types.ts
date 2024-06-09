@@ -70,7 +70,7 @@ export interface Configuration {
 type Affectation = {
   Theme: {
     nom: string;
-  };
+  } | null;
   encadrent: Enseignantt | null;
 };
 

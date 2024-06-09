@@ -19,8 +19,8 @@ export type Theme = {
   nom: string;
   proposerId: string;
   createdAt: Date;
-  themeSpecialites: ThemeSpecialite[];
-  proposePar: Enseignant | null;
+  themeSpecialites?: ThemeSpecialite[];
+  proposePar?: Enseignant | null;
 };
 
 type ThemeSpecialite = {

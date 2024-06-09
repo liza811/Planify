@@ -13,8 +13,13 @@ import { redirect } from "next/navigation";
 
 import { Suspense } from "react";
 import { ClipLoader } from "react-spinners";
-export interface ExtendedTheme extends Theme {
+export interface ExtendedTheme {
   etat?: $Enums.Etat;
+
+  id: string;
+  nom: string;
+  proposerId: string;
+  createdAt: Date;
 }
 
 const Intermidiere = async () => {

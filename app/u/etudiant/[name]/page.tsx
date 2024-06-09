@@ -1,13 +1,10 @@
 import { currentUser } from "@/lib/current-user";
 
-import { Poppins } from "next/font/google";
-
-import { ClipLoader } from "react-spinners";
 import { redirect } from "next/navigation";
 import { Typography } from "@mui/material";
 
 import Link from "next/link";
-import { AjouterIndispo } from "@/components/enseignant/ajouter-indispo";
+
 import Image from "next/image";
 
 export interface DatesIndisponibles {
@@ -19,14 +16,10 @@ const DashboardPage = async () => {
   const user = await currentUser();
 
   if (!user?.prenom) {
-    return (
-      <main className="flex justify-center items-center">
-        <ClipLoader className="text-slate-900" size={30} />
-      </main>
-    );
+    redirect("/");
   }
-  if (!user.role) {
-    redirect(`/u/etudiant/${user?.prenom}/themes`);
+  if (user.role) {
+    redirect(`/u/${user?.prenom}`);
   }
 
   return (
@@ -72,7 +65,7 @@ const DashboardPage = async () => {
         <div className="flex  w-full  space-y-5 justify-between h-full items-end  mt-7  md:mt-14">
           <div className="flex flex-col gap-y-4 w-[90%] lg:w-[55%] justify-center">
             <Link
-              href={`/u/${user.prenom}/themes`}
+              href={`/u/etudiant/${user.prenom}/themes`}
               className="w-full rounded-md  h-[80px] flex items-center border border-[#93b7dd] shadow-lg hover:shadow-2xl hover:transition-all hover:border-2"
             >
               <Typography
@@ -86,14 +79,29 @@ const DashboardPage = async () => {
                   textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
                 }}
               >
-                Ajouter un nouveau thème
+                Voir la liste des thèmes
               </Typography>
             </Link>
-
-            <AjouterIndispo />
-
             <Link
-              href={`/u/${user.prenom}/binomes`}
+              href={`/u/etudiant/${user.prenom}/meschoix`}
+              className="w-full rounded-md  h-[80px] flex items-center border border-[#93b7dd] shadow-lg hover:shadow-2xl hover:transition-all hover:border-2"
+            >
+              <Typography
+                sx={{
+                  color: "#3D007B",
+
+                  mt: 0,
+                  fontSize: 19,
+                  mr: 0,
+                  marginLeft: 7,
+                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+                }}
+              >
+                Voir mes choix
+              </Typography>
+            </Link>
+            <Link
+              href={`/u/${user.prenom}/calendar`}
               className=" rounded-md  h-[80px] flex items-center justify-start w-full  border border-[#9b6bdb] shadow-lg hover:shadow-2xl hover:transition-all hover:border-2"
             >
               <Typography
@@ -107,7 +115,7 @@ const DashboardPage = async () => {
                   textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
                 }}
               >
-                Voir les binomes
+                Voir le planning
               </Typography>
             </Link>
           </div>

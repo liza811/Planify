@@ -7,7 +7,7 @@ export interface EncadrantProps {
   };
   Theme: {
     nom: string;
-  };
+  } | null;
   encadrent?: Enseignant | null;
 }
 
@@ -29,7 +29,7 @@ export const InfoEncadrant = ({ encadrant }: { encadrant: EncadrantProps }) => {
         <span className="w-full">Thème:</span>
         <p className="font-medium border py-4 px-3 border-blue-600 rounded-sm">
           {" "}
-          {encadrant.Theme.nom}
+          {encadrant.Theme?.nom}
         </p>
       </section>
       <section

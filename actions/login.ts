@@ -29,7 +29,7 @@ export const Login = async (
     return { error: "Champs invalides!" };
   }
   if (existingUser.matricule !== password) {
-    return { error: "Champs invalides" };
+    return { error: "Champs invalides!" };
   }
 
   // if (existingUser.email) {
@@ -96,7 +96,7 @@ export const Login = async (
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return { error: "Invalid credentials!" };
+          return { error: "Champs invalides!" };
         default:
           return { error: "Something went wrong!" };
       }

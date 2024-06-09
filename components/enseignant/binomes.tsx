@@ -112,11 +112,13 @@ export async function Binomes({
             {!!validatedList &&
               validatedList.map((v) => (
                 <div
-                  key={v.Theme.id}
+                  key={v.Theme?.id}
                   className="border py-3 px-2"
-                  style={{ border: `1px solid ${stringToColor(v.Theme.nom)}` }}
+                  style={{
+                    border: `1px solid ${stringToColor(v.Theme?.nom || "")}`,
+                  }}
                 >
-                  <p className="text-[15px]">{v.Theme.nom}</p>
+                  <p className="text-[15px]">{v.Theme?.nom}</p>
                   <Encadrant validatedList={v} isValidated />
                 </div>
               ))}

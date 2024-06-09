@@ -32,6 +32,7 @@ import { Edit, X } from "lucide-react";
 import { updateTheme } from "@/actions/theme";
 import { ThemeSpecialites } from "./theme-item";
 import { themeSchema } from "@/schemas";
+import { useRouter } from "next/navigation";
 
 interface EditThemeProps {
   themeId: string;
@@ -52,6 +53,7 @@ export const EditTheme = ({
   const [isPending, startTransition] = useTransition();
   const [isMounted, setIsMounted] = useState(false);
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [options, setOptions] = useState<Option[]>([]);
@@ -66,10 +68,6 @@ export const EditTheme = ({
     (element) => !themeSpecialitesNames.includes(element)
   );
 
-  //   const options = filteredList?.map((item) => ({
-  //     label: item,
-  //     value: item,
-  //   }));
   const [valuesToSubmit, setValuesToSubmit] = useState<string[]>();
   const form = useForm<z.infer<typeof themeSchema>>({
     resolver: zodResolver(themeSchema),
@@ -83,9 +81,9 @@ export const EditTheme = ({
   };
   const onSubmit = (values: z.infer<typeof themeSchema>) => {
     const allValues = selectedValues.concat(autre);
-    setValuesToSubmit(allValues);
+
     startTransition(() => {
-      updateTheme(valuesToSubmit, values.theme, themeId)
+      updateTheme(allValues, values.theme, themeId)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
@@ -97,6 +95,7 @@ export const EditTheme = ({
           }
         })
         .catch(() => toast.error("Something went wrong!"));
+      setAutre(allValues);
       setOpen((open) => !open);
     });
 
@@ -104,7 +103,7 @@ export const EditTheme = ({
   };
   useEffect(() => {
     setIsMounted(true);
-
+    router.refresh();
     if (filteredList) {
       const newOptions = filteredList.map((item) => ({
         label: item,
@@ -115,10 +114,9 @@ export const EditTheme = ({
       setOptions([]);
     }
     const allValues = selectedValues.concat(autre);
-    setValuesToSubmit(allValues);
 
     // setValuesToSubmit(selectedValues);
-  }, [selectedValues]);
+  }, [autre, selectedValues]);
 
   const handleOnChange = (selectedListString: string) => {
     const newSelectedValues =

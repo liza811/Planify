@@ -40,7 +40,7 @@ export interface affectations {
   Theme: {
     nom: string;
     id: string;
-  };
+  } | null;
 }
 const BinomePage = () => {
   return (

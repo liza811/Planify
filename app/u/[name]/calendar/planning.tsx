@@ -170,7 +170,7 @@ export const Planning = ({ resultat }: { resultat: planning[] }) => {
                   )}
                   style={{
                     backgroundColor: hexToRgba(
-                      stringToColor(item.Binome?.Affectation?.Theme.nom || ""),
+                      stringToColor(item.Binome?.Affectation?.Theme?.nom || ""),
                       0.05
                     ),
                   }}
@@ -180,7 +180,7 @@ export const Planning = ({ resultat }: { resultat: planning[] }) => {
                     style={{
                       backgroundColor: hexToRgba(
                         stringToColor(
-                          item.Binome?.Affectation?.Theme.nom || ""
+                          item.Binome?.Affectation?.Theme?.nom || ""
                         ),
                         0.5
                       ),
@@ -190,7 +190,7 @@ export const Planning = ({ resultat }: { resultat: planning[] }) => {
                     <div className="flex justify-between">
                       <span className="text-slate-600 text-sm">Binome:</span>
                       <div className=" text-slate-700 flex opacity-0 group-hover:opacity-100 transition-all  gap-x-2">
-                        <Pop theme={item.Binome?.Affectation?.Theme.nom} />
+                        <Pop theme={item.Binome?.Affectation?.Theme?.nom} />
                       </div>
                     </div>
                     <p>

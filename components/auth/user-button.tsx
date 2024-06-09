@@ -24,7 +24,7 @@ export const UserButton = () => {
   return (
     <Dialog>
       <DropdownMenu>
-        <div className="flex items-center flex-row-reverse gap-x-2 hover:bg-neutral-100 p-1.5 px-3 rounded-md">
+        <div className="flex items-center flex-row-reverse gap-x-1 md:gap-x-2 hover:bg-neutral-100 p-1.5 px-3 rounded-md">
           <DropdownMenuTrigger className=" outline-none">
             <Avatar className="w-10 h-10">
               <AvatarImage src={user?.image || ""} />
@@ -36,9 +36,9 @@ export const UserButton = () => {
                 //     : `#5454dd`,
                 // }}
               >
-                <span className="flex items-center justify-center font-bold text-white text-[20px]">
+                <span className="flex items-center justify-center font-bold text-white text-[18px]">
                   {user?.email ? (
-                    `${user.email[0]}`
+                    `${user.email[0].toUpperCase()}`
                   ) : (
                     <User className="text-white h-5 w-5 " />
                   )}
@@ -46,7 +46,7 @@ export const UserButton = () => {
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <p className="capitalize">
+          <p className="capitalize text-sm md:text-[16px]">
             {user?.nom?.toLowerCase()} {user?.prenom?.toLowerCase()}
           </p>
         </div>

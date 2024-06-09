@@ -26,7 +26,7 @@ export const ResetButton = () => {
       type="button"
       disabled={isPending}
       onClick={onClick}
-      className="w-full"
+      className="w-[60%] mt-auto"
     >
       {isPending ? <ClipLoader color="white" size={15} /> : "reset"}
     </Button>
