@@ -40,21 +40,21 @@ const DashboardPage = async () => {
           </Typography>
           <div className=" items-center hidden lg:flex">
             <Image
-              src={"/avatar3.png"}
-              width={90}
-              height={90}
-              alt="avatar"
-              className="rounded-full z-20 "
-            />
-            <Image
               src={"/avatar1.jpg"}
-              width={110}
-              height={110}
+              width={120}
+              height={120}
               alt="avatar"
-              className="rounded-full -ml-8"
+              className="rounded-full "
             />
             <Image
               src={"/avatar2.png"}
+              width={110}
+              height={110}
+              alt="avatar"
+              className="rounded-full -ml-16"
+            />
+            <Image
+              src={"/avatar3.png"}
               width={110}
               height={110}
               alt="avatar"

@@ -84,19 +84,11 @@ export function LoginForm() {
     items-center"
         >
           <Image
-            src={"/cypresslogo.svg"}
+            src={"/logo-colore.png"}
             alt="cypress Logo"
-            width={32}
-            height={32}
+            width={100}
+            height={100}
           />
-          <span
-            className={cn(
-              "font-semibold dark:text-white  text-3xl first-letter:ml-2 text-primary_purpule",
-              font.className
-            )}
-          >
-            Plan
-          </span>
         </div>
         <Form {...form}>
           <form

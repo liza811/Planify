@@ -5,9 +5,11 @@ import { getMesThemsChoisi } from "@/lib/themes";
 import { redirect } from "next/navigation";
 import { ClipLoader } from "react-spinners";
 import { Theme, affectations } from "./page";
+import { getSpecialites } from "@/lib/specialite";
 
 export const Binome = async () => {
   const user = await currentUser();
+  const specilaites = await getSpecialites();
 
   if (!user?.prenom) {
     return (
@@ -25,7 +27,11 @@ export const Binome = async () => {
 
   return (
     <main className="p-6 bg-main w-full h-full">
-      <Binomes validatedList={affectations} attenteListe={attenteListe} />
+      <Binomes
+        validatedList={affectations}
+        attenteListe={attenteListe}
+        specialites={specilaites}
+      />
     </main>
   );
 };

@@ -51,6 +51,64 @@ export const ajouterTheme = async (specialites: string[], theme: string) => {
   return { success: "Thème inséré!" };
 };
 
+export const affecterTheme = async (
+  specialites: string[],
+  theme: string,
+  idBinome: string
+) => {
+  const user = await currentUser();
+  if (!user) {
+    return { error: "Unauthorized" };
+  }
+  if (specialites.length === 0) {
+    return {
+      error: "Vous devez choisir au moins une spécialité pour le thème.",
+    };
+  }
+
+  // retourner les specialitees
+  const specialities = await db.specialite.findMany({
+    where: {
+      nom: {
+        in: specialites,
+      },
+    },
+  });
+
+  if (!specialities) {
+    return { error: "Domaine est obligatoire" };
+  }
+
+  const themee = await db.theme.create({
+    data: {
+      nom: theme,
+      proposerId: user.id,
+      themeSpecialites: {
+        create: specialities.map((spe) => ({
+          specialiteId: spe.id,
+        })),
+      },
+    },
+    include: {
+      themeSpecialites: {
+        include: {
+          specialite: true,
+        },
+      },
+    },
+  });
+  await db.affectation.update({
+    where: {
+      idBinome: idBinome,
+    },
+    data: {
+      themeId: themee.id,
+    },
+  });
+
+  revalidatePath(`/u/${user.name}/binomes`);
+  return { success: "affectation enregistrée!" };
+};
 export const updateTheme = async (
   specialites: string[] | undefined,
   theme: string,

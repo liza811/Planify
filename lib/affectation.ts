@@ -40,6 +40,7 @@ export const getaffectations = async () => {
       },
       Binome: {
         select: {
+          id: true,
           etudiants: {
             select: {
               nom: true,

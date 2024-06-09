@@ -19,9 +19,11 @@ import { CircleHelp } from "lucide-react";
 interface BinomesInterface {
   validatedList: affectations[];
   attenteListe: Theme[];
+  specialites: { nom: string }[] | null;
 }
 
 export async function Binomes({
+  specialites,
   validatedList,
   attenteListe,
 }: BinomesInterface) {
@@ -119,7 +121,11 @@ export async function Binomes({
                   }}
                 >
                   <p className="text-[15px]">{v.Theme?.nom}</p>
-                  <Encadrant validatedList={v} isValidated />
+                  <Encadrant
+                    validatedList={v}
+                    isValidated
+                    specialites={specialites}
+                  />
                 </div>
               ))}
           </CardContent>

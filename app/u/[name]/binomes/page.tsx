@@ -28,6 +28,7 @@ export interface Theme {
 
 export interface affectations {
   Binome: {
+    id: string;
     etudiants: {
       nom: string;
       prenom: string;

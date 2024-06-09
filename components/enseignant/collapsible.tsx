@@ -13,12 +13,14 @@ import { Theme, affectations } from "@/app/u/[name]/binomes/page";
 import { cn, stringToColor } from "@/lib/utils";
 import { hexToRgba } from "../etudiant/choix-item";
 import { ValiderBinome } from "./valider-binome";
+import { AffecterTheme } from "./affecter-theme";
 
 interface EncadrantProps {
   attenteListe?: Theme;
   validatedList?: affectations;
   isValidated?: boolean;
   nbEncadrement?: number | null;
+  specialites?: { nom: string }[] | null;
 }
 
 export function Encadrant({
@@ -26,6 +28,7 @@ export function Encadrant({
   isValidated,
   validatedList,
   nbEncadrement,
+  specialites,
 }: EncadrantProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -37,13 +40,19 @@ export function Encadrant({
     >
       <div className="flex items-center justify-between space-x-4 px-4">
         <div className="text-sm font-semibold w-full">
-          {validatedList?.Theme ? (
+          {validatedList?.Theme || !isValidated ? (
             " Binomes qui ont choisi ce thème"
           ) : (
-            <h4 className="flex gap-x-2 text-rose-500">
-              <CircleAlert className="text-rose-500 size-5" />
-              Vous devez choisir un thème pour ce binome
-            </h4>
+            <div className=" flex justify-between py-2">
+              <h4 className="flex gap-x-2 text-rose-500">
+                <CircleAlert className="text-rose-500 size-5" />
+                Vous devez choisir un thème pour ce binome
+              </h4>
+              <AffecterTheme
+                specialites={specialites}
+                idBinome={validatedList?.Binome.id}
+              />
+            </div>
           )}
         </div>
         <CollapsibleTrigger asChild>
@@ -108,13 +117,13 @@ export function Encadrant({
                 key={e.nom}
                 className="flex gap-x-5 items-center justify-around w-full "
               >
-                <p className="w-[50%] text-sm font-medium">
-                  {e.nom} {e.prenom}
+                <p className="w-[50%] text-sm font-medium capitalize">
+                  {e.nom.toLowerCase()} {e.prenom.toLowerCase()}
                 </p>
                 <p className="flex-grow w-full">{e.email}</p>
                 <p
                   className={cn(
-                    "text-sm font-semibold rounded-lg px-2 py-0 text-black w-[8%] "
+                    "text-sm font-semibold rounded-md px-2 py-0 text-black w-[8%] "
                   )}
                   style={{
                     color: `${stringToColor(e.specialite?.nom || "")}`,
