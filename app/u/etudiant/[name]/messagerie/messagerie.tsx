@@ -62,7 +62,7 @@ export const Messagerie = async ({ searchParams }: MemberIdPageProps) => {
           audio={true}
         />
       )}
-      {!searchParams.video && (
+      {/* {!searchParams.video && (
         <>
           <ChatMessages
             member={otherMember!}
@@ -71,7 +71,7 @@ export const Messagerie = async ({ searchParams }: MemberIdPageProps) => {
           />
           <ChatInput name={`${otherMember?.nom} ${otherMember?.prenom}`} />
         </>
-      )}
+      )} */}
     </div>
   );
 };
