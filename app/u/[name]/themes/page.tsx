@@ -4,6 +4,7 @@ import { Themes } from "./themes";
 
 export interface AjouterModelProps {
   specialites: { nom: string }[] | null;
+  domaines: { nom: string; id: string }[] | null;
   nbTheme?: number | null | undefined;
   nbPropose?: number;
 }

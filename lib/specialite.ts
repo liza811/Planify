@@ -15,3 +15,19 @@ export const getSpecialites = async () => {
 
   return specialites;
 };
+
+export const getDomaine = async () => {
+  const user = await currentUser();
+  if (!user) return null;
+  const domaines = await db.domaine.findMany({
+    where: {
+      departementId: user.departementId,
+    },
+    select: {
+      nom: true,
+      id: true,
+    },
+  });
+
+  return domaines;
+};

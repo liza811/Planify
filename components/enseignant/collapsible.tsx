@@ -14,6 +14,7 @@ import { cn, stringToColor } from "@/lib/utils";
 import { hexToRgba } from "../etudiant/choix-item";
 import { ValiderBinome } from "./valider-binome";
 import { AffecterTheme } from "./affecter-theme";
+//
 
 interface EncadrantProps {
   attenteListe?: Theme;
@@ -21,6 +22,7 @@ interface EncadrantProps {
   isValidated?: boolean;
   nbEncadrement?: number | null;
   specialites?: { nom: string }[] | null;
+  domaines?: { nom: string; id: string }[] | null;
 }
 
 export function Encadrant({
@@ -29,6 +31,7 @@ export function Encadrant({
   validatedList,
   nbEncadrement,
   specialites,
+  domaines,
 }: EncadrantProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -38,10 +41,10 @@ export function Encadrant({
       onOpenChange={setIsOpen}
       className="w-full space-y-2"
     >
-      <div className="flex items-center justify-between space-x-4 px-4">
+      <div className="flex items-center justify-between space-x-4 px-4 w-full">
         <div className="text-sm font-semibold w-full">
           {validatedList?.Theme || !isValidated ? (
-            " Binomes qui ont choisi ce thème"
+            " Binome qui ont choisi ce thème"
           ) : (
             <div className=" flex justify-between py-2">
               <h4 className="flex gap-x-2 text-rose-500">
@@ -49,6 +52,7 @@ export function Encadrant({
                 Vous devez choisir un thème pour ce binome
               </h4>
               <AffecterTheme
+                domaines={domaines}
                 specialites={specialites}
                 idBinome={validatedList?.Binome.id}
               />
@@ -68,7 +72,7 @@ export function Encadrant({
           !isValidated &&
           attenteListe.ChoisirTheme.map((b) => (
             <div
-              className="rounded-md border   font-mono text-sm flex justify-between items-center px-4 py-3"
+              className="rounded-md border   w-full text-sm flex justify-between items-center px-4 py-3"
               key={b.id}
             >
               <div className="flex flex-col   gap-y-2">
@@ -111,19 +115,19 @@ export function Encadrant({
           ))}
 
         {!!validatedList && isValidated && (
-          <div className="flex flex-col  gap-y-2 font-mono text-sm border py-3 px-4 sm:w-[500px] w-full">
+          <div className="flex flex-col  gap-y-2 font-mono text-sm border py-3 px-4 w-full">
             {validatedList.Binome.etudiants.map((e) => (
               <div
                 key={e.nom}
-                className="flex gap-x-5 items-center justify-around w-full "
+                className="flex gap-x-5 items-center justify-start  w-full "
               >
                 <p className="w-[50%] text-sm font-medium capitalize">
                   {e.nom.toLowerCase()} {e.prenom.toLowerCase()}
                 </p>
-                <p className="flex-grow w-full">{e.email}</p>
+                <p className="flex-grow w-full">{e.email.trim()}</p>
                 <p
                   className={cn(
-                    "text-sm font-semibold rounded-md px-2 py-0 text-black w-[8%] "
+                    "text-[13px] font-semibold rounded-md px-2 py-0 text-black w-fit "
                   )}
                   style={{
                     color: `${stringToColor(e.specialite?.nom || "")}`,

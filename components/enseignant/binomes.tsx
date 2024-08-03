@@ -13,9 +13,12 @@ import { Encadrant } from "./collapsible";
 import { stringToColor } from "@/lib/utils";
 import Image from "next/image";
 import { AjouterBinome } from "./ajouter-binome";
-import { getSpecialites } from "@/lib/specialite";
+import { getDomaine, getSpecialites } from "@/lib/specialite";
 import { getConfiguration } from "@/lib/configuration";
 import { CircleHelp } from "lucide-react";
+
+import { BinomeTerminer } from "./binome-terminer";
+import { Etat_Binome } from "@prisma/client";
 interface BinomesInterface {
   validatedList: affectations[];
   attenteListe: Theme[];
@@ -27,8 +30,9 @@ export async function Binomes({
   validatedList,
   attenteListe,
 }: BinomesInterface) {
-  const specilaites = await getSpecialites();
+  //const specilaites = await getSpecialites();
   const configuration = await getConfiguration();
+  const domaines = await getDomaine();
   return (
     <Tabs defaultValue="ATTENTE" className="w-full h-full">
       <TabsList className="grid w-full grid-cols-2">
@@ -80,11 +84,14 @@ export async function Binomes({
             <div className="flex justify-between items-center">
               {" "}
               <CardTitle className="text-[18px]">Binomes validés</CardTitle>
-              {!!validatedList &&
-                !!configuration?.nbEncadrement &&
-                validatedList.length < configuration.nbEncadrement && (
-                  <AjouterBinome specialites={specilaites} />
-                )}
+              {(!!configuration?.nbEncadrement &&
+                validatedList.length < configuration.nbEncadrement) ||
+                (!configuration?.nbEncadrement && (
+                  <AjouterBinome
+                    specialites={specialites}
+                    domaines={domaines}
+                  />
+                ))}
             </div>
             <CardDescription>
               Consultez les binômes approuvés par vous pour travailler ensemble.
@@ -120,8 +127,14 @@ export async function Binomes({
                     border: `1px solid ${stringToColor(v.Theme?.nom || "")}`,
                   }}
                 >
-                  <p className="text-[15px]">{v.Theme?.nom}</p>
+                  <div className=" w-full flex justify-between items-center">
+                    <p className="text-[15px]">{v.Theme?.nom}</p>
+                    {v.Theme && v.etat === Etat_Binome.NON_TERMINE && (
+                      <BinomeTerminer binomeId={v.Binome.id} />
+                    )}
+                  </div>
                   <Encadrant
+                    domaines={domaines}
                     validatedList={v}
                     isValidated
                     specialites={specialites}

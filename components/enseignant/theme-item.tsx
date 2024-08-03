@@ -9,6 +9,10 @@ export interface Speciality {
     nom: string;
   };
 }
+export interface DomaineInterface {
+  nom: string;
+  id: string;
+}
 
 export type ThemeSpecialites = Speciality[];
 interface ThemeItemProps {
@@ -16,12 +20,16 @@ interface ThemeItemProps {
   id: string;
   createdAt: Date;
   specialite: ThemeSpecialites;
+  domaine: DomaineInterface;
   allSpecialites: { nom: string }[] | null;
+  allDomaines: { nom: string; id: string }[] | null;
 }
 export const ThemeItem = ({
   nom,
   createdAt,
   specialite,
+  allDomaines,
+  domaine,
   id,
   allSpecialites,
 }: ThemeItemProps) => {
@@ -45,8 +53,10 @@ export const ThemeItem = ({
           <div className=" text-slate-700 flex opacity-0 group-hover:opacity-100 transition-all gap-x-2">
             <EditTheme
               specialites={specialite}
+              domaine={domaine}
               nom={nom}
               allSpecialites={allSpecialites}
+              allDomaines={allDomaines}
               themeId={id}
             />
             <DeleteTheme themeId={id} />

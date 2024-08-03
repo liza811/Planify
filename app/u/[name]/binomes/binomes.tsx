@@ -3,7 +3,7 @@ import { getaffectations } from "@/lib/affectation";
 import { currentUser } from "@/lib/current-user";
 import { getMesThemsChoisi } from "@/lib/themes";
 import { redirect } from "next/navigation";
-import { ClipLoader } from "react-spinners";
+
 import { Theme, affectations } from "./page";
 import { getSpecialites } from "@/lib/specialite";
 
@@ -12,11 +12,12 @@ export const Binome = async () => {
   const specilaites = await getSpecialites();
 
   if (!user?.prenom) {
-    return (
-      <main className="flex justify-center items-center">
-        <ClipLoader className="text-slate-900" size={30} />
-      </main>
-    );
+    redirect(`/login`);
+    // return (
+    //   <main className="flex justify-center items-center">
+    //     <ClipLoader className="text-slate-900" size={30} />
+    //   </main>
+    // );
   }
   if (!user.role) {
     redirect(`/u/etudiant/${user?.prenom}/themes`);

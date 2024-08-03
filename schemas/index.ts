@@ -9,6 +9,7 @@ export const themeSchema = z.object({
     message: "Le thème est obligatoire.",
   }),
   items: z.array(itemSchema),
+  domaine: z.string({ required_error: "Le domaine est obligatoire" }),
 });
 
 export const enseignantSchemaInterface = z
@@ -118,4 +119,5 @@ export const binomeSchema = z.object({
     message: "Le thème est obligatoire.",
   }),
   items: z.array(itemSchema),
+  domaine: z.string({ required_error: "Le domaine est obligatoire" }),
 });

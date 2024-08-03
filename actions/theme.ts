@@ -4,9 +4,13 @@ import { db } from "@/lib/db";
 
 import { revalidatePath } from "next/cache";
 
-export const ajouterTheme = async (specialites: string[], theme: string) => {
+export const ajouterTheme = async (
+  specialites: string[],
+  theme: string,
+  domaine: string
+) => {
   const user = await currentUser();
-  if (!user) {
+  if (!user || !user.id) {
     return { error: "Unauthorized" };
   }
   if (specialites.length === 0) {
@@ -21,28 +25,23 @@ export const ajouterTheme = async (specialites: string[], theme: string) => {
       nom: {
         in: specialites,
       },
+      departementId: user.departementId,
     },
   });
 
   if (!specialities) {
-    return { error: "Domaine est obligatoire" };
+    return { error: "Spécialitée est obligatoire" };
   }
 
   await db.theme.create({
     data: {
       nom: theme,
       proposerId: user.id,
+      domaineId: domaine,
       themeSpecialites: {
         create: specialities.map((spe) => ({
           specialiteId: spe.id,
         })),
-      },
-    },
-    include: {
-      themeSpecialites: {
-        include: {
-          specialite: true,
-        },
       },
     },
   });
@@ -54,10 +53,11 @@ export const ajouterTheme = async (specialites: string[], theme: string) => {
 export const affecterTheme = async (
   specialites: string[],
   theme: string,
-  idBinome: string
+  idBinome: string,
+  domaine: string
 ) => {
   const user = await currentUser();
-  if (!user) {
+  if (!user || !user.id) {
     return { error: "Unauthorized" };
   }
   if (specialites.length === 0) {
@@ -82,18 +82,12 @@ export const affecterTheme = async (
   const themee = await db.theme.create({
     data: {
       nom: theme,
+      domaineId: domaine,
       proposerId: user.id,
       themeSpecialites: {
         create: specialities.map((spe) => ({
           specialiteId: spe.id,
         })),
-      },
-    },
-    include: {
-      themeSpecialites: {
-        include: {
-          specialite: true,
-        },
       },
     },
   });
@@ -112,7 +106,8 @@ export const affecterTheme = async (
 export const updateTheme = async (
   specialites: string[] | undefined,
   theme: string,
-  themeId: string
+  themeId: string,
+  domaine: string
 ) => {
   const user = await currentUser();
   if (!user) {
@@ -127,9 +122,13 @@ export const updateTheme = async (
   // retourner les specialitees
   const specialities = await db.specialite.findMany({
     where: {
+      departementId: user.departementId,
       nom: {
         in: specialites,
       },
+    },
+    select: {
+      id: true,
     },
   });
 
@@ -147,6 +146,7 @@ export const updateTheme = async (
     },
     data: {
       nom: theme,
+      domaineId: domaine,
 
       themeSpecialites: {
         create: specialities.map((spe) => ({
@@ -163,21 +163,12 @@ export const updateTheme = async (
 export const getSpecialite = async (specialite: string) => {
   const user = await currentUser();
 
-  const existingSpecialite = await db.specialite.findUnique({
+  const existingSpecialite = await db.specialite.findFirst({
     where: {
       nom: specialite,
+      departementId: user?.departementId,
     },
   });
-
-  if (!existingSpecialite) {
-    const createSpecialite = await db.specialite.create({
-      data: {
-        nom: specialite,
-        departementId: user?.departementId,
-      },
-    });
-    return createSpecialite;
-  }
 
   return existingSpecialite;
 };

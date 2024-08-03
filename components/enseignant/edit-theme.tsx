@@ -30,22 +30,33 @@ import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
 import { Edit, X } from "lucide-react";
 import { updateTheme } from "@/actions/theme";
-import { ThemeSpecialites } from "./theme-item";
+import { DomaineInterface, ThemeSpecialites } from "./theme-item";
 import { themeSchema } from "@/schemas";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface EditThemeProps {
   themeId: string;
   specialites: ThemeSpecialites;
+  domaine: DomaineInterface;
   nom: string;
   allSpecialites: { nom: string }[] | null;
+  allDomaines: { nom: string; id: string }[] | null;
 }
 interface Option {
   label: string;
-  value: string; // Assuming filteredList contains strings
+  value: string;
 }
 export const EditTheme = ({
   specialites,
+  domaine,
+  allDomaines,
   nom,
   allSpecialites,
   themeId,
@@ -68,12 +79,12 @@ export const EditTheme = ({
     (element) => !themeSpecialitesNames.includes(element)
   );
 
-  const [valuesToSubmit, setValuesToSubmit] = useState<string[]>();
   const form = useForm<z.infer<typeof themeSchema>>({
     resolver: zodResolver(themeSchema),
     defaultValues: {
       theme: nom || "",
       items: [],
+      domaine: domaine.id || "",
     },
   });
   const onClose = () => {
@@ -81,25 +92,26 @@ export const EditTheme = ({
   };
   const onSubmit = (values: z.infer<typeof themeSchema>) => {
     const allValues = selectedValues.concat(autre);
-
-    startTransition(() => {
-      updateTheme(allValues, values.theme, themeId)
-        .then((data) => {
-          if (data.error) {
-            toast.error(data.error);
-            form.reset();
-          }
-          if (data.success) {
-            toast.success(data.success);
-            form.reset();
-          }
-        })
-        .catch(() => toast.error("Something went wrong!"));
-      setAutre(allValues);
-      setOpen((open) => !open);
-    });
-
-    form.reset();
+    if (allValues.length === 0) {
+      toast.error("Vous devez choisir au moins une spécialitée!");
+    } else {
+      startTransition(() => {
+        updateTheme(allValues, values.theme, themeId, values.domaine)
+          .then((data) => {
+            if (data.error) {
+              toast.error(data.error);
+              form.reset();
+            }
+            if (data.success) {
+              toast.success(data.success);
+              form.reset();
+            }
+          })
+          .catch(() => toast.error("Something went wrong!"));
+        setAutre(allValues);
+        setOpen((open) => !open);
+      });
+    }
   };
   useEffect(() => {
     setIsMounted(true);
@@ -151,17 +163,17 @@ export const EditTheme = ({
       <DialogContent className=" md:w-[450px] w-[350px] p-5  max-h-[95vh]">
         <DialogHeader>
           <DialogTitle className="text-center mb-3">
-            {"Ajouter un Theme"}
+            {"Modifier le Thème"}
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
               name="theme"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Thème</FormLabel>
+                  <FormLabel>Thème:</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Description du thème"
@@ -174,20 +186,40 @@ export const EditTheme = ({
                 </FormItem>
               )}
             />
-            <div className="flex gap-x-1.5">
-              {autre?.map((i) => (
-                <p
-                  className="font-medium text-sm rounded-md py-1 px-1.5 bg-slate-100 flex justify-between items-center gap-x-3"
-                  key={i}
-                >
-                  {i}
-                  <X
-                    className=" size-4  rounded-full  bg-slate-200 text-slate-600 font-extralight cursor-pointer"
-                    onClick={() => handleSpecialiteClick(i)}
-                  />
-                </p>
-              ))}
-            </div>
+            <FormField
+              control={form.control}
+              name="domaine"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Domaine:</FormLabel>
+                  <Select
+                    disabled={isPending}
+                    onValueChange={field.onChange}
+                    defaultValue={domaine.id || field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="bg-zinc-200/50 border-0 focus:ring-0 text-slate-500 ring-offset-0 focus:ring-offset-0 capitalize outline-none dark:bg-zinc-700/50 dark:text-white min-w-48">
+                        <SelectValue
+                          placeholder="Choisir un domaine"
+                          defaultValue={
+                            domaine.id?.toUpperCase() || field.value
+                          }
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {allDomaines?.map((specialite) => (
+                        <SelectItem key={specialite.id} value={specialite.id}>
+                          {specialite.nom.toUpperCase()}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <div className=" w-full">
               {!!allSpecialites && (
                 <FormField
@@ -195,7 +227,21 @@ export const EditTheme = ({
                   name="items"
                   render={() => (
                     <FormItem className="w-full">
-                      <FormLabel>Spécialitée</FormLabel>
+                      <FormLabel>Spécialitée:</FormLabel>
+                      <div className="flex gap-x-1.5 mt-3">
+                        {autre?.map((i) => (
+                          <p
+                            className="font-medium text-sm rounded-md py-1 px-1.5 bg-slate-100 flex justify-between items-center gap-x-3"
+                            key={i}
+                          >
+                            {i}
+                            <X
+                              className=" size-4  rounded-full  bg-slate-200 text-slate-600 font-extralight cursor-pointer"
+                              onClick={() => handleSpecialiteClick(i)}
+                            />
+                          </p>
+                        ))}
+                      </div>
                       <FormControl>
                         <MultiSelect
                           onChange={handleOnChange}

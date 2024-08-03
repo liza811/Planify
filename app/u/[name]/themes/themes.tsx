@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/tooltip";
 import { getConfiguration } from "@/lib/configuration";
 import { currentUser } from "@/lib/current-user";
-import { getSpecialites } from "@/lib/specialite";
+import { getDomaine, getSpecialites } from "@/lib/specialite";
 import { getThemes } from "@/lib/themes";
 import { cn } from "@/lib/utils";
 import { CircleHelp } from "lucide-react";
@@ -19,14 +19,16 @@ interface AjouterModelProps {
   specialites: { nom: string }[] | null;
 }
 export const Themes = async () => {
-  const specilaites = await getSpecialites();
-  const themes = await getThemes();
-  const configuration = await getConfiguration();
   const user = await currentUser();
   if (!user || !user.prenom) redirect("/login");
   if (!user.role) {
     redirect(`/u/etudiant/${user?.prenom}/themes`);
   }
+  const specilaites = await getSpecialites();
+  const domaines = await getDomaine();
+  const themes = await getThemes();
+  const configuration = await getConfiguration();
+
   if (!themes?.length)
     return (
       <main className="flex flex-col items-center justify-center w-full h-full bg-[#F9FAFC]">
@@ -37,7 +39,7 @@ export const Themes = async () => {
         <p className=" text-muted-foreground mb-3 text-sm ">
           {"Commencez à ajouté vos thèmes en cliquant ici"}
         </p>
-        <AjouterThemes specialites={specilaites} />
+        <AjouterThemes specialites={specilaites} domaines={domaines} />
       </main>
     );
   return (
@@ -63,6 +65,7 @@ export const Themes = async () => {
           themes.length < configuration.nbTheme) && (
           <AjouterThemes
             specialites={specilaites}
+            domaines={domaines}
             nbTheme={configuration?.nbTheme}
             nbPropose={themes.length}
           />
@@ -70,7 +73,11 @@ export const Themes = async () => {
       </section>
       {!!themes && (
         <section className="flex flex-col w-full  rounded-sm  h-full p-4  px-0">
-          <ListThemes themes={themes} specialites={specilaites} />
+          <ListThemes
+            themes={themes}
+            specialites={specilaites}
+            domaine={domaines}
+          />
         </section>
       )}
     </main>

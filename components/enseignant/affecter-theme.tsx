@@ -29,12 +29,24 @@ import { toast } from "sonner";
 
 import { Textarea } from "../ui/textarea";
 import { affecterTheme } from "@/actions/theme";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface AjouterModelProps {
   specialites: { nom: string }[] | null | undefined;
+  domaines: { nom: string; id: string }[] | null | undefined;
   idBinome: string | undefined;
 }
-export const AffecterTheme = ({ specialites, idBinome }: AjouterModelProps) => {
+export const AffecterTheme = ({
+  specialites,
+  idBinome,
+  domaines,
+}: AjouterModelProps) => {
   const [isPending, startTransition] = useTransition();
   const [isMounted, setIsMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -51,6 +63,7 @@ export const AffecterTheme = ({ specialites, idBinome }: AjouterModelProps) => {
     defaultValues: {
       theme: "",
       items: [],
+      domaine: "",
     },
   });
   const onClose = () => {
@@ -61,7 +74,7 @@ export const AffecterTheme = ({ specialites, idBinome }: AjouterModelProps) => {
       return null;
     }
     startTransition(() => {
-      affecterTheme(valuesToSubmit, values.theme, idBinome)
+      affecterTheme(valuesToSubmit, values.theme, idBinome, values.domaine)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
@@ -123,7 +136,7 @@ export const AffecterTheme = ({ specialites, idBinome }: AjouterModelProps) => {
               name="theme"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Thème</FormLabel>
+                  <FormLabel>Thème:</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Description du thème"
@@ -135,7 +148,34 @@ export const AffecterTheme = ({ specialites, idBinome }: AjouterModelProps) => {
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="domaine"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Domaine:</FormLabel>
+                  <Select
+                    disabled={isPending}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="bg-zinc-200/80 border-0 focus:ring-0 text-slate-500 ring-offset-0 focus:ring-offset-0 capitalize outline-none dark:bg-zinc-700/50 dark:text-white min-w-48">
+                        <SelectValue placeholder="Choisir un domaine" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {domaines?.map((specialite) => (
+                        <SelectItem key={specialite.nom} value={specialite.id}>
+                          {specialite.nom.toUpperCase()}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className=" w-full">
               {!!specialites && (
                 <FormField
@@ -143,7 +183,7 @@ export const AffecterTheme = ({ specialites, idBinome }: AjouterModelProps) => {
                   name="items"
                   render={() => (
                     <FormItem className="w-full">
-                      <FormLabel>Spécialitée</FormLabel>
+                      <FormLabel>Spécialitée:</FormLabel>
                       <FormControl>
                         <MultiSelect
                           onChange={handleOnChange}

@@ -31,8 +31,15 @@ import { Textarea } from "../ui/textarea";
 import { PlusCircleIcon } from "lucide-react";
 import { ajouterBinome } from "@/actions/binome";
 import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
-export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
+export const AjouterBinome = ({ specialites, domaines }: AjouterModelProps) => {
   const [isPending, startTransition] = useTransition();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -51,6 +58,7 @@ export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
       email: "",
       theme: "",
       items: [],
+      domaine: "",
     },
   });
 
@@ -118,7 +126,7 @@ export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Email:</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="L'email de l'etudiant"
@@ -135,7 +143,7 @@ export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
               name="theme"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Thème</FormLabel>
+                  <FormLabel>Thème:</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Description du thème"
@@ -147,7 +155,34 @@ export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="domaine"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Domaine:</FormLabel>
+                  <Select
+                    disabled={isPending}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="bg-zinc-200/80 border-0 focus:ring-0 text-slate-500 ring-offset-0 focus:ring-offset-0 capitalize outline-none dark:bg-zinc-700/50 dark:text-white min-w-48">
+                        <SelectValue placeholder="Choisir un domaine" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {domaines?.map((specialite) => (
+                        <SelectItem key={specialite.nom} value={specialite.id}>
+                          {specialite.nom.toUpperCase()}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className=" w-full">
               {!!specialites && (
                 <FormField
@@ -155,7 +190,7 @@ export const AjouterBinome = ({ specialites }: AjouterModelProps) => {
                   name="items"
                   render={() => (
                     <FormItem className="w-full">
-                      <FormLabel>Spécialitée</FormLabel>
+                      <FormLabel>Spécialitée:</FormLabel>
                       <FormControl>
                         <MultiSelect
                           onChange={handleOnChange}

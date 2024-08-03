@@ -59,7 +59,7 @@ export const SidebarRoutes = () => {
       icon: Palette,
 
       label: "Thèmes",
-      href: `/u/etudiant/${user?.prenom}/themes`,
+      href: `/u/etudiant/${user?.prenom.toLowerCase()}/themes`,
     },
 
     {

@@ -2,7 +2,7 @@
 import { currentUser } from "@/lib/current-user";
 import { db } from "@/lib/db";
 import { binomeSchema } from "@/schemas";
-import { Etat, NotificationType } from "@prisma/client";
+import { Etat, Etat_Binome, NotificationType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { pusherServer } from "@/lib/pusher";
@@ -94,19 +94,38 @@ export const validerBinome = async (binomeId: string, themeId: string) => {
   return { success: "Modifications enregistrées!" };
 };
 
+export const binomeTerminer = async (binomeId: string) => {
+  const user = await currentUser();
+
+  if (!user || !user.role || !user.id) {
+    return { error: "Unauthorized" };
+  }
+
+  await db.affectation.update({
+    where: {
+      idBinome: binomeId,
+    },
+    data: {
+      etat: Etat_Binome.TERMINE,
+    },
+  });
+
+  revalidatePath(`/u/${user.name}/binomes`);
+  return { success: "Modifications enregistrées!" };
+};
 export const ajouterBinome = async (
   values: z.infer<typeof binomeSchema>,
   specialites: string[]
 ) => {
   const user = await currentUser();
-  if (!user) {
+  if (!user || !user.id) {
     return { error: "Unauthorized" };
   }
   const validatedFields = binomeSchema.safeParse(values);
   if (!validatedFields.success) {
     return { error: "Champs invalides" };
   }
-  const { email, theme } = validatedFields.data;
+  const { email, theme, domaine } = validatedFields.data;
 
   const binomeId = await db.binome.findFirst({
     where: {
@@ -148,6 +167,7 @@ export const ajouterBinome = async (
     data: {
       nom: theme,
       proposerId: user.id,
+      domaineId: domaine,
       themeSpecialites: {
         create: specialities.map((spe) => ({
           specialiteId: spe.id,

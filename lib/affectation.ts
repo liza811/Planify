@@ -32,6 +32,7 @@ export const getaffectations = async () => {
       },
     },
     select: {
+      etat: true,
       Theme: {
         select: {
           id: true,

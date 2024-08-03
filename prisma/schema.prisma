@@ -25,9 +25,20 @@ enum NotificationType {
   ADMIN_TO_USERS
 }
 
+enum Session {
+  NORMAL
+  RATTRAPAGE
+  NON_DETERMINE
+}
+
 enum Visibility {
   VISIBLE
   NON_VISIBLE
+}
+
+enum Etat_Binome {
+  TERMINE
+  NON_TERMINE
 }
 
 enum Etat {
@@ -43,6 +54,7 @@ model Departement {
   // Relation un-à-plusieurs avec Spécialité
   salles     Salle[]
   specialite Specialite[]
+  domaine    Domaine[]
 
   enseignants Enseignant[]
   etudiants   Etudiant[]
@@ -68,13 +80,26 @@ model Admin {
 
 model Specialite {
   id            String  @id @default(uuid())
-  nom           String  @unique
+  nom           String
+  departementId String
+
+  departement Departement @relation(fields: [departementId], references: [id], onDelete: Cascade)
+
+  etudiants Etudiant[]
+  Theme     ThemeSpecialite[]
+
+  @@index([departementId])
+  @@unique([departementId,nom])
+}
+
+model Domaine {
+  id            String  @id @default(uuid())
+  nom           String
   departementId String?
 
-  departement Departement?      @relation(fields: [departementId], references: [id], onDelete: Cascade)
+  departement Departement? @relation(fields: [departementId], references: [id], onDelete: Cascade)
   enseignants Enseignant[]
-  etudiants   Etudiant[]
-  Theme       ThemeSpecialite[]
+  themes      Theme[]
 
   @@index([departementId])
 }
@@ -85,8 +110,7 @@ model Salle {
   bloc          Int
   departementId String?
 
-  indisponibilite Json?
-  soutenances     Soutenance[]
+  soutenances Soutenance[]
 
   departement Departement? @relation(fields: [departementId], references: [id], onDelete: Cascade)
 
@@ -126,7 +150,7 @@ model Enseignant {
   specialiteId  String
   departementId String
 
-  specialite            Specialite             @relation(fields: [specialiteId], references: [id], onDelete: Cascade)
+  specialite            Domaine                @relation(fields: [specialiteId], references: [id], onDelete: Cascade)
   departement           Departement            @relation(fields: [departementId], references: [id], onDelete: Cascade)
   twoFactorConfirmation TwoFactorConfirmation?
   Affectation           Affectation[]
@@ -135,6 +159,7 @@ model Enseignant {
   Examinateurs       Examinateurs[]
 
   @@unique([departementId, email])
+  @@index([departementId, email])
   @@index([email])
 }
 
@@ -184,6 +209,8 @@ model Theme {
   createdAt        DateTime          @default(now())
   ChoisirTheme     ChoisirTheme[]
   Affectation      Affectation?
+  Domaine          Domaine           @relation(fields: [domaineId], references: [id])
+  domaineId        String
 }
 
 model ChoisirTheme {
@@ -200,14 +227,16 @@ model ChoisirTheme {
 }
 
 model Affectation {
-  id          Int    @id @default(autoincrement())
-  idBinome    String @unique
+  id          Int     @id @default(autoincrement())
+  idBinome    String  @unique
   themeId     String? @unique
   encadrantId String
 
   Binome    Binome      @relation(fields: [idBinome], references: [id], onDelete: Cascade)
-  Theme     Theme?       @relation(fields: [themeId], references: [id], onDelete: Cascade)
+  Theme     Theme?      @relation(fields: [themeId], references: [id], onDelete: Cascade)
   encadrent Enseignant? @relation(fields: [encadrantId], references: [id])
+
+  etat Etat_Binome @default(NON_TERMINE)
 
   createdAt DateTime @default(now())
 }
@@ -297,6 +326,7 @@ model Soutenance {
   planningId   Int
   Binome       Binome?        @relation(fields: [binomeId], references: [id])
   binomeId     String?
+  session      Session
 }
 
 model Planning {

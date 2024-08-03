@@ -2,6 +2,7 @@ import { Suspense } from "react";
 
 import { Loader } from "../../_components/loader";
 import { Binome } from "./binomes";
+import { Etat_Binome } from "@prisma/client";
 
 export interface ChoisirTheme {
   id: string;
@@ -27,6 +28,7 @@ export interface Theme {
 }
 
 export interface affectations {
+  etat: Etat_Binome;
   Binome: {
     id: string;
     etudiants: {

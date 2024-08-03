@@ -17,6 +17,12 @@ export const getThemes = async () => {
       id: true,
       nom: true,
       createdAt: true,
+      Domaine: {
+        select: {
+          nom: true,
+          id: true,
+        },
+      },
       themeSpecialites: {
         include: {
           specialite: {
