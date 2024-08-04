@@ -18,14 +18,14 @@ export interface DatesIndisponibles {
 const DashboardPage = async () => {
   const user = await currentUser();
 
-  if (!user?.prenom) {
-    return (
-      <main className="flex justify-center items-center">
-        <ClipLoader className="text-slate-900" size={30} />
-      </main>
-    );
-  }
-  if (!user.role) {
+  // if (!user?.prenom) {
+  //   return (
+  //     <main className="flex justify-center items-center">
+  //       <ClipLoader className="text-slate-900" size={30} />
+  //     </main>
+  //   );
+  // }
+  if (!user?.role) {
     redirect(`/u/etudiant/${user?.prenom}/themes`);
   }
 
