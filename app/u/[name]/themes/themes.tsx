@@ -19,11 +19,11 @@ interface AjouterModelProps {
   specialites: { nom: string }[] | null;
 }
 export const Themes = async () => {
-  const user = await currentUser();
-  if (!user || !user.prenom) redirect("/login");
-  if (!user.role) {
-    redirect(`/u/etudiant/${user?.prenom}/themes`);
-  }
+  // const user = await currentUser();
+  // if (!user || !user.prenom) redirect("/login");
+  // if (!user.role) {
+  //   redirect(`/u/etudiant/${user?.prenom}/themes`);
+  // }
   const specilaites = await getSpecialites();
   const domaines = await getDomaine();
   const themes = await getThemes();
