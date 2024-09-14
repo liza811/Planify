@@ -15,11 +15,16 @@ export const EtudiantThemes = async () => {
     redirect("/login");
   }
   if (user.role) {
-    redirect(`/u/${user?.prenom}/themes`);
+    redirect(`/u/${user?.prenom.toLowerCase()}/themes`);
   }
   if (!themes?.length) {
     return (
-      <NothingFound header="Aucun thème trouvé" paragraph="" src="/note.svg" />
+      <NothingFound
+        header="Aucun thème trouvé"
+        paragraph=""
+        src="/note.svg"
+        size={110}
+      />
     );
   }
 

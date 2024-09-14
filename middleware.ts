@@ -24,10 +24,15 @@ export default auth(async (req) => {
     if (isLoggedIn) {
       // si enseignant
       if (session?.role) {
-        return NextResponse.redirect(new URL(`/u/${session?.prenom}`, nextUrl));
+        return NextResponse.redirect(
+          new URL(`/u/${session?.prenom.toLowerCase()}`, nextUrl)
+        );
       } else {
         return NextResponse.redirect(
-          new URL(`/u/etudiant/${session?.prenom}/themes`, nextUrl)
+          new URL(
+            `/u/etudiant/${session?.prenom.toLowerCase()}/themes`,
+            nextUrl
+          )
         );
       }
     }

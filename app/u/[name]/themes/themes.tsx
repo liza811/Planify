@@ -7,13 +7,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getConfiguration } from "@/lib/configuration";
-import { currentUser } from "@/lib/current-user";
+
 import { getDomaine, getSpecialites } from "@/lib/specialite";
 import { getThemes } from "@/lib/themes";
 import { cn } from "@/lib/utils";
 import { CircleHelp } from "lucide-react";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 
 interface AjouterModelProps {
   specialites: { nom: string }[] | null;
