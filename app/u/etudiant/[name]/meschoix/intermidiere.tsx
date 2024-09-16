@@ -28,17 +28,11 @@ const Intermidiere = async () => {
   const configuration = await getConfiguration();
 
   if (!user || !user.prenom) {
-    return (
-      <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
-        <main className="w-full h-full flex items-center justify-center">
-          <ClipLoader size={30} className="text-slate-800" />
-        </main>
-      </Suspense>
-    );
+    redirect("/login");
   }
 
   if (user.role) {
-    redirect(`/u/${user?.prenom}/themes`);
+    redirect(`/u/${user?.prenom.toLowerCase()}`);
   }
   const encadrant = await getEncadrant();
   if (!!encadrant) {

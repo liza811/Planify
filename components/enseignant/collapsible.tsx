@@ -44,7 +44,7 @@ export function Encadrant({
       <div className="flex items-center justify-between space-x-4 px-4 w-full">
         <div className="text-sm font-semibold w-full">
           {validatedList?.Theme || !isValidated ? (
-            " Binome qui ont choisi ce thème"
+            " Binome affecté à ce thème"
           ) : (
             <div className=" flex justify-between py-2">
               <h4 className="flex gap-x-2 text-rose-500">

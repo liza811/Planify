@@ -11,16 +11,11 @@ export const Binome = async () => {
   const user = await currentUser();
   const specilaites = await getSpecialites();
 
-  if (!user?.prenom) {
+  if (!user || !user?.prenom) {
     redirect(`/login`);
-    // return (
-    //   <main className="flex justify-center items-center">
-    //     <ClipLoader className="text-slate-900" size={30} />
-    //   </main>
-    // );
   }
   if (!user.role) {
-    redirect(`/u/etudiant/${user?.prenom}/themes`);
+    redirect(`/u/etudiant/${user?.prenom.toLowerCase()}/themes`);
   }
   const themes: Theme[] = await getMesThemsChoisi();
   const affectations: affectations[] = await getaffectations();

@@ -7,22 +7,24 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getConfiguration } from "@/lib/configuration";
+import { currentUser } from "@/lib/current-user";
 
 import { getDomaine, getSpecialites } from "@/lib/specialite";
 import { getThemes } from "@/lib/themes";
 import { cn } from "@/lib/utils";
 import { CircleHelp } from "lucide-react";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 interface AjouterModelProps {
   specialites: { nom: string }[] | null;
 }
 export const Themes = async () => {
-  // const user = await currentUser();
-  // if (!user || !user.prenom) redirect("/login");
-  // if (!user.role) {
-  //   redirect(`/u/etudiant/${user?.prenom}/themes`);
-  // }
+  const user = await currentUser();
+  if (!user || !user.prenom) redirect("/login");
+  if (!user.role) {
+    redirect(`/u/etudiant/${user?.prenom.toLowerCase()}/themes`);
+  }
   const specilaites = await getSpecialites();
   const domaines = await getDomaine();
   const themes = await getThemes();

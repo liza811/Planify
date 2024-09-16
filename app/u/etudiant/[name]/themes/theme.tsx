@@ -15,7 +15,7 @@ export const EtudiantThemes = async () => {
     redirect("/login");
   }
   if (user.role) {
-    redirect(`/u/${user?.prenom.toLowerCase()}/themes`);
+    redirect(`/u/${user?.prenom.toLowerCase()}`);
   }
   if (!themes?.length) {
     return (

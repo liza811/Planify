@@ -9,14 +9,14 @@ import {
 
 import "react-multiple-select-dropdown-lite/dist/index.css";
 
-import { CalendarIcon, CircleHelp } from "lucide-react";
+import { CircleHelp } from "lucide-react";
 
 import { Typography } from "@mui/material";
 import { getIndisponibilite } from "@/lib/indisponibilite";
 import { getConfiguration } from "@/lib/configuration";
 import { ResetButton } from "./reset-indisponibilite-button";
 import { DatePickerWithRange } from "./date-picker";
-import { formatDate } from "date-fns";
+import { format, formatDate, isValid, parse, parseISO } from "date-fns";
 
 export interface DatesIndisponibles {
   from: string;
@@ -71,22 +71,40 @@ export const AjouterIndispo = async () => {
             {fromDate === toDate ? (
               <p className="flex  gap-x-2 items-center text-slate-800 pl-3  mr-auto">
                 Le{" "}
-                <span className="w-full flex text-sm text-slate-600">
-                  {formatDate(fromDate, "yyyy-MM-dd")}
+                <span className="w-full flex text-sm text-slate-600 text-[15px] font-semibold ">
+                  {fromDate &&
+                  isValid(parse(fromDate, "dd/MM/yyyy", new Date()))
+                    ? format(
+                        parse(fromDate, "dd/MM/yyyy", new Date()),
+                        "yyyy-MM-dd"
+                      )
+                    : "Invalid date"}
                 </span>
               </p>
             ) : (
               <>
                 <p className="flex justify-between gap-x-2 text-slate-800 pl-3  mr-auto">
                   De:{" "}
-                  <span className="w-full flex  text-slate-600 text-sm">
-                    {formatDate(fromDate, "yyyy-MM-dd")}
+                  <span className="w-full flex  text-slate-600 text-[15px] font-semibold ">
+                    {fromDate &&
+                    isValid(parse(fromDate, "dd/MM/yyyy", new Date()))
+                      ? format(
+                          parse(fromDate, "dd/MM/yyyy", new Date()),
+                          "yyyy-MM-dd"
+                        )
+                      : "Invalid date"}
                   </span>
                 </p>
                 <p className="flex justify-between gap-x-2 text-slate-800 pl-3 mr-auto">
                   jusqu&apos;à:{" "}
-                  <span className="w-full flex gap-x-2  text-slate-600 text-sm">
-                    {formatDate(toDate, "yyyy-MM-dd")}
+                  <span className="w-full flex gap-x-2  text-slate-600 text-[15px] font-semibold ">
+                    {fromDate &&
+                    isValid(parse(toDate, "dd/MM/yyyy", new Date()))
+                      ? format(
+                          parse(toDate, "dd/MM/yyyy", new Date()),
+                          "yyyy-MM-dd"
+                        )
+                      : "Invalid date"}
                   </span>
                 </p>
               </>
@@ -98,7 +116,11 @@ export const AjouterIndispo = async () => {
         {!!configuration && configuration.nbDateIndispo && (
           <span className="flex gap-x-2 text-slate-700  text-sm">
             <CircleHelp className="size-5" />
-            {` Vous ne pouvez pas déclarer plus de ${configuration.nbDateIndispo} jours d'indisponibilitées.`}
+            {` Vous ne pouvez pas déclarer plus de ${
+              configuration.nbDateIndispo
+            } ${
+              configuration.nbDateIndispo > 1 ? `jours` : `jour`
+            } d'indisponibilitées.`}
           </span>
         )}
       </DialogContent>

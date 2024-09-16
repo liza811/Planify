@@ -60,9 +60,14 @@ export const affecterTheme = async (
   if (!user || !user.id) {
     return { error: "Unauthorized" };
   }
+  if (!domaine) {
+    return {
+      error: "Vous devez choisir un domaine pour le thème.",
+    };
+  }
   if (specialites.length === 0) {
     return {
-      error: "Vous devez choisir au moins une spécialité pour le thème.",
+      error: "Vous devez choisir au moins une spécialitée pour le thème.",
     };
   }
 

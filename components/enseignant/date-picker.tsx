@@ -43,7 +43,9 @@ export function DatePickerWithRange({
       const daysDifference = differenceInDays(date.to, date.from);
       if (nbDateIndispo && daysDifference + 1 > nbDateIndispo) {
         toast.error(
-          ` Vous ne pouvez pas déclarer plus de ${nbDateIndispo} jours d'indisponibilitées`
+          ` Vous ne pouvez pas déclarer plus de ${nbDateIndispo} ${
+            nbDateIndispo > 1 ? `jours` : `jour`
+          }   d'indisponibilitées`
         );
       } else {
         startTransition(() => {

@@ -1,8 +1,5 @@
 import { currentUser } from "@/lib/current-user";
 
-import { Poppins } from "next/font/google";
-
-import { ClipLoader } from "react-spinners";
 import { redirect } from "next/navigation";
 import { Typography } from "@mui/material";
 
@@ -18,21 +15,17 @@ export interface DatesIndisponibles {
 const DashboardPage = async () => {
   const user = await currentUser();
 
-  // if (!user?.prenom) {
-  //   return (
-  //     <main className="flex justify-center items-center">
-  //       <ClipLoader className="text-slate-900" size={30} />
-  //     </main>
-  //   );
-  // }
-  if (!user?.role) {
-    redirect(`/u/etudiant/${user?.prenom}/themes`);
+  if (!user || !user?.prenom) {
+    redirect("/login");
+  }
+  if (!user.role) {
+    redirect(`/u/etudiant/${user?.prenom.toLowerCase()}/themes`);
   }
 
   return (
     <main className="w-full h-full p-6 bg-white">
-      <section className="flex flex-col gap-y-5">
-        <div className="w-full rounded-md bg-[#17203F] h-28 flex items-center mt-3 pl-3 justify-between overflow-hidden">
+      <section className="flex flex-col">
+        <div className="w-full rounded-md bg-[#17203F] h-24 flex items-center mt-3 pl-3 justify-between overflow-hidden">
           <Typography
             sx={{
               color: "#FFFFFF",
@@ -53,7 +46,7 @@ const DashboardPage = async () => {
               alt="avatar"
               className="rounded-full z-20 "
             /> */}
-            <Image
+            {/* <Image
               src={"/avatar1.jpg"}
               width={120}
               height={120}
@@ -73,13 +66,13 @@ const DashboardPage = async () => {
               height={110}
               alt="avatar"
               className="rounded-full -ml-14"
-            />
+            /> */}
           </div>
         </div>
-        <div className="flex  w-full  space-y-5 justify-between h-full items-end  mt-7  md:mt-14">
+        <div className="flex  w-full  space-y-5 justify-between h-full items-end  mt-5  md:mt-10">
           <div className="flex flex-col gap-y-4 w-[90%] lg:w-[55%] justify-center">
             <Link
-              href={`/u/${user.prenom}/themes`}
+              href={`/u/${user.prenom.toLowerCase()}/themes`}
               className="w-full rounded-md  h-[80px] flex items-center border border-[#93b7dd] shadow-lg hover:shadow-2xl hover:transition-all hover:border-2"
             >
               <Typography
@@ -100,7 +93,7 @@ const DashboardPage = async () => {
             <AjouterIndispo />
 
             <Link
-              href={`/u/${user.prenom}/binomes`}
+              href={`/u/${user.prenom.toLowerCase()}/binomes`}
               className=" rounded-md  h-[80px] flex items-center justify-start w-full  border border-[#9b6bdb] shadow-lg hover:shadow-2xl hover:transition-all hover:border-2"
             >
               <Typography

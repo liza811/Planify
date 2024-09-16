@@ -66,23 +66,27 @@ export const AjouterBinome = ({ specialites, domaines }: AjouterModelProps) => {
     setOpen((open) => !open);
   };
   const onSubmit = (values: z.infer<typeof binomeSchema>) => {
-    startTransition(() => {
-      ajouterBinome(values, valuesToSubmit)
-        .then((data) => {
-          if (data.error) {
-            toast.error(data.error);
-            form.reset();
-          }
-          if (data.success) {
-            toast.success(data.success);
-            form.reset();
-          }
-        })
-        .catch(() => toast.error("Something went wrong!"));
-      setOpen((open) => !open);
-    });
-
-    form.reset();
+    if (!values.domaine) {
+      toast.error("Vous devez selectionner un domaine!");
+    } else if (valuesToSubmit.length === 0) {
+      toast.error("Vous devez selectionner au moins une spécialitée!");
+    } else {
+      startTransition(() => {
+        ajouterBinome(values, valuesToSubmit)
+          .then((data) => {
+            if (data.error) {
+              toast.error(data.error);
+              form.reset();
+            }
+            if (data.success) {
+              toast.success(data.success);
+              form.reset();
+            }
+          })
+          .catch(() => toast.error("Something went wrong!"));
+        setOpen((open) => !open);
+      });
+    }
   };
   useEffect(() => {
     setValuesToSubmit(selectedValues);

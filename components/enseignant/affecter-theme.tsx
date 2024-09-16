@@ -73,26 +73,29 @@ export const AffecterTheme = ({
     if (!idBinome) {
       return null;
     }
-    startTransition(() => {
-      affecterTheme(valuesToSubmit, values.theme, idBinome, values.domaine)
-        .then((data) => {
-          if (data.error) {
-            toast.error(data.error);
-            form.reset();
-          }
-          if (data.success) {
-            toast.success(data.success);
-            form.reset();
-          }
-        })
-        .catch(() => toast.error("Something went wrong!"));
-      setOpen((open) => !open);
-    });
-
-    form.reset();
+    if (!values.domaine) {
+      toast.error("Vous devez selectionner un domaine!");
+    } else if (valuesToSubmit.length === 0) {
+      toast.error("Vous devez selectionner au moins une spécialitée!");
+    } else {
+      startTransition(() => {
+        affecterTheme(valuesToSubmit, values.theme, idBinome, values.domaine)
+          .then((data) => {
+            if (data.error) {
+              toast.error(data.error);
+              form.reset();
+            }
+            if (data.success) {
+              toast.success(data.success);
+              form.reset();
+            }
+          })
+          .catch(() => toast.error("Something went wrong!"));
+        setOpen((open) => !open);
+      });
+    }
   };
   useEffect(() => {
-    // Update the values to submit whenever selectedValues changes
     setValuesToSubmit(selectedValues);
   }, [selectedValues]);
 
@@ -103,11 +106,10 @@ export const AffecterTheme = ({
         : selectedListString.includes(",")
         ? selectedListString.split(",")
         : [selectedListString];
-    // console.log(newSelectedValues);
+
     setSelectedValues(newSelectedValues);
   };
 
-  // onOpenChange={setClose} open={!close}
   useEffect(() => {
     setIsMounted(true);
   }, []);

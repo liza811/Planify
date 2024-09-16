@@ -88,7 +88,7 @@ export const Login = async (
     await signIn("credentials", {
       email,
       password,
-      redirectTo: `/u/${existingUser.prenom}`,
+      redirectTo: `/u/${existingUser.prenom?.toLowerCase()}`,
     });
     return { success: "" };
   } catch (error) {

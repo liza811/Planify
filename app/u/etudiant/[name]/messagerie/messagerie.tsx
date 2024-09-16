@@ -12,10 +12,10 @@ export const Messagerie = async ({ searchParams }: MemberIdPageProps) => {
   const profile = await currentUser();
 
   if (!profile) {
-    return redirect("/login");
+    redirect("/login");
   }
   if (profile.role) {
-    return redirect("/login");
+    redirect(`/u/${profile?.prenom.toLowerCase()}`);
   }
 
   const currentMember = await db.etudiant.findFirst({

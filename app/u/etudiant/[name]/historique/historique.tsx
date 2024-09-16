@@ -20,16 +20,11 @@ export const Historique = async () => {
 
   const user = await currentUser();
 
-  if (!user || !user.prenom) {
-    return (
-      <main className="w-full h-full flex items-center justify-center">
-        <ClipLoader size={30} className="text-slate-800" />
-      </main>
-    );
+  if (!user || !user?.prenom) {
+    redirect(`/login`);
   }
-
   if (user.role) {
-    redirect(`/u/${user?.prenom}/themes`);
+    redirect(`/u/${user?.prenom.toLowerCase()}`);
   }
 
   if (!mesChoix?.length || !themes?.length) {

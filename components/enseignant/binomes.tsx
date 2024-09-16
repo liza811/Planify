@@ -13,7 +13,7 @@ import { Encadrant } from "./collapsible";
 import { stringToColor } from "@/lib/utils";
 import Image from "next/image";
 import { AjouterBinome } from "./ajouter-binome";
-import { getDomaine, getSpecialites } from "@/lib/specialite";
+import { getDomaine } from "@/lib/specialite";
 import { getConfiguration } from "@/lib/configuration";
 import { CircleHelp } from "lucide-react";
 
@@ -122,7 +122,7 @@ export async function Binomes({
               validatedList.map((v) => (
                 <div
                   key={v.Theme?.id}
-                  className="border py-3 px-2"
+                  className="border py-3 px-2 rounded-[2px]"
                   style={{
                     border: `1px solid ${stringToColor(v.Theme?.nom || "")}`,
                   }}
