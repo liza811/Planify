@@ -9,7 +9,7 @@ export const Calendar = async () => {
     return (
       <NothingFound
         header="Aucun planning trouvé"
-        paragraph=""
+        paragraph="Vous recevrez une notification dès que le planning sera affiché."
         src="/task-searching.png"
       />
     );

@@ -21,7 +21,7 @@ interface AjouterModelProps {
 }
 export const Themes = async () => {
   const user = await currentUser();
-  if (!user || !user.prenom) redirect("/login");
+  if (!user || !user.nom) redirect("/login");
   if (!user.role) {
     redirect(`/u/etudiant/${user?.prenom.toLowerCase()}/themes`);
   }
@@ -46,7 +46,7 @@ export const Themes = async () => {
   return (
     <main
       className={cn(
-        "flex flex-col gap-y-4 w-full h-full p-6 bg-[#F9FAFC]",
+        "flex flex-col gap-y-4 w-full h-full p-3 md:p-6 bg-[#F9FAFC]",
         !configuration?.nbTheme && "justify-end"
       )}
     >

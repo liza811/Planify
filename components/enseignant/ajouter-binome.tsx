@@ -151,7 +151,7 @@ export const AjouterBinome = ({ specialites, domaines }: AjouterModelProps) => {
                   <FormControl>
                     <Textarea
                       placeholder="Description du thème"
-                      className="resize-none focus-visible:none"
+                      className="resize-none focus-visible:none h-32"
                       {...field}
                     />
                   </FormControl>

@@ -126,7 +126,7 @@ export const AjouterThemes = ({
       <DialogContent className=" md:w-[450px] w-[350px] p-5  max-h-[95vh]">
         <DialogHeader>
           <DialogTitle className="text-center mb-3">
-            {"Ajouter un Theme"}
+            {"Ajouter un Thème"}
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -140,7 +140,7 @@ export const AjouterThemes = ({
                   <FormControl>
                     <Textarea
                       placeholder="Description du thème"
-                      className="resize-none focus-visible:none"
+                      className="resize-none focus-visible:none h-32"
                       {...field}
                     />
                   </FormControl>

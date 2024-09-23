@@ -48,19 +48,19 @@ export function ValiderBinome({ binomeId, themeId }: DeleteThemeProp) {
           valider
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-[340px] md:w-[430px] ">
         <AlertDialogHeader>
           <AlertDialogTitle> Affecter un thème</AlertDialogTitle>
           <AlertDialogDescription>
             Vous serez automatiquement l&apos;encadrant de ce binome.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="uppercase">
+        <AlertDialogFooter className="uppercase flex justify-between">
           <AlertDialogCancel disabled={isPending} className="cursor-pointer">
             Annuler
           </AlertDialogCancel>
           <Button
-            className="cursor-pointer w-[100px]"
+            className="cursor-pointer w-full md:w-[100px]"
             name="delete"
             title="delete"
             onClick={() => onClick(themeId, binomeId)}

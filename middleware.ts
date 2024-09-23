@@ -27,13 +27,15 @@ export default auth(async (req) => {
         return NextResponse.redirect(
           new URL(`/u/${session?.prenom.toLowerCase()}`, nextUrl)
         );
-      } else {
+      } else if (session?.role === false) {
         return NextResponse.redirect(
           new URL(
             `/u/etudiant/${session?.prenom.toLowerCase()}/themes`,
             nextUrl
           )
         );
+      } else {
+        return NextResponse.redirect(new URL(`/login`, nextUrl));
       }
     }
     return;

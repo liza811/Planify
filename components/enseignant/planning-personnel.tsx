@@ -158,15 +158,12 @@ export const Planning = ({ config, planning }: planningProps) => {
                     (item) => item.heure === time
                   );
                   const hexColors = [
-                    "#E5DE99",
                     "#DCB8C6",
-                    "#82B798",
-                    "#749EAC",
+
                     "#8089A8",
                     "#5AE31B",
                     "#251e3e",
                     "#c99789",
-                    "#ffa700",
 
                     "#67203C ",
                     "#6A006A ",

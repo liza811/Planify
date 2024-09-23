@@ -26,7 +26,7 @@ export const ListThemes = ({ themes }: { themes: Theme[] }) => {
   return (
     <div>
       {!!themes && (
-        <div className="grid grid-cols-1  gap-4 gap-y-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1  gap-4 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 h-full bg-[#F9FAFC] p-3 md:p-6">
           {themes.map((theme) => (
             <ThemeItem
               key={theme.id}

@@ -23,10 +23,10 @@ export const HistoriqueItem = ({
     [Etat.VALIDE]: "validé",
   };
   return (
-    <div className="flex items-center  justify-between border-b last:border-b-0 py-4  w-full font-medium">
-      <div className="w-3/4 "> {nom}</div>
+    <div className="flex items-center  justify-between border-b last:border-b-0 py-4  w-full font-medium capitalize">
+      <div className="w-3/4 text-[15px]"> {nom}</div>
       <div className="w-[10%] font-normal  text-sm text-center">
-        {proposePar}
+        {proposePar.toLowerCase()}
       </div>
       <div
         className={cn(

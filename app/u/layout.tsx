@@ -18,7 +18,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           <Sidebar />
         </aside>
         <section
-          className={cn("md:ml-56  h-screen pt-[80px] ", font.className)}
+          className={cn(
+            "md:ml-56  h-full pt-[80px] bg-[#F9FAFC] ",
+            font.className
+          )}
         >
           {children}
         </section>

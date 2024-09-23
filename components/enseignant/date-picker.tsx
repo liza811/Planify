@@ -110,7 +110,12 @@ export function DatePickerWithRange({
           />
         </PopoverContent>
       </Popover>
-      <Button type="submit" onClick={onClick} className="mt-2 mx-5">
+      <Button
+        type="submit"
+        onClick={onClick}
+        className="mt-2 mx-5"
+        disabled={nbDateIndispo == 0}
+      >
         {isPending ? <ClipLoader color="white" size={15} /> : "Enregistrer"}
       </Button>
     </div>

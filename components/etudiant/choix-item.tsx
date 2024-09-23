@@ -81,9 +81,9 @@ export const ChoixItem = ({
                     "text-xs font-semibold rounded-lg px-3 py-1 text-black "
                   )}
                   style={{
-                    color: `${stringToColor(s.specialite.nom)}`,
+                    color: `${stringToColor(s.specialite.nom.concat("."))}`,
                     backgroundColor: hexToRgba(
-                      stringToColor(s.specialite.nom),
+                      stringToColor(s.specialite.nom.concat(".")),
                       0.2
                     ),
                   }}

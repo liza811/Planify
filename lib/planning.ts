@@ -1,4 +1,4 @@
-import { Visibility } from "@prisma/client";
+import { Session, Visibility } from "@prisma/client";
 import { currentUser } from "./current-user";
 import { db } from "./db";
 
@@ -24,6 +24,7 @@ export const getPlanningPersonnel = async () => {
   const planning = await db.soutenance.findMany({
     where: {
       planningId: mostRecentPlanning.id,
+      session: Session.NORMAL,
       OR: [
         {
           presidentId: user?.id,
@@ -125,6 +126,7 @@ export const getPlanning = async () => {
   const planning = await db.soutenance.findMany({
     where: {
       planningId: mostRecentPlanning.id,
+      session: Session.NORMAL,
     },
     select: {
       id: true,

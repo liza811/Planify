@@ -16,7 +16,7 @@ import { getIndisponibilite } from "@/lib/indisponibilite";
 import { getConfiguration } from "@/lib/configuration";
 import { ResetButton } from "./reset-indisponibilite-button";
 import { DatePickerWithRange } from "./date-picker";
-import { format, formatDate, isValid, parse, parseISO } from "date-fns";
+import { format, isValid, parse } from "date-fns";
 
 export interface DatesIndisponibles {
   from: string;
@@ -35,7 +35,7 @@ export const AjouterIndispo = async () => {
   return (
     <Dialog>
       <DialogTrigger className="flex gap-x-2 ">
-        <div className=" rounded-md  h-[80px] flex items-center w-full border border-[#6889FF] shadow-lg hover:shadow-2xl hover:border-2 hover:transition-all ">
+        <div className=" rounded-md  h-[80px] flex items-center text-center justify-center md:justify-start md:pl-14 w-full border border-[#6889FF] shadow-lg hover:shadow-2xl hover:border-2 hover:transition-all ">
           <Typography
             sx={{
               color: "#3D007B",
@@ -43,7 +43,7 @@ export const AjouterIndispo = async () => {
               mt: 0,
               fontSize: 19,
               mr: 0,
-              marginLeft: 7,
+
               textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
             }}
           >
@@ -113,15 +113,27 @@ export const AjouterIndispo = async () => {
             <ResetButton />
           </div>
         )}
-        {!!configuration && configuration.nbDateIndispo && (
-          <span className="flex gap-x-2 text-slate-700  text-sm">
-            <CircleHelp className="size-5" />
-            {` Vous ne pouvez pas déclarer plus de ${
-              configuration.nbDateIndispo
-            } ${
-              configuration.nbDateIndispo > 1 ? `jours` : `jour`
-            } d'indisponibilitées.`}
-          </span>
+        {!!configuration && (
+          <>
+            {configuration.nbDateIndispo == 0 ? (
+              <span className="flex gap-x-2 text-slate-700  text-sm">
+                <CircleHelp className="size-5" />
+                {` Vous ne pouvez pas déclarer des jours d'indisponibilitées 
+                 `}
+              </span>
+            ) : configuration.nbDateIndispo! > 0 ? (
+              <span className="flex gap-x-2 text-slate-700  text-sm">
+                <CircleHelp className="size-5" />
+                {` Vous ne pouvez pas déclarer plus de ${
+                  configuration.nbDateIndispo
+                } ${
+                  configuration.nbDateIndispo! > 1 ? `jours` : `jour`
+                } d'indisponibilitées.`}
+              </span>
+            ) : (
+              ""
+            )}
+          </>
         )}
       </DialogContent>
     </Dialog>

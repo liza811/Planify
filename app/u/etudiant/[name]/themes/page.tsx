@@ -6,7 +6,7 @@ import { Loader } from "@/app/u/_components/loader";
 const EtudiantThemesPage = () => {
   return (
     <Suspense fallback={<Loader />}>
-      <EtudiantThemes />;
+      <EtudiantThemes />
     </Suspense>
   );
 };

@@ -2,13 +2,13 @@
 
 import {
   Palette,
-  DoorOpen,
   HomeIcon,
   UserCog,
   CalendarCheck,
   Blend,
   History,
   MessageCircleCode,
+  ContactIcon,
 } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -37,7 +37,7 @@ export const SidebarRoutes = () => {
       href: `/u/${user?.prenom.toLowerCase()}/themes`,
     },
     {
-      icon: DoorOpen,
+      icon: ContactIcon,
 
       label: "Planning personnel",
       href: `/u/${user?.prenom.toLowerCase()}/planning-personnel`,

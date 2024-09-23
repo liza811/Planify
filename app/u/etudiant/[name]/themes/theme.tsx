@@ -11,7 +11,7 @@ export const EtudiantThemes = async () => {
   const themes = await getThemesParSpecialite();
   const user = await currentUser();
 
-  if (!user?.prenom) {
+  if (!user || !user?.prenom) {
     redirect("/login");
   }
   if (user.role) {
@@ -30,12 +30,8 @@ export const EtudiantThemes = async () => {
 
   return (
     <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
-      <main className="flex flex-col gap-y-4 w-full h-full p-6 bg-[#F9FAFC]">
-        {!!themes && (
-          <section className="flex flex-col w-full  rounded-sm  h-full p-4 px-0 mb-3">
-            <ListThemes themes={themes} />
-          </section>
-        )}
+      <main className="flex flex-col gap-y-4 w-full h-full  bg-[#F9FAFC]">
+        {!!themes && <ListThemes themes={themes} />}
       </main>
     </Suspense>
   );

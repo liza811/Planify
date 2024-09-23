@@ -18,7 +18,7 @@ export const PlanningPersonnel = async () => {
     );
   }
   return (
-    <main className="p-4 w-full h-[88vh] bg-[#F5F4F9] overflow-x-scroll">
+    <main className="p-3 md:p-4 w-full h-full overflow-y-auto bg-[#F5F4F9] ">
       <Planning planning={planning} config={config} />
     </main>
   );

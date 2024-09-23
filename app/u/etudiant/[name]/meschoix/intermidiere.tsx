@@ -38,7 +38,7 @@ const Intermidiere = async () => {
   if (!!encadrant) {
     return (
       <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
-        <main className="h-[89vh]  gap-y-5  p-6 bg-[#EFF3FF]">
+        <main className="h-[89vh]  gap-y-5 p-3 md:p-6 bg-[#EFF3FF]">
           <InfoEncadrant encadrant={encadrant} />
         </main>
       </Suspense>
@@ -95,7 +95,7 @@ const Intermidiere = async () => {
     }
 
     return (
-      <main className=" w-full h-full  bg-neutral-100/90  p-6 pt-3 ">
+      <main className=" w-full h-full  bg-neutral-100/90 p-2 lg:p-6 pt-3 overflow-x-auto">
         {!!configuration && !!configuration.nbChoix && (
           <div className="flex gap-x-2 items-center w-full justify-end  underline pb-3 pr-[15%]">
             <CircleHelp className="text-slate-600 w-4 h-4" />
@@ -109,7 +109,6 @@ const Intermidiere = async () => {
           mesChoix={themesWithChoix}
           configuration={configuration}
         />
-        ;
       </main>
     );
   }

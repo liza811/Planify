@@ -105,57 +105,59 @@ export const Main = ({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <main className="flex justify-center  w-full h-full   pb-4  ">
-        <section className="w-full h-full flex justify-center ">
-          <Droppable droppableId="THEMES">
-            {(provided, snapshot) => (
-              <ScrollArea
-                className="flex flex-col gap-y-1 w-96 h-full rounded-lg border bg-slate-100 "
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                <h2 className="font-semibold bg-white border-b p-3 flex justify-between items-center w-full">
-                  {"Thèmes"}
-                  <span className="ml-auto rounded-lg bg-slate-200  text-[15px] font-medium  px-3  text-black  flex items-center justify-center">
-                    {" "}
-                    {allThemes.length}
-                  </span>
-                </h2>
-                <div className="flex flex-col gap-y-4 p-3 px-4 h-full">
-                  {themes.map((theme, index) => (
-                    <ChoixItem
-                      index={index}
-                      key={theme.id}
-                      nom={theme.nom}
-                      id={theme.id}
-                      specialite={theme.themeSpecialites}
-                      proposePar={
-                        `${theme.proposePar?.nom} ${theme.proposePar?.prenom}` ||
-                        ""
-                      }
-                      email={theme.proposePar?.email}
-                      nbchoix={choix.length}
-                      configurationChoix={configuration?.nbChoix}
-                    />
-                  ))}
-                </div>
-                {provided.placeholder}
-              </ScrollArea>
-            )}
-          </Droppable>
-        </section>
-        <section className="w-full h-full flex justify-center ">
-          <div className="flex flex-col items-center pb-2 gap-y-4 w-96 h-full rounded-lg border bg-slate-100 ">
-            <Droppable droppableId="CHOIX">
+      <main className="flex justify-center  w-full h-full   overflow-x-auto ">
+        <section className="w-full h-full flex justify-center ml-[330px] md:ml-52 lg:ml-0">
+          <div className="flex flex-col items-center pb-2 gap-y-4 w-96 lg:w-[450px] h-full rounded-lg border bg-slate-100 ">
+            <Droppable droppableId="THEMES">
               {(provided, snapshot) => (
                 <ScrollArea
-                  className="flex flex-col gap-y-4 w-96 h-full  "
+                  className="flex flex-col gap-y-4 w-full h-full "
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  <h2 className="font-semibold bg-white border-b p-3 flex justify-between items-center w-full">
+                  <h2 className="font-semibold bg-white border-b p-3 max-h-12  flex justify-between items-center w-full">
+                    {"Thèmes"}
+                    <span className="ml-auto rounded-lg bg-slate-200  text-[15px] font-medium  px-3  text-black  flex items-center justify-center">
+                      {" "}
+                      {allThemes.length}
+                    </span>
+                  </h2>
+                  <div className="flex flex-col gap-y-4 p-3 px-4 h-full">
+                    {themes.map((theme, index) => (
+                      <ChoixItem
+                        index={index}
+                        key={theme.id}
+                        nom={theme.nom}
+                        id={theme.id}
+                        specialite={theme.themeSpecialites}
+                        proposePar={
+                          `${theme.proposePar?.nom} ${theme.proposePar?.prenom}` ||
+                          ""
+                        }
+                        email={theme.proposePar?.email}
+                        nbchoix={choix.length}
+                        configurationChoix={configuration?.nbChoix}
+                      />
+                    ))}
+                  </div>
+                  {provided.placeholder}
+                </ScrollArea>
+              )}
+            </Droppable>
+          </div>
+        </section>
+        <section className="w-full h-full flex justify-center ">
+          <div className="flex flex-col items-center pb-2 gap-y-4 w-96 lg:w-[450px] h-full rounded-lg border bg-slate-100 ">
+            <Droppable droppableId="CHOIX">
+              {(provided, snapshot) => (
+                <ScrollArea
+                  className="flex flex-col gap-y-4 w-full h-full  "
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  <h2 className="font-semibold bg-white border-b p-3 max-h-12 flex justify-between items-center w-full">
                     {"Mes choix"}
-                    <span className="ml-auto rounded-lg bg-slate-100 text-[15px] font-medium  px-3 py-1 text-black  flex items-center justify-center">
+                    <span className="ml-auto rounded-lg bg-slate-200 text-[15px] font-medium  px-3  text-black  flex items-center justify-center">
                       {" "}
                       {choix.length}
                       {configuration?.nbChoix
