@@ -14,7 +14,7 @@ import {
 export const Etudiant = () => {
   return (
     <Section
-      className="pt-12 px-0 w-full relative "
+      className=" pt-3 md:pt-12 px-0 w-full relative "
       crosses
       crossesOffset="lg:translate-y-[0.25rem]"
       customPaddings
@@ -38,24 +38,24 @@ export const Etudiant = () => {
             src={"/etud-1.png"}
             width={70}
             height={200}
-            className="-mt-1.5"
+            className="-mt-1.5 hidden md:block"
           />
           <Image
             alt="workflow"
             src={"/etud2.png"}
             width={73}
-            className="-mt-4 ml-1.5"
+            className="-mt-4 ml-1.5 hidden md:block"
             height={200}
           />
           <Image
             alt="workflow"
             src={"/etud3.png"}
             width={53}
-            className="-mt-5 ml-7"
+            className="-mt-5 ml-7 hidden md:block"
             height={100}
           />
         </div>
-        <div className=" relative flex flex-col justify-start  lg:w-[1150px]">
+        <div className=" relative flex flex-col justify-start w-full lg:w-[1150px]">
           <div
             className="w-[40%]
         blur-[150px]
@@ -69,7 +69,7 @@ export const Etudiant = () => {
       "
           />
 
-          <div className="bg-custom-gradient p-[1px] w-fit  h-fit  rounded-[0.5rem] flex items-center justify-center mt-1 ml-3">
+          <div className="bg-custom-gradient p-[1px] w-fit  h-fit  rounded-[0.5rem] flex items-center justify-center mt-1 lg:ml-3">
             <div className="flex text-[#767BF8]/80 bg-[#01265c] rounded-[0.5rem] py-[.38rem] px-[.75rem]  items-center w-fit gap-x-2 z-30">
               <BoxSelectIcon className="size-5" />
               <p className="text-[13px]  font-semibold">Pour les Etudiants</p>
@@ -77,11 +77,13 @@ export const Etudiant = () => {
           </div>
           <h1
             className=" text-left 
-          text-3xl
-          sm:text-5xl
-         w-full
-         mt-7
-         ml-3
+            w-[100%]
+          text-2xl
+          md:text-3xl
+          lg:text-5xl
+    mt-4
+         lg:mt-7
+         lg:ml-3
          text-neutral-200
           font-semibold
         "
@@ -89,7 +91,7 @@ export const Etudiant = () => {
             Simplifiez votre parcours de graduation.
           </h1>
           <p
-            className="  w-[90%] text-[1.5rem] mt-6 ml-3 text-slate-400
+            className=" w-[100%] lg:w-[90%] text-[1rem] lg:text-[1.5rem]   mt-3 lg:mt-6 lg:ml-3 text-slate-400
           
           "
           >
@@ -97,8 +99,8 @@ export const Etudiant = () => {
             chaque étape de votre progression directement en ligne.
           </p>
           <p
-            className=" w-full text-[1rem] mt-[88px] mb-10 text-[#2061da] max-w-[400px]  ml-3 font-bold
-          pl-2
+            className=" w-full text-[1rem] mt-7 lg:mt-[88px] mb-10 text-[#2061da] max-w-[400px]  lg:ml-3 font-bold
+          lg:pl-2
           "
           >
             Glissez simplement les thèmes de votre choix dans l&apos;espace
@@ -108,12 +110,19 @@ export const Etudiant = () => {
             <Image
               src={"/main-etud.png"}
               alt="Banner"
-              className="scale-[1.2]  pl-20 mt-3"
+              className="scale-[1.2] pl-8 lg:pl-20 lg:mt-3 w-full hidden  lg:block"
               width={1300}
               height={1000}
             />
-            <div className="flex justify-around gap-20 -ml-1 -mt-20 z-40 pr-10 w-full">
-              <div className="flex flex-col gap-y-3">
+            <Image
+              src={"/etud-mobile.png"}
+              alt="Banner"
+              className="scale-[1.2] pl-8 lg:pl-20 lg:mt-3 w-full block lg:hidden"
+              width={1400}
+              height={1000}
+            />
+            <div className="flex lg:justify-around gap-6 lg:gap-20 flex-col lg:flex-row -ml-1 lg:-mt-20 z-40 lg:pr-10 w-full">
+              <div className="flex flex-col gap-y-3 border rounded-md border-[#2061da] p-3 lg:border-none lg:p-3">
                 <span className="flex gap-x-2 items-center">
                   <FileUpIcon className="size-6 text-[#2061da]" />
                   <p className="text-[1rem] text-neutral-50 font-semibold">
@@ -126,7 +135,7 @@ export const Etudiant = () => {
                   main.
                 </p>
               </div>
-              <div className="flex flex-col gap-y-3">
+              <div className="flex flex-col gap-y-3 border rounded-md border-[#2061da] p-3 lg:border-none lg:p-3">
                 <span className="flex gap-x-2 items-center">
                   <MessageSquareIcon className="size-6 text-[#2061da]" />
                   <p className="text-[1rem] text-neutral-50 font-semibold ">
@@ -139,7 +148,7 @@ export const Etudiant = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-y-3">
+              <div className="flex flex-col gap-y-3 border rounded-md border-[#2061da] p-3 lg:border-none lg:p-3">
                 <span className="flex gap-x-2 items-center">
                   <PaletteIcon className="size-6 text-[#2061da]" />
                   <p className="text-[1rem] text-neutral-50 font-semibold">

@@ -16,8 +16,9 @@ export const Gradient = () => {
 
 interface props {
   classname?: string;
+  footer?: boolean;
 }
-export const BottomLine = ({ classname }: props) => {
+export const BottomLine = ({ classname, footer }: props) => {
   return (
     <>
       <div
@@ -27,9 +28,13 @@ export const BottomLine = ({ classname }: props) => {
         )}
       />
 
-      <PlusSvg className="hidden absolute top-[54.9375rem] left-[2.1875rem] z-2 pointer-events-none xl:block" />
+      <PlusSvg
+        className={cn(
+          "hidden absolute  top-[53.9rem] left-[2.1875rem] z-2 pointer-events-none xl:block"
+        )}
+      />
 
-      <PlusSvg className="hidden absolute top-[54.9375rem] right-[2.1875rem] z-2 pointer-events-none xl:block" />
+      <PlusSvg className="hidden absolute top-[53.9rem] right-[2.187rem] z-2 pointer-events-none xl:block" />
     </>
   );
 };

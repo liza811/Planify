@@ -11,11 +11,11 @@ const fontt = Source_Code_Pro({
 const Header = () => {
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50  border-b border-n-6  lg:backdrop-blur-sm py-4
+      className={`fixed top-0 left-0 w-full z-50  border-b border-n-6  bg-n-8/90 lg:bg-transparent  lg:backdrop-blur-sm py-4
     
       }`}
     >
-      <div className="flex items-center px-5 lg:px-7.5 xl:px-10   justify-between">
+      <div className="flex items-center px-2 md:px-5 lg:px-7.5 xl:px-10   justify-between">
         <Link className="block w-fit xl:mr-8" href="/">
           <Image src={"/logo-header.png"} width={105} height={40} alt="logo" />
         </Link>

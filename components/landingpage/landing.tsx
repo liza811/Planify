@@ -23,10 +23,11 @@ export const Landing = () => {
         ref={parallaxRef}
         className=" relative
         w-full
-        pt-[10rem]
+        lg:pt-[10rem]
       px-4
+      pt-[6rem]
       sm:px-6
-      mt-[]
+   
       sm:flex
       sm:flex-col
       gap-4
@@ -42,6 +43,8 @@ export const Landing = () => {
           p-[2px]
           mt-6
           z-30
+          hidden
+          md:block
           rounded-xl
           bg-gradient-to-r 
          from-[hsl(266,100%,50%)]
@@ -104,7 +107,7 @@ export const Landing = () => {
         <Image
           src={"/main.png"}
           alt="Application Banner"
-          className="z-10 "
+          className="z-10 mt-4 md:mt-0 w-full lg:w-[900px]"
           width={900}
           height={400}
         />
@@ -156,7 +159,7 @@ export const Landing = () => {
         </ScrollParallax>
       </section>
 
-      <BottomLine />
+      <BottomLine classname="top-[54.2rem]" />
     </Section>
   );
 };
