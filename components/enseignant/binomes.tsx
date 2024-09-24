@@ -127,7 +127,7 @@ export async function Binomes({
                     border: `1px solid ${stringToColor(v.Theme?.nom || "")}`,
                   }}
                 >
-                  <div className=" w-full flex justify-between items-center">
+                  <div className=" w-full flex  flex-col-reverse gap-y-3 lg:gap-y-0 lg:flex-row justify-between items-start Llg:items-center">
                     <p className="text-[15px]">{v.Theme?.nom}</p>
                     {v.Theme && v.etat === Etat_Binome.NON_TERMINE && (
                       <BinomeTerminer binomeId={v.Binome.id} />

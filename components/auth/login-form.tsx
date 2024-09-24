@@ -78,17 +78,12 @@ export function LoginForm() {
       <div className="flex flex-col   gap-5 items-center w-full  bg-white  flex-1 ">
         <div
           className="
-    w-full
+    w-[100px]
     flex
     justify-center
     items-center"
         >
-          <Image
-            src={"/logo-colore.png"}
-            alt="cypress Logo"
-            width={100}
-            height={100}
-          />
+          <Image src={"/logo-colore.png"} alt="Logo" width={100} height={50} />
         </div>
         <Form {...form}>
           <form
@@ -177,7 +172,7 @@ export function LoginForm() {
               ) : showTwoFactor ? (
                 "Confirmer"
               ) : (
-                "Login"
+                "Se connecter"
               )}
             </Button>
           </form>

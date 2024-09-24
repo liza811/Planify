@@ -44,7 +44,7 @@ export function BinomeTerminer({ binomeId }: DeleteThemeProp) {
           Confirmer la soutenance
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="md:w-[500px] w-[350px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Validation de la Soutenance</AlertDialogTitle>
           <AlertDialogDescription>
@@ -57,7 +57,7 @@ export function BinomeTerminer({ binomeId }: DeleteThemeProp) {
             Annuler
           </AlertDialogCancel>
           <Button
-            className="cursor-pointer w-[100px]"
+            className="cursor-pointer w-full md:w-[100px]"
             name="valider"
             title="valider"
             onClick={() => onClick(binomeId)}

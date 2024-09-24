@@ -17,7 +17,7 @@ export const SignOut = () => {
     >
       <div className="flex items-center gap-x-2 ">
         <LogOutIcon size={25} className="text-slate-300 hover:text-white" />
-        {"signOut"}
+        {"  Se déconnecter"}
       </div>
     </Button>
   );

@@ -266,7 +266,7 @@ const HomePage = () => {
               changements ou imprévus, pour une gestion fluide et efficace.
             </p>
 
-            <div className="relative left-1/2 flex w-[22rem] -ml-1 md:-ml-0 aspect-square border border-n-6 rounded-full -translate-x-1/2 scale:75 md:scale-100">
+            <div className="relative left-1/2 flex w-[22rem] -ml-0.5 md:-ml-0 aspect-square border border-n-6 rounded-full -translate-x-1/2 scale:75 md:scale-100">
               <div className="flex w-60 aspect-square m-auto border border-n-6 rounded-full">
                 <div className="w-[4rem] aspect-square m-auto p-[0.2rem] bg-conic-gradient rounded-full">
                   <div className="flex items-center justify-center w-full h-full bg-n-8 rounded-full">
@@ -397,13 +397,15 @@ const HomePage = () => {
       <Section className="!px-0 !py-2 relative" id={"#footer"}>
         <BottomLine classname="top-[3.49rem]" footer />
         <div className=" px-1 md:container flex justify-between  items-center md:gap-10  py-3">
-          <Image
-            src={"/logo-header.png"}
-            width={110}
-            height={70}
-            alt="logo"
-            className="md:mt-14 md:pl-8"
-          />
+          <div className="w-20 md:w-[110px]">
+            <Image
+              src={"/logo-header.png"}
+              width={110}
+              height={70}
+              alt="logo"
+              className="md:mt-14 md:pl-8"
+            />
+          </div>
           <p className="caption text-n-4 mt-6 md:mt-16 md:pr-8">
             © {new Date().getFullYear()}. All rights reserved.
           </p>

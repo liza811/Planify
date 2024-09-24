@@ -11,7 +11,6 @@ import "react-multiple-select-dropdown-lite/dist/index.css";
 
 import { CircleHelp } from "lucide-react";
 
-import { Typography } from "@mui/material";
 import { getIndisponibilite } from "@/lib/indisponibilite";
 import { getConfiguration } from "@/lib/configuration";
 import { ResetButton } from "./reset-indisponibilite-button";
@@ -35,20 +34,13 @@ export const AjouterIndispo = async () => {
   return (
     <Dialog>
       <DialogTrigger className="flex gap-x-2 ">
-        <div className=" rounded-md  h-[80px] flex items-center text-center justify-center md:justify-start md:pl-14 w-full border border-[#6889FF] shadow-lg hover:shadow-2xl hover:border-2 hover:transition-all ">
-          <Typography
-            sx={{
-              color: "#3D007B",
-
-              mt: 0,
-              fontSize: 19,
-              mr: 0,
-
-              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-            }}
+        <div className=" rounded-md  h-[80px] flex items-center text-center justify-center md:justify-start md:pl-14 w-full border border-[#6889FF] shadow-lg hover:shadow-2xl hover:border-2 hover:transition-all text-[18px] font-[400]">
+          <p
+            className="text-[#3D007B]"
+            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)" }}
           >
             Déclarer mes jours d&apos;indisponibilités
-          </Typography>
+          </p>
         </div>
       </DialogTrigger>
 

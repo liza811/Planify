@@ -89,7 +89,7 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
           )}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="mr-5 flex flex-col w-[350px] bg-[#f8f7ff] p-0 pb-2 ">
+      <PopoverContent className=" mr-3 md:mr-5 flex flex-col w-[340px] md:w-[350px] bg-[#f8f7ff] p-0 pb-2 ">
         <h2 className="font-bold  border-b p-2 py-4  flex justify-between items-center w-full">
           {"Notifications"}
           <span className="">

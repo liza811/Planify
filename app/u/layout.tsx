@@ -5,7 +5,7 @@ import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 const font = Poppins({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "500", "700", "900"],
+  weight: ["100", "200", "300", "400", "500", "700", "900"],
 });
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (

@@ -75,7 +75,7 @@ export function ValiderChoix({ choix, disabled }: DeleteThemeProp) {
           {"Valider"}
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="md:w-[500px] w-[350px]">
         <AlertDialogHeader>
           <AlertDialogTitle>
             {" "}
@@ -91,13 +91,13 @@ export function ValiderChoix({ choix, disabled }: DeleteThemeProp) {
             Annuler
           </AlertDialogCancel>
           <Button
-            className="cursor-pointer w-[100px]"
+            className="cursor-pointer w-full md:w-[100px]"
             name="delete"
             title="delete"
             onClick={() => onClick(choix)}
             disabled={isPending}
           >
-            {isPending ? <ClipLoader color="white" size={15} /> : "Enregistrer"}
+            {isPending ? <ClipLoader color="white" size={15} /> : "Valider"}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

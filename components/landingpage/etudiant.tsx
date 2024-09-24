@@ -126,7 +126,7 @@ export const Etudiant = () => {
                 src={"/etud-mobile.png"}
                 alt="Banner"
                 className="scale-[1.2] pl-5 lg:pl-20  lg:mt-3  block lg:hidden "
-                width={1000}
+                width={950}
                 height={1000}
               />
             </div>

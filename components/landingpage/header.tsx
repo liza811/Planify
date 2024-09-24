@@ -16,13 +16,13 @@ const Header = () => {
       }`}
     >
       <div className="flex items-center px-2 md:px-5 lg:px-7.5 xl:px-10   justify-between">
-        <Link className="block w-fit xl:mr-8" href="/">
+        <Link className="block w-20 md:w-fit xl:mr-8" href="/">
           <Image src={"/logo-header.png"} width={105} height={40} alt="logo" />
         </Link>
 
         <div className={cn("mr-0.5", fontt.className)}>
           <Buttonn
-            className="text-white  letter uppercase hover:text-purple-400 text-[0.75rem] px-4 transition-colors"
+            className="text-white  letter uppercase   hover:text-purple-400 text-[0.75rem] px-4 transition-colors"
             href="/login"
           >
             Se connecter

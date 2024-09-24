@@ -56,7 +56,7 @@ export const UserButton = () => {
             onClick={onClick}
           >
             <LogOut className="h-4 w-4 mr-2" />
-            Logout
+            Se déconnecter
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
