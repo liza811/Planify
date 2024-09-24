@@ -23,19 +23,21 @@ export const HistoriqueItem = ({
     [Etat.VALIDE]: "validé",
   };
   return (
-    <div className="flex items-center  justify-between border-b last:border-b-0 py-4  w-full font-medium capitalize">
-      <div className="w-3/4 text-[15px]"> {nom}</div>
-      <div className="w-[10%] font-normal  text-sm text-center">
+    <tr key={nom} className="border-b last:border-b-0 capitalize">
+      <td className="text-[15px] py-4 px-6 min-w-80">{nom}</td>
+      <td className="text-sm font-normal text-center py-4 px-6 min-w-40">
         {proposePar.toLowerCase()}
-      </div>
-      <div
-        className={cn(
-          "w-[6%] flex items-center justify-center text-slate-700 text-xs capitalize mt-3  py-1.5 rounded-md font-semibold  ",
-          etatColor[etat]
-        )}
-      >
-        {etatText[etat]}
-      </div>
-    </div>
+      </td>
+      <td>
+        <span
+          className={cn(
+            "text-slate-700 text-xs font-semibold capitalize  px-3 py-1.5 text-center rounded-md",
+            etatColor[etat]
+          )}
+        >
+          {etatText[etat]}
+        </span>
+      </td>
+    </tr>
   );
 };

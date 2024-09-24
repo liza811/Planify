@@ -377,13 +377,13 @@ const HomePage = () => {
 
       <Section className="!px-0 !py-2 relative" id={"#footer"}>
         <BottomLine classname="top-[3.49rem]" />
-        <div className="container flex sm:justify-between justify-center items-center gap-10 max-sm:flex-col py">
+        <div className="container flex sm:justify-between justify-center items-center gap-10 max-sm:flex-col py-2">
           <Image
-            src={"/1000139820-re.png"}
-            width={160}
-            height={100}
+            src={"/logo-header.png"}
+            width={110}
+            height={70}
             alt="logo"
-            className="mt-14"
+            className="mt-14 pl-8"
           />
           <p className="caption text-n-4 lg:block  mt-16 pr-8">
             © {new Date().getFullYear()}. All rights reserved.

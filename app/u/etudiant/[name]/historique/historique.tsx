@@ -49,27 +49,36 @@ export const Historique = async () => {
 
   return (
     <main className=" w-full   h-full p-3  md:p-6 bg-main overflow-x-auto">
-      <section className=" w-full h-full bg-white rounded-md p-2 md:p-4">
-        <div className="flex items-center justify-between border-b bg-[#f0f3ff] py-4 px-6 w-full capitalize">
-          <div className="w-3/4 text-slate-500 text-center">Thème</div>
-          <div className="w-w-[10%] text-slate-500 text-center">
-            Proposé par
-          </div>
-          <div className="w-[6%] text-slate-500 text-center">état</div>
-        </div>
-
-        <div className="flex flex-col  items-center justify-between border  py-2 px-6 w-full bg-white">
-          {themesWithChoix?.map((choix) => {
-            return (
-              <>
-                <HistoriqueItem
-                  proposePar={`${choix.proposePar?.nom} ${choix.proposePar?.prenom}`}
-                  nom={choix.nom}
-                  etat={choix.etat!}
-                />
-              </>
-            );
-          })}
+      <section className="w-full h-full bg-white rounded-md p-2 md:p-4">
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border">
+            <thead className="bg-[#e5d5ff]/80">
+              <tr className="capitalize ">
+                <th className="text-slate-500 text-center py-4 px-6 w-3/4 font-normal">
+                  Thème
+                </th>
+                <th className="text-slate-500 text-center py-4 px-6 w-[10%] font-normal">
+                  Proposé par
+                </th>
+                <th className="text-slate-500 text-center py-4 px-6 w-[6%] font-normal">
+                  état
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {themesWithChoix?.map((choix) => {
+                return (
+                  <>
+                    <HistoriqueItem
+                      proposePar={`${choix.proposePar?.nom} ${choix.proposePar?.prenom}`}
+                      nom={choix.nom}
+                      etat={choix.etat!}
+                    />
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </section>
     </main>

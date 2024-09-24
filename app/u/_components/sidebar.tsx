@@ -7,10 +7,10 @@ import { SignOut } from "./sign-out";
 export const Sidebar = async () => {
   return (
     <div className="flex flex-col overflow-y-auto pb-4 h-full bg-[#17203F]   ">
-      <div className="p-4 pb-0">
+      <div className="px-2 pt-2">
         <Logo />
       </div>
-      <div className="flex flex-col w-full flex-1 -mt-6">
+      <div className="flex flex-col w-full flex-1 m">
         <SidebarRoutes />
       </div>
       <SignOut />
