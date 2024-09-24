@@ -114,13 +114,23 @@ export const Etudiant = () => {
               width={1300}
               height={1000}
             />
-            <Image
-              src={"/etud-mobile.png"}
-              alt="Banner"
-              className="scale-[1.2] pl-8 lg:pl-20 lg:mt-3 w-full block lg:hidden"
-              width={1400}
-              height={1000}
-            />
+            <div
+              className="
+            
+            -ml-4
+         w-[380px]
+         md:w-full
+        "
+            >
+              <Image
+                src={"/etud-mobile.png"}
+                alt="Banner"
+                className="scale-[1.2] pl-5 lg:pl-20  lg:mt-3  block lg:hidden "
+                width={1000}
+                height={1000}
+              />
+            </div>
+
             <div className="flex lg:justify-around gap-6 lg:gap-20 flex-col lg:flex-row -ml-1 lg:-mt-20 z-40 lg:pr-10 w-full">
               <div className="flex flex-col gap-y-3 border rounded-md border-[#2061da] p-3 lg:border-none lg:p-3">
                 <span className="flex gap-x-2 items-center">

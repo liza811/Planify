@@ -104,13 +104,23 @@ export const Landing = () => {
           "
           ></div> */}
         </div>
-        <Image
-          src={"/main.png"}
-          alt="Application Banner"
-          className="z-10 mt-4 md:mt-0 w-full lg:w-[900px]"
-          width={900}
-          height={400}
-        />
+        <div
+          className="
+            
+            -ml-4
+         w-[380px]
+       lg:w-[900px]
+       md:-ml-0
+        "
+        >
+          <Image
+            src={"/main.png"}
+            alt="Application Banner"
+            className="z-10 mt-10 md:mt-0 "
+            width={900}
+            height={400}
+          />
+        </div>
 
         <ScrollParallax isAbsolutelyPositioned zIndex={40}>
           <div

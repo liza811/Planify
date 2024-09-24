@@ -62,7 +62,7 @@ const HomePage = () => {
       </Section>
       <Etudiant />
       <Section
-        className="pt-32 px-0 w-full relative "
+        className="lg:pt-32 pt-10 px-0 w-full relative "
         crosses
         crossesOffset="lg:translate-y-[5.25rem]"
         customPaddings
@@ -138,12 +138,21 @@ const HomePage = () => {
          w-full
         "
             >
-              <Image
-                src={"/main-ens.png"}
-                alt="Banner"
-                width={1300}
-                height={1000}
-              />
+              <div
+                className="
+            
+            -ml-8
+         w-[380px]
+         md:w-full
+        "
+              >
+                <Image
+                  src={"/main-ens.png"}
+                  alt="Banner"
+                  width={1300}
+                  height={1000}
+                />
+              </div>
               <div
                 className="w-[40%]
           blur-[200px]
@@ -387,15 +396,15 @@ const HomePage = () => {
 
       <Section className="!px-0 !py-2 relative" id={"#footer"}>
         <BottomLine classname="top-[3.49rem]" footer />
-        <div className="container flex sm:justify-between justify-center items-center gap-10 max-sm:flex-col py-3">
+        <div className=" px-1 md:container flex justify-between  items-center md:gap-10  py-3">
           <Image
             src={"/logo-header.png"}
             width={110}
             height={70}
             alt="logo"
-            className="mt-14 pl-8"
+            className="md:mt-14 md:pl-8"
           />
-          <p className="caption text-n-4 lg:block  mt-16 pr-8">
+          <p className="caption text-n-4 mt-6 md:mt-16 md:pr-8">
             © {new Date().getFullYear()}. All rights reserved.
           </p>
         </div>
