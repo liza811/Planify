@@ -16,7 +16,7 @@ const Header = () => {
       }`}
     >
       <div className="flex items-center px-2 md:px-5 lg:px-7.5 xl:px-10   justify-between">
-        <Link className="block w-20 md:w-fit xl:mr-8" href="/">
+        <Link className="block w-[90px] md:w-fit xl:mr-8" href="/">
           <Image src={"/logo-header.png"} width={105} height={40} alt="logo" />
         </Link>
 

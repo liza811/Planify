@@ -22,15 +22,15 @@ const DashboardPage = async () => {
   }
 
   return (
-    <main className="w-full h-full p-3 lg:p-6 bg-white">
-      <section className="flex flex-col">
+    <main className="w-full h-full p-3 lg:p-6 lg:pb-2 bg-white">
+      <section className="flex flex-col  ">
         <div className="w-full rounded-md bg-[#17203F] h-24 flex text-white items-center mt-3 px-2 font-[400] lg:px-3 overflow-hidden text-base  md:text-xl">
           <p>
             Bienvenue sur la platforme de gestion des plannings des soutenances
           </p>
         </div>
-        <div className="flex  w-full  space-y-5 justify-between h-full items-end  mt-10  md:mt-10">
-          <div className="flex flex-col gap-y-4 w-[100%] md:w-[90%] lg:w-[55%] justify-center">
+        <div className="flex-grow flex justify-end items-center w-full h-full   ">
+          <div className="flex flex-col gap-y-4 w-[100%] md:w-[90%] lg:w-[55%] justify-center ">
             <Link
               href={`/u/${user.prenom.toLowerCase()}/themes`}
               className="w-full rounded-md  h-[80px] flex items-center border border-[#93b7dd] text-center justify-center md:justify-start md:pl-14 shadow-lg hover:shadow-2xl hover:transition-all hover:border-2 text-[18px] font-[400]"
@@ -57,7 +57,7 @@ const DashboardPage = async () => {
               </p>
             </Link>
           </div>
-          <div className="w-[50%] hidden lg:flex justify-center items-center">
+          <div className="w-[50%] h-[450px] hidden lg:flex justify-center items-center">
             <Image
               src={"/schedule.png"}
               width={470}

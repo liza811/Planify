@@ -88,7 +88,7 @@ export const Landing = () => {
           absolute
           bg-brand-primaryPurple/50
         
-          top-22
+         
         "
           />
           <BackgroundCircles parallaxRef={220} />

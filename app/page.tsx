@@ -396,14 +396,14 @@ const HomePage = () => {
 
       <Section className="!px-0 !py-2 relative" id={"#footer"}>
         <BottomLine classname="top-[3.49rem]" footer />
-        <div className=" px-1 md:container flex justify-between  items-center md:gap-10  py-3">
-          <div className="w-20 md:w-[110px]">
+        <div className=" px-1 md:container flex justify-between  items-center md:gap-10  md:py-3">
+          <div className="w-16 md:w-[110px]">
             <Image
               src={"/logo-header.png"}
               width={110}
               height={70}
               alt="logo"
-              className="md:mt-14 md:pl-8"
+              className="md:mt-14 mt-2 md:pl-8"
             />
           </div>
           <p className="caption text-n-4 mt-6 md:mt-16 md:pr-8">

@@ -18,6 +18,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { Button } from "@/components/ui/button";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import Link from "next/link";
 
 export type planning = {
   salle: Sallee | null;
@@ -40,7 +41,15 @@ export type planningWithDate = {
 
   president: President | null;
 };
-export const Planning = ({ resultat }: { resultat: planning[] }) => {
+export const Planning = ({
+  resultat,
+  rattrapage,
+  recordNumber,
+}: {
+  resultat: planning[];
+  rattrapage?: boolean;
+  recordNumber: number | null;
+}) => {
   const user = useCurrentUser();
   const isEtudiant = user?.role === false;
   const pdfRef = useRef<HTMLDivElement>(null);
@@ -135,16 +144,29 @@ export const Planning = ({ resultat }: { resultat: planning[] }) => {
   }
   return (
     <section className="flex flex-col w-full h-full ">
-      <div className="w-full p-2 pt-0 flex justify-end">
+      <div className={cn("w-full p-2 pt-0 pb-3 flex justify-between")}>
         <Button
           type="button"
           onClick={handleExportClick}
           disabled={isExporting}
-          className="bg-black text-white min-w-[100px]"
+          className={cn(
+            "bg-black text-white min-w-[100px]",
+            rattrapage ? "ml-auto " : ""
+          )}
         >
           <FileUpIcon className="h-5 w-5 mr-2 " />
           {isExporting ? "Exportation..." : "Exporter  "}
         </Button>
+        {!rattrapage && !!recordNumber && recordNumber > 0 && (
+          <Link href={`/u/${user?.prenom.toLowerCase()}/calendar/rattrapage`}>
+            <Button
+              className=" h-9  border-slate-400 bg-transparent"
+              variant={"outline"}
+            >
+              Session rattrapage
+            </Button>
+          </Link>
+        )}
       </div>
       <div className={cn("flex flex-col w-full h-full gap-y-4 ")} ref={pdfRef}>
         {Object.keys(planningByDate).map((date) => (
@@ -196,27 +218,27 @@ export const Planning = ({ resultat }: { resultat: planning[] }) => {
                     <p>
                       {item.Binome?.etudiants.map((s) => (
                         <div
-                          className="flex  w-full justify-between   "
+                          className="flex  w-full justify-between  capitalize "
                           key={s.nom}
                         >
                           <p className="  text-sm  text-black w-fit ">
-                            {s.nom} {s.prenom}
+                            {s.nom.toLowerCase()} {s.prenom.toLowerCase()}
                           </p>
                         </div>
                       ))}
                     </p>
 
-                    <div className="flex gap-x-2">
+                    <div className="flex gap-x-2 capitalize">
                       <span className="text-slate-600 text-sm min-w-fit">
                         Encadrant:
                       </span>
                       <p className="flex gap-x-2  text-sm  text-black flex-1 ">
-                        {item.Binome?.Affectation?.encadrent?.nom}{" "}
-                        {item.Binome?.Affectation?.encadrent?.prenom}{" "}
+                        {item.Binome?.Affectation?.encadrent?.nom.toLowerCase()}{" "}
+                        {item.Binome?.Affectation?.encadrent?.prenom.toLowerCase()}
                       </p>
                     </div>
 
-                    <div className="flex gap-x-2">
+                    <div className="flex gap-x-2 capitalize">
                       <span className="text-slate-700 text-[14px]">
                         Président:
                       </span>
@@ -224,7 +246,8 @@ export const Planning = ({ resultat }: { resultat: planning[] }) => {
                         {item.president ? (
                           <>
                             {" "}
-                            {item.president?.nom} {item.president?.prenom}
+                            {item.president?.nom.toLowerCase()}{" "}
+                            {item.president?.prenom.toLowerCase()}
                           </>
                         ) : (
                           <span className="size-fit px-2 py-1 bg-[#FF00001A] text-[#FF0000] ">
@@ -233,7 +256,7 @@ export const Planning = ({ resultat }: { resultat: planning[] }) => {
                         )}
                       </p>
                     </div>
-                    <div className="flex gap-x-2">
+                    <div className="flex gap-x-2 capitalize">
                       <span className="text-slate-600 text-sm">
                         Examinateurs:
                       </span>
@@ -245,7 +268,8 @@ export const Planning = ({ resultat }: { resultat: planning[] }) => {
                               key={s.enseignant?.nom}
                             >
                               <p className="  text-sm  text-black w-fit ">
-                                {s.enseignant?.nom} {s.enseignant?.prenom}
+                                {s.enseignant?.nom.toLowerCase()}{" "}
+                                {s.enseignant?.prenom.toLowerCase()}
                               </p>
                             </div>
                           ))

@@ -50,8 +50,8 @@ export const Messagerie = async ({ searchParams }: MemberIdPageProps) => {
       <div className="text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-2">
         {/* <MobileToggle serverId={serverId} /> */}
 
-        <p className="font-semibold text-md text-black dark:text-white">
-          {otherMember?.nom} {otherMember?.prenom}
+        <p className="font-semibold text-md text-black dark:text-white capitalize">
+          {otherMember?.nom.toLowerCase()} {otherMember?.prenom.toLowerCase()}
         </p>
         <div className="ml-auto flex items-center">{<ChatVideoButton />}</div>
       </div>
