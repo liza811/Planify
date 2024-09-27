@@ -9,6 +9,7 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 import { CircleHelp, CircleMinus } from "lucide-react";
+import { Span } from "next/dist/trace";
 
 interface Speciality {
   specialite: {
@@ -102,7 +103,7 @@ export const ChoixItem = ({
           </div>
           {/* <div className="w-full h-[1px]  bg-slate-300 rounded-lg" /> */}
           <div className="p-2  flex justify-between items-center">
-            <div className="flex gap-x-2 text-slate-700 text-xs capitalize mt-3 items-center">
+            <div className="flex gap-x-2 text-slate-700 text-xs  mt-3 items-center">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
@@ -113,7 +114,7 @@ export const ChoixItem = ({
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              {proposePar.toLowerCase()}
+              <span className="capitalize"> {proposePar.toLowerCase()}</span>
             </div>
             <p
               className={cn(
