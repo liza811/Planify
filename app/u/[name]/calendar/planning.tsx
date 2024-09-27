@@ -48,7 +48,7 @@ export const Planning = ({
 }: {
   resultat: planning[];
   rattrapage?: boolean;
-  recordNumber: number | null;
+  recordNumber?: number | null;
 }) => {
   const user = useCurrentUser();
   const isEtudiant = user?.role === false;
