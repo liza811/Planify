@@ -38,20 +38,20 @@ export const Etudiant = () => {
             src={"/etud-1.png"}
             width={70}
             height={200}
-            className="-mt-1.5 -ml-1 hidden md:block"
+            className="-mt-1.5 -ml-1 hidden lg:block"
           />
           <Image
             alt="workflow"
             src={"/etud2.png"}
             width={80}
-            className="-mt-  hidden md:block"
+            className="-mt-  hidden lg:block"
             height={200}
           />
           <Image
             alt="workflow"
             src={"/etud3.png"}
             width={50}
-            className="-mt-5 ml-7 hidden md:block"
+            className="-mt-5 ml-7 hidden lg:block"
             height={100}
           />
         </div>
@@ -110,7 +110,7 @@ export const Etudiant = () => {
             <Image
               src={"/main-etud.png"}
               alt="Banner"
-              className="scale-[1.2] pl-8 lg:pl-20 lg:mt-3 w-full hidden  lg:block"
+              className="scale-[1.2] pl-8  lg:pl-20 lg:mt-3 w-full hidden  lg:block"
               width={1300}
               height={1000}
             />
@@ -125,7 +125,7 @@ export const Etudiant = () => {
               <Image
                 src={"/etud-mobile.png"}
                 alt="Banner"
-                className="scale-[1.2] pl-5 lg:pl-20  lg:mt-3  block lg:hidden "
+                className="scale-[1.2] pl-5 md:pl-12 lg:pl-20  lg:mt-3  block lg:hidden "
                 width={950}
                 height={1000}
               />

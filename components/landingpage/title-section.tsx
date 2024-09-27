@@ -48,7 +48,9 @@ const TitleSection: React.FC<TitleSectionProps> = ({
             <h2
               className="text-left
               text-2xl
-              sm:text-5xl
+              sm:text-4xl
+              lg:text-5xl
+              
               sm:max-w-[750px]
               md:text-center
               font-semibold

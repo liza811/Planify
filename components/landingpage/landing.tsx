@@ -109,6 +109,7 @@ export const Landing = () => {
             
             -ml-4
          w-[380px]
+            md:w-[700px]
        lg:w-[900px]
        md:-ml-0
         "
