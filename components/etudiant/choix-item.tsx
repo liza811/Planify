@@ -1,3 +1,5 @@
+"use client";
+
 import { cn, stringToColor } from "@/lib/utils";
 import { $Enums, Etat } from "@prisma/client";
 
@@ -8,8 +10,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { CircleHelp, CircleMinus } from "lucide-react";
-import { Span } from "next/dist/trace";
+import { Check, CircleHelp, CircleMinus, CopyIcon } from "lucide-react";
+import { useState } from "react";
+import { Button } from "../ui/button";
 
 interface Speciality {
   specialite: {
@@ -40,6 +43,7 @@ export const ChoixItem = ({
   nbchoix,
   configurationChoix,
 }: ThemeItemProps) => {
+  const [copied, setCopied] = useState(false);
   const etatColor = {
     [Etat.ATTENTE]: "bg-[#ff8F001A] text-[#ff8F00]",
     [Etat.REFUSE]: "bg-[#FF00001A] text-[#FF0000]",
@@ -53,6 +57,13 @@ export const ChoixItem = ({
 
   const onClick = () => {};
 
+  const onCopy = () => {
+    navigator.clipboard.writeText(email || "");
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 1000);
+  };
   return (
     <Draggable draggableId={id} index={index}>
       {(provided, snapshot) => (
@@ -104,16 +115,33 @@ export const ChoixItem = ({
           {/* <div className="w-full h-[1px]  bg-slate-300 rounded-lg" /> */}
           <div className="p-2  flex justify-between items-center">
             <div className="flex gap-x-2 text-slate-700 text-xs  mt-3 items-center">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <CircleHelp className="text-slate-600 w-4 h-4" />
-                  </TooltipTrigger>
-                  <TooltipContent side="right">
-                    <p>{email}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              {email && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <CircleHelp className="text-slate-600 w-4 h-4" />
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="right"
+                      className=" flex gap-x-3 items-center"
+                    >
+                      <p>{email}</p>
+
+                      <Button
+                        size={"icon"}
+                        className="bg-transparent hover:bg-neutral-100 py-0 h-6"
+                        onClick={onCopy}
+                      >
+                        {copied ? (
+                          <Check className="size-4 " color="black" />
+                        ) : (
+                          <CopyIcon className="size-4" color="black" />
+                        )}
+                      </Button>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
               <span className="capitalize"> {proposePar.toLowerCase()}</span>
             </div>
             <p
