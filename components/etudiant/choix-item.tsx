@@ -1,5 +1,3 @@
-"use client";
-
 import { cn, stringToColor } from "@/lib/utils";
 import { $Enums, Etat } from "@prisma/client";
 
@@ -104,7 +102,7 @@ export const ChoixItem = ({
           </div>
           {/* <div className="w-full h-[1px]  bg-slate-300 rounded-lg" /> */}
           <div className="p-2  flex justify-between items-center">
-            <p className="flex gap-x-2 text-slate-700 text-xs capitalize mt-3 items-center">
+            <div className="flex gap-x-2 text-slate-700 text-xs capitalize mt-3 items-center">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
@@ -115,8 +113,8 @@ export const ChoixItem = ({
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              {proposePar}
-            </p>
+              {proposePar.toLowerCase()}
+            </div>
             <p
               className={cn(
                 "flex  text-slate-700 text-xs capitalize mt-3 px-3 py-1 rounded-md font-semibold",

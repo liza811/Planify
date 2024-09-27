@@ -21,14 +21,17 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
   const { notifications, neww, setNew, addNotification } =
     useNotificationStore();
 
+  const [seen, setSeen] = useState<boolean>();
+
   const user = useCurrentUser();
-  let seen = hasUnseenNotification(mesNotifications);
+
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
 
   const binomeId: string = user?.id!;
   useEffect(() => {
     setMounted(true);
+    setSeen(hasUnseenNotification(mesNotifications));
     const handleMessage = (data: Notification) => {
       addNotification(data);
       setNew(true);
@@ -62,16 +65,23 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
         pusherClient.unsubscribe(user?.departementId);
       }
     };
-  }, [addNotification, binomeId, setNew, user?.departementId, user?.id]);
+  }, [
+    addNotification,
+    binomeId,
+    mesNotifications,
+    setNew,
+    user?.departementId,
+    user?.id,
+  ]);
 
   const onClick = () => {
     setNew(false);
-    seen = true;
+    setSeen(true);
 
     markAllSeen().then((data) => {
       if (data.success) {
         setNew(false);
-        seen = true;
+        setSeen(true);
       }
     });
   };
@@ -185,15 +195,17 @@ export function getTimeSinceNotification(notificationDate: Date): string {
   if (minutesDiff < 60) {
     return `${
       minutesDiff <= 1
-        ? `${minutesDiff} minute ago`
-        : `${minutesDiff} minutes ago`
+        ? `Il y a ${minutesDiff} minute `
+        : `Il y a ${minutesDiff} minutes `
     } `;
   } else {
     const hoursDiff = differenceInHours(now, notificationDate);
 
     if (hoursDiff < 24) {
       return `${
-        hoursDiff === 1 ? `${hoursDiff} hour ago` : `${hoursDiff} hours ago`
+        hoursDiff === 1
+          ? `Il y a ${hoursDiff} heure `
+          : `Il y a ${hoursDiff} heures `
       } `;
     } else {
       return format(notificationDate, "dd MMM yyyy, HH:mm");

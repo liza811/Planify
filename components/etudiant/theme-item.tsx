@@ -41,8 +41,8 @@ export const ThemeItem = ({
               </p>
             ))}
           </div>
-          <p className=" text-slate-800 text-xs  flex justify-end w-fit text-left ml-auto ">
-            {proposePar}
+          <p className=" text-slate-800 text-xs  flex justify-end w-fit text-left ml-auto capitalize ">
+            {proposePar.toLowerCase()}
           </p>
         </div>
         <div className="w-full p-4 pb-0 pt-2 rounded-sm text-[12.5px] font-medium text-wrap capitalize">

@@ -4,8 +4,6 @@ import { currentUser } from "@/lib/current-user";
 
 import { getThemesParSpecialite } from "@/lib/themes";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { ClipLoader } from "react-spinners";
 
 export const EtudiantThemes = async () => {
   const themes = await getThemesParSpecialite();
@@ -29,10 +27,8 @@ export const EtudiantThemes = async () => {
   }
 
   return (
-    <Suspense fallback={<ClipLoader size={30} className="text-slate-800" />}>
-      <main className="flex flex-col gap-y-4 w-full h-full  bg-[#F9FAFC]">
-        {!!themes && <ListThemes themes={themes} />}
-      </main>
-    </Suspense>
+    <main className="flex flex-col gap-y-4 w-full h-full  bg-[#F9FAFC]">
+      {!!themes && <ListThemes themes={themes} />}
+    </main>
   );
 };

@@ -8,7 +8,6 @@ import { currentUser } from "@/lib/current-user";
 import { getThemesParSpecialite } from "@/lib/themes";
 import { $Enums } from "@prisma/client";
 import { redirect } from "next/navigation";
-import { ClipLoader } from "react-spinners";
 
 export interface ExtendedTheme extends Theme {
   etat?: $Enums.Etat;
@@ -52,7 +51,7 @@ export const Historique = async () => {
       <section className="w-full h-full bg-white rounded-md p-2 md:p-4">
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border">
-            <thead className="bg-[#e5d5ff]/80">
+            <thead className="bg-washed-blue-100/60">
               <tr className="capitalize ">
                 <th className="text-slate-500 text-center py-4 px-6 w-3/4 font-normal">
                   Thème

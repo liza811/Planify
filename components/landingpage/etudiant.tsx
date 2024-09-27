@@ -38,19 +38,19 @@ export const Etudiant = () => {
             src={"/etud-1.png"}
             width={70}
             height={200}
-            className="-mt-1.5 hidden md:block"
+            className="-mt-1.5 -ml-1 hidden md:block"
           />
           <Image
             alt="workflow"
             src={"/etud2.png"}
-            width={73}
-            className="-mt-4 ml-1.5 hidden md:block"
+            width={80}
+            className="-mt-  hidden md:block"
             height={200}
           />
           <Image
             alt="workflow"
             src={"/etud3.png"}
-            width={53}
+            width={50}
             className="-mt-5 ml-7 hidden md:block"
             height={100}
           />
