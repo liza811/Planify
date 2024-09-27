@@ -15,7 +15,7 @@ export const Navbar = async () => {
         <UserButton />
         <Notifications mesNotifications={notificaions} />
         {!!departement && (
-          <h1 className="text-[17px] font-bold text-primary_blue mx-4  md:text-[20px] md:mr-auto">
+          <h1 className="text-[17px] font-bold text-primary_blue md:mx-4  md:text-[20px] md:mr-auto">
             Département {departement.nom}
           </h1>
         )}

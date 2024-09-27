@@ -10,7 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { Check, CircleHelp, CircleMinus, CopyIcon } from "lucide-react";
+import { Check, CircleHelp, CopyIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 
@@ -54,8 +54,6 @@ export const ChoixItem = ({
     [Etat.REFUSE]: "refusé",
     [Etat.VALIDE]: "validé",
   };
-
-  const onClick = () => {};
 
   const onCopy = () => {
     navigator.clipboard.writeText(email || "");
@@ -103,11 +101,11 @@ export const ChoixItem = ({
                 </p>
               ))}
             </div>
-            <CircleMinus
+            {/* <CircleMinus
               className="text-slate-500 cursor-pointer"
               size={17}
               onClick={onClick}
-            />
+            /> */}
           </div>
           <div className="w-full px-3 pt-2 rounded-sm text-[13px] font-medium text-wrap capitalize ">
             {nom}

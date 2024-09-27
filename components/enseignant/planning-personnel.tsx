@@ -149,9 +149,10 @@ export const Planning = ({ config, planning, rattrapage }: planningProps) => {
           </Link>
         )}
       </div>
-      <ScrollArea className="overflow-x-auto  bg-white rounded-md p-4 h-full">
+
+      <div className="  w-full bg-white rounded-md p-4 h-full overflow-x-auto sm:overflow-x-visible ">
         <table
-          className="min-w-fit table-fixed border-collapse border border-gray-100 overflow-x-auto "
+          className="min-w-fit table-fixed border-collapse border border-gray-100 overflow-x-auto w-full"
           ref={pdfRef}
         >
           <thead>
@@ -170,7 +171,7 @@ export const Planning = ({ config, planning, rattrapage }: planningProps) => {
           <tbody>
             {dates.map((date) => (
               <tr key={date} className="text-slate-700 text-sm font-medium">
-                <td className="border border-gray-100 p-2 w-fit bg-[#cfb5ff]/10">
+                <td className="border border-gray-100 p-2  bg-[#cfb5ff]/10">
                   {date}
                 </td>
                 {timeSlots.map((time) => {
@@ -196,7 +197,7 @@ export const Planning = ({ config, planning, rattrapage }: planningProps) => {
                   return (
                     <td
                       key={time}
-                      className="border border-gray-100 p-2 h-full"
+                      className="border border-gray-100 p-2 h-full w-[230px]"
                     >
                       {matchingItems && matchingItems.length > 0 ? (
                         <ul className="min-h-full">
@@ -320,7 +321,7 @@ export const Planning = ({ config, planning, rattrapage }: planningProps) => {
             ))}
           </tbody>
         </table>
-      </ScrollArea>
+      </div>
     </section>
   );
 };

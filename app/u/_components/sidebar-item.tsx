@@ -1,10 +1,11 @@
 "use client";
 
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface SidebarItemProps {
   label: string;
@@ -14,9 +15,9 @@ interface SidebarItemProps {
 
 export const SidebarItem = ({ label, icon: Icon, href }: SidebarItemProps) => {
   const pathname = usePathname();
-  const router = useRouter();
-
-  const isActive = href === pathname || pathname?.startsWith(`${href}/`);
+  const user = useCurrentUser();
+  const isActive =
+    href === pathname || (pathname?.startsWith(`${href}/`) && label !== "Home");
   //const isActive = href === pathname;
   // const onClick = () => {
   //   router.push(href);

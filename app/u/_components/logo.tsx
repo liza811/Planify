@@ -16,8 +16,8 @@ export const Logo = async () => {
       <Image
         src={"/1000139820-re.png"}
         alt="cypress Logo"
-        width={110}
-        height={55}
+        width={100}
+        height={50}
       />
     </Link>
   );

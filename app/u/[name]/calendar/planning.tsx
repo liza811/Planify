@@ -208,7 +208,7 @@ export const Planning = ({
                       ),
                     }}
                   />
-                  <div className="flex flex-col gap-y-2 ml-2">
+                  <div className="flex flex-col gap-y-2 ml-2  font-[500]">
                     <div className="flex justify-between">
                       <span className="text-slate-600 text-sm">Binome:</span>
                       <div className=" text-slate-700 flex opacity-0 group-hover:opacity-100 transition-all  gap-x-2">
@@ -221,7 +221,7 @@ export const Planning = ({
                           className="flex  w-full justify-between  capitalize "
                           key={s.nom}
                         >
-                          <p className="  text-sm  text-black w-fit ">
+                          <p className="  text-sm  font-[500] w-fit ">
                             {s.nom.toLowerCase()} {s.prenom.toLowerCase()}
                           </p>
                         </div>

@@ -24,7 +24,7 @@ export const UserButton = () => {
   return (
     <Dialog>
       <DropdownMenu>
-        <div className="flex items-center flex-row-reverse gap-x-1 md:gap-x-2 hover:bg-neutral-100 p-1.5 px-3 rounded-md">
+        <div className="flex items-center flex-row-reverse gap-x-1 md:gap-x-2 hover:bg-neutral-100 p-1.5 md:px-3 rounded-md">
           <DropdownMenuTrigger className=" outline-none">
             <Avatar className="w-10 h-10">
               <AvatarImage src={user?.image || ""} />
