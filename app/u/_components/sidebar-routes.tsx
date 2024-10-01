@@ -21,32 +21,32 @@ export const SidebarRoutes = () => {
     {
       icon: HomeIcon,
       label: "Home",
-      href: `/u/${user?.prenom.toLowerCase()}`,
+      href: `/u/${user?.prenom?.toLowerCase()}`,
     },
 
     {
       icon: UserCog,
 
       label: "Binomes",
-      href: `/u/${user?.prenom.toLowerCase()}/binomes`,
+      href: `/u/${user?.prenom?.toLowerCase()}/binomes`,
     },
     {
       icon: Palette,
 
       label: "Thèmes",
-      href: `/u/${user?.prenom.toLowerCase()}/themes`,
+      href: `/u/${user?.prenom?.toLowerCase()}/themes`,
     },
     {
       icon: ContactIcon,
 
       label: "Planning personnel",
-      href: `/u/${user?.prenom.toLowerCase()}/planning-personnel`,
+      href: `/u/${user?.prenom?.toLowerCase()}/planning-personnel`,
     },
     {
       icon: CalendarCheck,
 
       label: "Calendrier",
-      href: `/u/${user?.prenom.toLowerCase()}/calendar`,
+      href: `/u/${user?.prenom?.toLowerCase()}/calendar`,
     },
   ];
   const EtudRoutes = [
@@ -54,33 +54,33 @@ export const SidebarRoutes = () => {
       icon: Palette,
 
       label: "Thèmes",
-      href: `/u/etudiant/${user?.prenom.toLowerCase()}/themes`,
+      href: `/u/etudiant/${user?.prenom?.toLowerCase()}/themes`,
     },
 
     {
       icon: Blend,
 
       label: "Mes Choix",
-      href: `/u/etudiant/${user?.prenom.toLowerCase()}/meschoix`,
+      href: `/u/etudiant/${user?.prenom?.toLowerCase()}/meschoix`,
     },
     {
       icon: History,
 
       label: "Historique",
-      href: `/u/etudiant/${user?.prenom.toLowerCase()}/historique`,
+      href: `/u/etudiant/${user?.prenom?.toLowerCase()}/historique`,
     },
     {
       icon: MessageCircleCode,
 
       label: "Messagerie",
-      href: `/u/etudiant/${user?.prenom.toLowerCase()}/messagerie`,
+      href: `/u/etudiant/${user?.prenom?.toLowerCase()}/messagerie`,
     },
 
     {
       icon: CalendarCheck,
 
       label: "Calendrier",
-      href: `/u/${user?.prenom.toLowerCase()}/calendar`,
+      href: `/u/${user?.prenom?.toLowerCase()}/calendar`,
     },
   ];
 

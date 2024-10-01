@@ -20,8 +20,11 @@ interface notificationsProps {
 export const Notifications = ({ mesNotifications }: notificationsProps) => {
   const { notifications, neww, setNew, addNotification } =
     useNotificationStore();
-
+  const notificationSeen = localStorage.getItem("planningNotificationSeen");
   const [seen, setSeen] = useState<boolean>();
+  const [seenPlanningNotif, setSeenPlanningNotif] = useState<boolean>(
+    notificationSeen === "true" || notificationSeen === null ? true : false
+  );
 
   const user = useCurrentUser();
 
@@ -49,6 +52,7 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
     if (user?.departementId) {
       pusherClient.subscribe(user?.departementId);
       pusherClient.bind("planning", handleMessage);
+      localStorage.setItem("planningNotificationSeen", "false");
     }
     // Cleanup
     return () => {
@@ -77,7 +81,8 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
   const onClick = () => {
     setNew(false);
     setSeen(true);
-
+    localStorage.setItem("planningNotificationSeen", "true");
+    setSeenPlanningNotif(true);
     markAllSeen().then((data) => {
       if (data.success) {
         setNew(false);
@@ -94,7 +99,7 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
       <PopoverTrigger>
         <div className="relative flex flex-row-reverse">
           <Bell size={27} className="text-primary_purpule " onClick={onClick} />
-          {(neww === true || seen === false) && (
+          {(neww === true || seen === false || seenPlanningNotif === false) && (
             <span className="rounded-full  bg-red-500 size-3 z-50 absolute border-[3px] border-white -top-1 " />
           )}
         </div>
@@ -220,7 +225,13 @@ function hasUnseenNotification(
     return true;
   }
 
-  if (mesNotifications.some((notification) => notification.seen === false)) {
+  if (
+    mesNotifications.some(
+      (notification) =>
+        notification.seen === false &&
+        notification.type !== NotificationType.ADMIN_TO_USERS
+    )
+  ) {
     return false;
   }
 

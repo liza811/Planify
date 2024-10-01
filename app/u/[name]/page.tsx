@@ -23,7 +23,7 @@ const DashboardPage = async () => {
 
   return (
     <main className="w-full h-full p-3 lg:p-6 lg:pb-2 bg-white">
-      <section className="flex flex-col  ">
+      <section className="flex flex-col   gap-y-10  lg:gap-y-0">
         <div className="w-full rounded-md bg-[#17203F] h-24 flex text-white items-center mt-3 px-2 font-[400] lg:px-3 overflow-hidden text-base  md:text-xl">
           <p>
             Bienvenue sur la platforme de gestion des plannings des soutenances
