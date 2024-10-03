@@ -19,7 +19,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         </aside>
         <section
           className={cn(
-            "md:ml-56  h-full pt-[80px] bg-[#F9FAFC] ",
+            "md:ml-56  h-screen pt-[80px] bg-[#F9FAFC] ",
             font.className
           )}
         >

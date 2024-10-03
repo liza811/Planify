@@ -52,12 +52,12 @@ export function BinomeTerminer({ binomeId }: DeleteThemeProp) {
             binôme se passera en session normale.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="uppercase">
+        <AlertDialogFooter className="uppercase flex justify-between flex-row items-end gap-x-2">
           <AlertDialogCancel disabled={isPending} className="cursor-pointer">
             Annuler
           </AlertDialogCancel>
           <Button
-            className="cursor-pointer w-full md:w-[100px]"
+            className="cursor-pointer  md:w-[100px]"
             name="valider"
             title="valider"
             onClick={() => onClick(binomeId)}

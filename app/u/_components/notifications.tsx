@@ -20,24 +20,28 @@ interface notificationsProps {
 export const Notifications = ({ mesNotifications }: notificationsProps) => {
   const { notifications, neww, setNew, addNotification } =
     useNotificationStore();
-  const notificationSeen = localStorage.getItem("planningNotificationSeen");
+
   const [seen, setSeen] = useState<boolean>();
-  const [seenPlanningNotif, setSeenPlanningNotif] = useState<boolean>(
-    notificationSeen === "true" || notificationSeen === null ? true : false
-  );
 
   const user = useCurrentUser();
-
+  const [seenPlanningNotif, setSeenPlanningNotif] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
 
   const binomeId: string = user?.id!;
   useEffect(() => {
+    const notificationSeen = localStorage.getItem("planningNotificationSeen");
+    setSeenPlanningNotif(
+      notificationSeen === "true" || notificationSeen === null ? true : false
+    );
     setMounted(true);
     setSeen(hasUnseenNotification(mesNotifications));
     const handleMessage = (data: Notification) => {
       addNotification(data);
       setNew(true);
+      if (data.type === NotificationType.ADMIN_TO_USERS) {
+        localStorage.setItem("planningNotificationSeen", "false");
+      }
     };
 
     if (user?.id) {
@@ -52,7 +56,6 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
     if (user?.departementId) {
       pusherClient.subscribe(user?.departementId);
       pusherClient.bind("planning", handleMessage);
-      localStorage.setItem("planningNotificationSeen", "false");
     }
     // Cleanup
     return () => {

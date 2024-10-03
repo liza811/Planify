@@ -22,7 +22,7 @@ export const Binome = async () => {
   const { attenteListe } = filterThemesByEtat(themes);
 
   return (
-    <main className=" p-3 lg:p-6 bg-main w-full h-full">
+    <main className=" p-3 lg:p-6 bg-main w-full h-screen">
       <Binomes
         validatedList={affectations}
         attenteListe={attenteListe}

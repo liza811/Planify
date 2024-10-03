@@ -39,14 +39,14 @@ export function Encadrant({
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className="w-full space-y-2"
+      className="w-full space-y-2 "
     >
-      <div className="flex items-center justify-between space-x-4 px-4 w-full">
+      <div className="flex items-center justify-between  w-full">
         <div className="text-sm font-semibold w-full">
           {validatedList?.Theme || !isValidated ? (
             " Binome affecté à ce thème"
           ) : (
-            <div className=" flex justify-between py-2">
+            <div className=" flex gap-y-2 lg:justify-between flex-col-reverse lg:flex-row  py-2">
               <h4 className="flex gap-x-2 text-rose-500">
                 <CircleAlert className="text-rose-500 size-5" />
                 Vous devez choisir un thème pour ce binome
@@ -60,7 +60,7 @@ export function Encadrant({
           )}
         </div>
         <CollapsibleTrigger asChild>
-          <Button variant="ghost" size="sm" className="w-9 p-0">
+          <Button variant="ghost" size="sm" className="w-9 p-0 mt-5 lg:mt-0 ">
             <ChevronsUpDown className="h-4 w-4" />
             <span className="sr-only">Toggle</span>
           </Button>

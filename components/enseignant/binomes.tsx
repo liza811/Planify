@@ -19,6 +19,7 @@ import { CircleHelp } from "lucide-react";
 
 import { BinomeTerminer } from "./binome-terminer";
 import { Etat_Binome } from "@prisma/client";
+import { ScrollArea } from "../ui/scroll-area";
 interface BinomesInterface {
   validatedList: affectations[];
   attenteListe: Theme[];
@@ -34,7 +35,7 @@ export async function Binomes({
   const configuration = await getConfiguration();
   const domaines = await getDomaine();
   return (
-    <Tabs defaultValue="ATTENTE" className="w-full h-full  ">
+    <Tabs defaultValue="ATTENTE" className="w-full h-full ">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="ATTENTE">En attente</TabsTrigger>
         <TabsTrigger value="VALIDE">Binome validé</TabsTrigger>
@@ -78,20 +79,20 @@ export async function Binomes({
           </CardContent>
         </Card>
       </TabsContent>
-      <TabsContent value="VALIDE" className="h-full">
+
+      <TabsContent value="VALIDE" className=" h-full z-30">
         <Card>
           <CardHeader className="space-y-2 px-2 lg:px-4">
             <div className="flex flex-col md:flex-row md:justify-between gap-2 md:items-center">
               {" "}
               <CardTitle className="text-[18px]">Binomes validés</CardTitle>
-              {(!!configuration?.nbEncadrement &&
+              {((!!configuration?.nbEncadrement &&
                 validatedList.length < configuration.nbEncadrement) ||
-                (!configuration?.nbEncadrement && (
-                  <AjouterBinome
-                    specialites={specialites}
-                    domaines={domaines}
-                  />
-                ))}
+                (!configuration?.nbEncadrement &&
+                  configuration?.nbEncadrement !== null &&
+                  configuration?.nbEncadrement !== undefined)) && (
+                <AjouterBinome specialites={specialites} domaines={domaines} />
+              )}
             </div>
             <CardDescription>
               Consultez les binômes approuvés par vous pour travailler ensemble.
@@ -104,7 +105,8 @@ export async function Binomes({
               )}
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2 h-full  p-1.5">
+
+          <CardContent className="space-y-2 h-full  ">
             {!validatedList.length && (
               <div className="flex flex-col items-center justify-center h-full mt-5">
                 <Image

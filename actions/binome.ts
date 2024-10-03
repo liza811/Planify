@@ -141,7 +141,7 @@ export const ajouterBinome = async (
   });
 
   if (!binomeId) {
-    return { error: "L'email n'est associé à aucun étudiant" };
+    return { error: "L'email n'est associé à aucun étudiant." };
   }
 
   const existingAffectation = await db.affectation.findUnique({
@@ -150,7 +150,7 @@ export const ajouterBinome = async (
     },
   });
   if (existingAffectation) {
-    return { error: "cet étudiant est déjà affecter à un autre thèmes" };
+    return { error: "cet étudiant est déjà affecter à un autre thèmes." };
   }
   const specialities = await db.specialite.findMany({
     where: {
@@ -188,5 +188,5 @@ export const ajouterBinome = async (
     },
   });
   revalidatePath(`/u/${user.name}/binomes`);
-  return { success: "Affectation inséré!" };
+  return { success: "Affectation insérée!" };
 };
