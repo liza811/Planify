@@ -56,7 +56,7 @@ enum Etat {
 
 model Departement {
   id  String @id @default(uuid())
-  nom String @unique
+  nom String 
 
   // Relation un-à-plusieurs avec Spécialité
   salles     Salle[]

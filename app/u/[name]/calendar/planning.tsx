@@ -173,7 +173,7 @@ export const Planning = ({
           <div key={date} className="">
             <h1
               className={cn(
-                "text-base font-semibold rounded-md  px-4 py-1.5 text-black size-fit text-center mb-4 "
+                "text-base font-bold rounded-md  px-4 py-1.5 text-black size-fit text-center mb-4 "
               )}
               style={{
                 color: `${stringToColor(date)}`,
