@@ -42,7 +42,7 @@ export function DeleteTheme({ themeId }: DeleteThemeProp) {
       <AlertDialogTrigger asChild>
         <Trash className=" w-5 h-5 cursor-pointer text-slate-600" />
       </AlertDialogTrigger>
-      <AlertDialogContent className="w-[340px] md:[500px]">
+      <AlertDialogContent className="w-[340px] md:w-[430px]">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-[15px]">
             {" "}
@@ -60,7 +60,7 @@ export function DeleteTheme({ themeId }: DeleteThemeProp) {
             Annuler
           </AlertDialogCancel>
           <Button
-            className="cursor-pointer w-full md:w-[100px] bg-primary_blue hover:bg-primary_blue/95"
+            className="cursor-pointer w-full md:w-[100px] bg-red-500 hover:bg-red-500/95"
             name="delete"
             title="delete"
             onClick={() => onClick(themeId)}

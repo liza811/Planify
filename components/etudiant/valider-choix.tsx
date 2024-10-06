@@ -91,7 +91,7 @@ export function ValiderChoix({ choix, disabled }: DeleteThemeProp) {
             Annuler
           </AlertDialogCancel>
           <Button
-            className="cursor-pointer w-full md:w-[100px]"
+            className="cursor-pointer md:w-[100px]"
             name="delete"
             title="delete"
             onClick={() => onClick(choix)}

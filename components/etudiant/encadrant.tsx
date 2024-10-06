@@ -27,9 +27,10 @@ export const InfoEncadrant = ({ encadrant }: { encadrant: EncadrantProps }) => {
     <section className="flex  w-full flex-col p-0 md:p-4 bg-white">
       <section className="w-full py-4 px-2 flex flex-col gap-y-2 font-semibold  ">
         <span className="w-full">Thème:</span>
-        <p className="font-medium border py-4 px-3 border-blue-700 rounded-sm capitalize">
-          {" "}
-          {encadrant.Theme?.nom.toLowerCase()}
+        <p className="font-medium border py-4 px-3 border-blue-700 rounded-sm ">
+          {encadrant.Theme
+            ? encadrant.Theme?.nom
+            : `Aucun thème affecté pour le moment.`}
         </p>
       </section>
       <section

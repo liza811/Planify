@@ -60,7 +60,7 @@ export function ValiderBinome({ binomeId, themeId }: DeleteThemeProp) {
             Annuler
           </AlertDialogCancel>
           <Button
-            className="cursor-pointer w-full md:w-[100px]"
+            className="cursor-pointer  md:w-[100px]"
             name="delete"
             title="delete"
             onClick={() => onClick(themeId, binomeId)}
