@@ -44,7 +44,7 @@ export const Etudiant = () => {
             alt="workflow"
             src={"/etud2.png"}
             width={80}
-            className="-mt-  hidden lg:block"
+            className="-mt-5  hidden lg:block"
             height={200}
           />
           <Image

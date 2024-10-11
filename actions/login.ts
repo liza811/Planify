@@ -32,58 +32,58 @@ export const Login = async (
     return { error: "Champs invalides!" };
   }
 
-  // if (existingUser.email) {
-  //   if (code) {
-  //     const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
+  if (existingUser.email) {
+    if (code) {
+      const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
 
-  //     if (!twoFactorToken) {
-  //       return { error: "Invalid code!" };
-  //     }
+      if (!twoFactorToken) {
+        return { error: "Code invalid!" };
+      }
 
-  //     if (twoFactorToken.token !== code) {
-  //       return { error: "Invalid code!" };
-  //     }
+      if (twoFactorToken.token !== code) {
+        return { error: "Code invalid!" };
+      }
 
-  //     const hasExpired = new Date(twoFactorToken.expires) < new Date();
+      const hasExpired = new Date(twoFactorToken.expires) < new Date();
 
-  //     if (hasExpired) {
-  //       return { error: "Code expired!" };
-  //     }
+      if (hasExpired) {
+        return { error: "Code expiré!" };
+      }
 
-  //     await db.twoFactorToken.delete({
-  //       where: { id: twoFactorToken.id },
-  //     });
+      await db.twoFactorToken.delete({
+        where: { id: twoFactorToken.id },
+      });
 
-  //     const existingConfirmation = await getTwoFactorConfirmationByUserId(
-  //       existingUser.id as string
-  //     );
+      const existingConfirmation = await getTwoFactorConfirmationByUserId(
+        existingUser.id as string
+      );
 
-  //     if (existingConfirmation) {
-  //       await db.twoFactorConfirmation.delete({
-  //         where: { id: existingConfirmation.id },
-  //       });
-  //     }
+      if (existingConfirmation) {
+        await db.twoFactorConfirmation.delete({
+          where: { id: existingConfirmation.id },
+        });
+      }
 
-  //     if (existingUser.isEnseignant) {
-  //       await db.twoFactorConfirmation.create({
-  //         data: {
-  //           ensId: existingUser.id,
-  //         },
-  //       });
-  //     } else {
-  //       await db.twoFactorConfirmation.create({
-  //         data: {
-  //           etudId: existingUser.id,
-  //         },
-  //       });
-  //     }
-  //   } else {
-  //     const twoFactorToken = await generateTwoFactorToken(existingUser.email);
-  //     await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
+      if (existingUser.isEnseignant) {
+        await db.twoFactorConfirmation.create({
+          data: {
+            ensId: existingUser.id,
+          },
+        });
+      } else {
+        await db.twoFactorConfirmation.create({
+          data: {
+            etudId: existingUser.id,
+          },
+        });
+      }
+    } else {
+      const twoFactorToken = await generateTwoFactorToken(existingUser.email);
+      await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
 
-  //     return { twoFactor: true };
-  //   }
-  // }
+      return { twoFactor: true };
+    }
+  }
   try {
     await signIn("credentials", {
       email,

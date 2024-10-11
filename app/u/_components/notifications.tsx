@@ -16,6 +16,15 @@ import { pusherClient } from "@/lib/pusher";
 interface notificationsProps {
   mesNotifications: Notification[] | null;
 }
+type notificationsAdmin = {
+  id: string;
+  content: string;
+  date: Date;
+  seen: boolean;
+  toId: string | null;
+  fromId: string | null;
+  type: NotificationType;
+}[];
 
 export const Notifications = ({ mesNotifications }: notificationsProps) => {
   const { notifications, neww, setNew, addNotification } =
@@ -26,14 +35,30 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
   const user = useCurrentUser();
   const [seenPlanningNotif, setSeenPlanningNotif] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
+  const [adminN, setAdminN] = useState<string>(
+    mesNotifications?.filter(
+      (n) => n.type === NotificationType.ADMIN_TO_USERS
+    )[0].id || ""
+  );
   const [open, setOpen] = useState(false);
 
   const binomeId: string = user?.id!;
   useEffect(() => {
+    // setAdminN(
+    //   mesNotifications?.filter(
+    //     (n) => n.type === NotificationType.ADMIN_TO_USERS
+    //   )[0].id || ""
+    // );
+    console.log(adminN);
     const notificationSeen = localStorage.getItem("planningNotificationSeen");
+    const lastNotifId = localStorage.getItem("LastNotificationId");
     setSeenPlanningNotif(
-      notificationSeen === "true" || notificationSeen === null ? true : false
+      (notificationSeen === "true" && lastNotifId == adminN) ||
+        notificationSeen === null
+        ? true
+        : false
     );
+
     setMounted(true);
     setSeen(hasUnseenNotification(mesNotifications));
     const handleMessage = (data: Notification) => {
@@ -41,6 +66,8 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
       setNew(true);
       if (data.type === NotificationType.ADMIN_TO_USERS) {
         localStorage.setItem("planningNotificationSeen", "false");
+        localStorage.setItem("LastNotificationId", data.id);
+        setAdminN(data.id);
       }
     };
 
@@ -74,8 +101,10 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
     };
   }, [
     addNotification,
+    adminN,
     binomeId,
     mesNotifications,
+    seenPlanningNotif,
     setNew,
     user?.departementId,
     user?.id,
@@ -84,6 +113,9 @@ export const Notifications = ({ mesNotifications }: notificationsProps) => {
   const onClick = () => {
     setNew(false);
     setSeen(true);
+
+    localStorage.setItem("LastNotificationId", adminN);
+    console.log(adminN);
     localStorage.setItem("planningNotificationSeen", "true");
     setSeenPlanningNotif(true);
     markAllSeen().then((data) => {
