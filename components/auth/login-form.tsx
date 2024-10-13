@@ -97,7 +97,7 @@ export function LoginForm() {
                   name="code"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Two Factor Code</FormLabel>
+                      <FormLabel>Code de confirmation</FormLabel>
                       <FormControl>
                         <Input
                           {...field}

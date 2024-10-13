@@ -21,16 +21,16 @@ export default auth(async (req) => {
   }
 
   if (isAuthRoute) {
-    if (isLoggedIn) {
+    if (isLoggedIn && session?.prenom) {
       // si enseignant
       if (session?.role) {
         return NextResponse.redirect(
-          new URL(`/u/${session?.prenom.toLowerCase()}`, nextUrl)
+          new URL(`/u/${session?.prenom?.toLowerCase()}`, nextUrl)
         );
       } else {
         return NextResponse.redirect(
           new URL(
-            `/u/etudiant/${session?.prenom.toLowerCase()}/themes`,
+            `/u/etudiant/${session?.prenom?.toLowerCase()}/themes`,
             nextUrl
           )
         );
@@ -40,12 +40,12 @@ export default auth(async (req) => {
   }
 
   if (!isLoggedIn && !isPublicRoute) {
-    let callbackUrl = nextUrl.pathname;
-    if (nextUrl.search) {
-      callbackUrl += nextUrl.search;
-    }
+    // let callbackUrl = nextUrl.pathname;
+    // if (nextUrl.search) {
+    //   callbackUrl += nextUrl.search;
+    // }
 
-    const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+    // const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 
     return Response.redirect(new URL(`/login`, nextUrl));
   }

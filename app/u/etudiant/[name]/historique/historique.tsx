@@ -32,6 +32,7 @@ export const Historique = async () => {
         header="Aucun choix trouvé"
         paragraph="Commencez à choisir des thèmes et visualisez leurs état ici."
         src="/note.svg"
+        size={100}
       />
     );
   }
