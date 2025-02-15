@@ -44,14 +44,14 @@ export const Etudiant = () => {
             alt="workflow"
             src={"/etud2.png"}
             width={80}
-            className="-mt-5  hidden lg:block"
+            className="-mt-7  hidden lg:block"
             height={200}
           />
           <Image
             alt="workflow"
             src={"/etud3.png"}
             width={50}
-            className="-mt-5 ml-7 hidden lg:block"
+            className="-mt-4 ml-7 hidden lg:block"
             height={100}
           />
         </div>
@@ -131,7 +131,7 @@ export const Etudiant = () => {
               />
             </div>
 
-            <div className="flex lg:justify-around gap-6 lg:gap-20 flex-col lg:flex-row -ml-1 lg:-mt-20 z-40 lg:pr-10 w-full">
+            <div className="flex lg:justify-around gap-6 lg:gap-20 flex-col lg:flex-row -ml-1 lg:-mt-[6rem] z-40 lg:pr-10 w-full">
               <div className="flex flex-col gap-y-3 border rounded-md border-[#2061da] p-3 lg:border-none lg:p-3">
                 <span className="flex gap-x-2 items-center">
                   <FileUpIcon className="size-6 text-[#2061da]" />

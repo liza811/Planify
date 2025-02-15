@@ -106,7 +106,7 @@ export const Landing = () => {
         </div>
         <div
           className="
-            
+             z-40
             -ml-4
          w-[380px]
             md:w-[700px]

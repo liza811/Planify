@@ -1,4 +1,3 @@
-
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -38,9 +37,8 @@ enum Visibility {
 }
 
 enum Examinateur {
-  
-UN
-DEUX
+  UN
+  DEUX
 }
 
 enum Etat_Binome {
@@ -56,7 +54,7 @@ enum Etat {
 
 model Departement {
   id  String @id @default(uuid())
-  nom String 
+  nom String
 
   // Relation un-à-plusieurs avec Spécialité
   salles     Salle[]
@@ -68,19 +66,20 @@ model Departement {
   Admin       Admin[]
   planning    Planning[]
 
-  configuration Configuration? @relation()
-  Notification  Notification[]
+  configuration   Configuration?    @relation()
+  Notification    Notification[]
+  SoutenanceExcel SoutenanceExcel[]
 }
 
 model Admin {
-  id     String  @id @default(uuid())
- 
+  id String @id @default(uuid())
+
   prenom String?
 
-  email         String      @unique
+  email         String    @unique
   password      String
   emailVerified DateTime?
- 
+
   departementId String
   departement   Departement @relation(fields: [departementId], references: [id], onDelete: Cascade)
 }
@@ -116,7 +115,8 @@ model Salle {
   bloc          Int
   departementId String?
 
-  soutenances Soutenance[]
+  soutenances      Soutenance[]
+  soutenancesExcel SoutenanceExcel[]
 
   departement Departement? @relation(fields: [departementId], references: [id], onDelete: Cascade)
 
@@ -124,14 +124,14 @@ model Salle {
 }
 
 model Configuration {
-  id         String   @id @default(cuid())
-  dateDebut  DateTime
-  dateFin    DateTime
-  dateDebutRattrapage  DateTime?
-  dateFinRattrapage    DateTime?
-  heureDebut String
-  heureFin   String
-  duree      String
+  id                  String    @id @default(cuid())
+  dateDebut           DateTime
+  dateFin             DateTime
+  dateDebutRattrapage DateTime?
+  dateFinRattrapage   DateTime?
+  heureDebut          String
+  heureFin            String
+  duree               String
 
   dateFinChoix  DateTime?
   nbTheme       Int?
@@ -163,8 +163,11 @@ model Enseignant {
   twoFactorConfirmation TwoFactorConfirmation?
   Affectation           Affectation[]
 
-  soutenancePresiden Soutenance[]   @relation("president")
-  Examinateurs       Examinateurs[]
+  soutenancePresiden       Soutenance[]        @relation("president")
+  soutenanceEncadrant       SoutenanceExcel[]        @relation("encadrantExcel")
+  soutenanceExcelPresident SoutenanceExcel[]   @relation("presidentExcel")
+  Examinateurs             Examinateurs[]
+  ExaminateursExcel        ExaminateursExcel[]
 
   @@unique([departementId, email])
   @@index([departementId, email])
@@ -217,7 +220,7 @@ model Theme {
   createdAt        DateTime          @default(now())
   ChoisirTheme     ChoisirTheme[]
   Affectation      Affectation?
-  Domaine          Domaine           @relation(fields: [domaineId], references: [id])
+  Domaine          Domaine           @relation(fields: [domaineId], references: [id], onDelete: Cascade)
   domaineId        String
 }
 
@@ -305,6 +308,15 @@ model Examinateurs {
   soutenance   Soutenance? @relation(fields: [soutenanceId], references: [id], onDelete: Cascade)
 }
 
+model ExaminateursExcel {
+  id         Int        @id @default(autoincrement())
+  email      String
+  enseignant Enseignant @relation(fields: [email], references: [email], onDelete: Cascade)
+
+  soutenanceExcelId Int?
+  soutenanceExcel   SoutenanceExcel? @relation(fields: [soutenanceExcelId], references: [id], onDelete: Cascade)
+}
+
 model Notification {
   id      String   @id @default(uuid())
   content String   @db.Text
@@ -338,15 +350,33 @@ model Soutenance {
 }
 
 model Planning {
-  id String   @id @default(uuid())
+  id String @id @default(uuid())
 
-  soutenances   Soutenance[]
-  version       String
-  createdAt     DateTime     @default(now())
-  etat          Visibility
+  soutenances    Soutenance[]
+  version        String
+  createdAt      DateTime     @default(now())
+  etat           Visibility
   nbExaminateurs Examinateur
-  Departement   Departement? @relation(fields: [departementId], references: [id])
-  departementId String?
+  Departement    Departement? @relation(fields: [departementId], references: [id])
+  departementId  String?
 
   @@unique([departementId, version])
+}
+
+model SoutenanceExcel {
+  id      Int     @id @default(autoincrement())
+  binome  String
+  date          String?
+  heure         String?
+  salle   Salle?  @relation(fields: [salleId], references: [id])
+  salleId String?
+
+  president     Enseignant?         @relation("presidentExcel", fields: [presidentId], references: [id])
+  
+  encadrantId   String?
+  presidentId   String?
+  encadrant     Enseignant?         @relation("encadrantExcel", fields: [encadrantId], references: [id])
+  Departement   Departement        @relation(fields: [departementId], references: [id])
+  departementId String
+  examinateurs  ExaminateursExcel[]
 }
