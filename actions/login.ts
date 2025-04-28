@@ -28,7 +28,7 @@ export const Login = async (
   if (!existingUser || !existingUser.email) {
     return { error: "Champs invalides!" };
   }
-  if (existingUser.matricule !== password) {
+  if (existingUser.matricule != password) {
     return { error: "Champs invalides!" };
   }
 

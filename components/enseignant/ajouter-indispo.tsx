@@ -12,7 +12,10 @@ import "react-multiple-select-dropdown-lite/dist/index.css";
 import { CircleHelp } from "lucide-react";
 
 import { getIndisponibilite } from "@/lib/indisponibilite";
-import { getConfiguration } from "@/lib/configuration";
+import {
+  getAdvancedConfiguration,
+  getConfiguration,
+} from "@/lib/configuration";
 import { ResetButton } from "./reset-indisponibilite-button";
 import { DatePickerWithRange } from "./date-picker";
 import { format, isValid, parse } from "date-fns";
@@ -30,6 +33,7 @@ export const AjouterIndispo = async () => {
   const toDate = indispo?.to;
 
   const configuration = await getConfiguration();
+  const config = await getAdvancedConfiguration();
 
   return (
     <Dialog>
@@ -54,7 +58,7 @@ export const AjouterIndispo = async () => {
             <DatePickerWithRange
               dateDebut={configuration?.dateDebut}
               dateFin={configuration?.dateFin}
-              nbDateIndispo={configuration?.nbDateIndispo}
+              nbDateIndispo={config?.nbDateIndispo}
             />
           </DialogDescription>
         </DialogHeader>
@@ -105,21 +109,21 @@ export const AjouterIndispo = async () => {
             <ResetButton />
           </div>
         )}
-        {!!configuration && (
+        {!!config && (
           <>
-            {configuration.nbDateIndispo == 0 ? (
+            {config.nbDateIndispo == 0 ? (
               <span className="flex gap-x-2 text-slate-700  text-sm">
                 <CircleHelp className="size-5" />
                 {` Vous ne pouvez pas déclarer des jours d'indisponibilitées 
                  `}
               </span>
-            ) : configuration.nbDateIndispo! > 0 ? (
+            ) : config.nbDateIndispo! > 0 ? (
               <span className="flex gap-x-2 text-slate-700  text-sm">
                 <CircleHelp className="size-5" />
                 {` Vous ne pouvez pas déclarer plus de ${
-                  configuration.nbDateIndispo
+                  config.nbDateIndispo
                 } ${
-                  configuration.nbDateIndispo! > 1 ? `jours` : `jour`
+                  config.nbDateIndispo! > 1 ? `jours` : `jour`
                 } d'indisponibilitées.`}
               </span>
             ) : (

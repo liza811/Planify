@@ -13,3 +13,15 @@ export const getConfiguration = async () => {
 
   return existingConfiguration;
 };
+export const getAdvancedConfiguration = async () => {
+  const user = await currentUser();
+  if (!user) return null;
+  const existingConfiguration = await db.advancedConfiguration.findFirst({
+    where: {
+      departementId: user.departementId,
+    },
+  });
+  if (!existingConfiguration) return null;
+
+  return existingConfiguration;
+};

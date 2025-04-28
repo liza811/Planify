@@ -14,7 +14,7 @@ import { stringToColor } from "@/lib/utils";
 import Image from "next/image";
 import { AjouterBinome } from "./ajouter-binome";
 import { getDomaine } from "@/lib/specialite";
-import { getConfiguration } from "@/lib/configuration";
+import { getAdvancedConfiguration } from "@/lib/configuration";
 import { CircleHelp } from "lucide-react";
 
 import { BinomeTerminer } from "./binome-terminer";
@@ -32,7 +32,7 @@ export async function Binomes({
   attenteListe,
 }: BinomesInterface) {
   //const specilaites = await getSpecialites();
-  const configuration = await getConfiguration();
+  const configuration = await getAdvancedConfiguration();
   const domaines = await getDomaine();
   return (
     <Tabs defaultValue="ATTENTE" className="w-full h-full ">

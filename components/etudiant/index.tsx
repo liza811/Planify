@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { ExtendedTheme } from "@/app/u/etudiant/[name]/meschoix/page";
 
 import { ScrollArea } from "../ui/scroll-area";
-import { Configuration } from "@prisma/client";
+import { AdvancedConfiguration, Configuration } from "@prisma/client";
 
 export type Theme = {
   id: string;
@@ -44,7 +44,7 @@ export const Main = ({
 }: {
   themes: Theme[];
   mesChoix?: ExtendedTheme[];
-  configuration: Configuration | null;
+  configuration: AdvancedConfiguration | null;
 }) => {
   const [choix, setChoix] = useState<ExtendedTheme[]>(mesChoix || []);
   const [allThemes, setAllThemes] = useState<Theme[]>(themes);

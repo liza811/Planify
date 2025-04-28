@@ -6,7 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { getConfiguration } from "@/lib/configuration";
+import { getAdvancedConfiguration } from "@/lib/configuration";
 import { currentUser } from "@/lib/current-user";
 
 import { getDomaine, getSpecialites } from "@/lib/specialite";
@@ -28,7 +28,7 @@ export const Themes = async () => {
   const specilaites = await getSpecialites();
   const domaines = await getDomaine();
   const themes = await getThemes();
-  const configuration = await getConfiguration();
+  const configuration = await getAdvancedConfiguration();
 
   if (!themes?.length)
     return (

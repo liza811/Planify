@@ -2,7 +2,7 @@ import { Main, Theme } from "@/components/etudiant";
 import { InfoEncadrant } from "@/components/etudiant/encadrant";
 import { NothingFound } from "@/components/nothing-found";
 import { getChoixEnAttente, getEncadrant } from "@/lib/choix";
-import { getConfiguration } from "@/lib/configuration";
+import { getAdvancedConfiguration } from "@/lib/configuration";
 import { currentUser } from "@/lib/current-user";
 
 import { getThemesParSpecialiteNonChoisi } from "@/lib/themes";
@@ -25,7 +25,7 @@ export interface ExtendedTheme {
 const Intermidiere = async () => {
   let hasDatePassed = false;
   const user = await currentUser();
-  const configuration = await getConfiguration();
+  const configuration = await getAdvancedConfiguration();
 
   if (!user || !user.prenom) {
     redirect("/login");

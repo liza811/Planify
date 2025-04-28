@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client-js"
@@ -56,7 +52,7 @@ model Departement {
   id  String @id @default(uuid())
   nom String
 
-  // Relation un-à-plusieurs avec Spécialité
+
   salles     Salle[]
   specialite Specialite[]
   domaine    Domaine[]
@@ -67,6 +63,7 @@ model Departement {
   planning    Planning[]
 
   configuration   Configuration?    @relation()
+  advancedConfiguration   AdvancedConfiguration?    @relation()
   Notification    Notification[]
   SoutenanceExcel SoutenanceExcel[]
 }
@@ -133,6 +130,15 @@ model Configuration {
   heureFin            String
   duree               String
 
+  
+
+  departementId String       @unique
+  departement   Departement? @relation(fields: [departementId], references: [id])
+}
+model AdvancedConfiguration {
+  id                  String    @id @default(cuid())
+ 
+
   dateFinChoix  DateTime?
   nbTheme       Int?
   nbChoix       Int?
@@ -142,7 +148,6 @@ model Configuration {
   departementId String       @unique
   departement   Departement? @relation(fields: [departementId], references: [id])
 }
-
 model Enseignant {
   id        String @id @default(uuid())
   nom       String
