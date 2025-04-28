@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/react";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -23,6 +24,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         {children}
+
+        <Analytics />
         <Toaster />
       </body>
     </html>
